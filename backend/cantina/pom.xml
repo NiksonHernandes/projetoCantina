@@ -12,7 +12,7 @@
 	<artifactId>cantina</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cantina</name>
-	<description>Demo project cantina for Spring Boot</description>
+	<description>Project cantina for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -32,6 +32,23 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<!-- JPA Data -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!--MySQL-->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!--Lombok-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
