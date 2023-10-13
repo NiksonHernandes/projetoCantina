@@ -1,6 +1,7 @@
 package com.cantina.cantina.domain.services.servicesImpl;
 
 import com.cantina.cantina.data.repositories.UsuarioRepository;
+import com.cantina.cantina.domain.models.Role;
 import com.cantina.cantina.domain.models.Usuario;
 import com.cantina.cantina.domain.models.dtos.SignUpDTO;
 import com.cantina.cantina.domain.models.dtos.UpdateUsuarioDTO;
@@ -9,6 +10,9 @@ import com.cantina.cantina.domain.services.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.Authenticator;
@@ -36,7 +40,21 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDTO getCurrentUsuario() {
-        return null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = (Usuario) authentication.getPrincipal(); //pega o usuário autenticado
+
+        Usuario usuario = _usuarioRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("O ID do usuário não foi encontrado."));
+
+        return UsuarioDTO.toDTO(usuario);
+    }
+
+    @Override
+    public UsuarioDTO getUsuario(Long usuarioId) {
+        Usuario usuario = _usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do usuário não foi encontrado."));
+
+        return UsuarioDTO.toDTO(usuario);
     }
 
     @Override
@@ -76,11 +94,10 @@ public class UsuarioServiceImpl implements UsuarioService {
        usuario.setUsername(signUpDTO.getUsername());
        usuario.setNomeCompleto(signUpDTO.getNomeCompleto());
 
-       usuario.setSenha(signUpDTO.getSenha());
         //criptografa a senha
-        /*BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String senhaCriptografada = bCryptPasswordEncoder.encode(signUpDTO.getSenha());
-        usuario.setSenha(senhaCriptografada);*/
+        usuario.setSenha(senhaCriptografada);
 
         _usuarioRepository.save(usuario);
     }
@@ -88,8 +105,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public UpdateUsuarioDTO updateUsuario(UpdateUsuarioDTO updateUsuarioDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = (Usuario) authentication.getPrincipal(); //pega o usuário autenticado
+
         Usuario usuarioModel = _usuarioRepository.findById(updateUsuarioDTO.getId())
                 .orElseThrow(() -> new IllegalArgumentException("O ID do usuário não foi encontrado."));
+
+        //Não pode alterar o usuário do amiguinho - Somente o ADM
+        if (!(updateUsuarioDTO.getId().equals(currentUser.getId()))
+                && currentUser.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN"))) {
+            throw new IllegalArgumentException("Não permitido! Você só pode alterar o seu usuário.");
+        }
 
         if (updateUsuarioDTO.getEmail().equals("") || updateUsuarioDTO.getUsername().equals("") ||
                 updateUsuarioDTO.getNomeCompleto().equals("") || updateUsuarioDTO.getSenha().equals("")) {
@@ -124,7 +150,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioModel.setTelefone(updateUsuarioDTO.getTelefone());
         usuarioModel.setCelular(updateUsuarioDTO.getCelular());
 
-        usuarioModel.setSenha(updateUsuarioDTO.getSenha());
+        if (!updateUsuarioDTO.getSenha().isEmpty()) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String senhaCriptografada = bCryptPasswordEncoder.encode(updateUsuarioDTO.getSenha());
+            usuarioModel.setSenha(senhaCriptografada);
+        }
 
         usuarioModel = _usuarioRepository.save(usuarioModel);
 
