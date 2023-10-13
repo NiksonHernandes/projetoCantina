@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "0b9668e2-d4c0-4333-a670-307fd8a88caf",
+		"name": "PROJETO-CANTINA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24234586"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"carlos\",\r\n    \"senha\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario Controller",
+			"item": [
+				{
+					"name": "deleteUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5ODAyNDg1MSwicm9sIjpbIlJPTEVfQURNSU4iXX0.CEByc4PkOYyVIL1oFT7lP12hjkBzUpTjskzXe2riW_0SU5lT3RJwoQD46_wvOVS9i3VGdSemv6xXy3tdp1o3Ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuario/delete-usuario?usuarioId=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"delete-usuario"
+							],
+							"query": [
+								{
+									"key": "usuarioId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCurrentUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5ODAyNDg1MSwicm9sIjpbIlJPTEVfQURNSU4iXX0.CEByc4PkOYyVIL1oFT7lP12hjkBzUpTjskzXe2riW_0SU5lT3RJwoQD46_wvOVS9i3VGdSemv6xXy3tdp1o3Ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuario/get-current-usuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"get-current-usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY5ODAyNDg1MSwicm9sIjpbIlJPTEVfQURNSU4iXX0.CEByc4PkOYyVIL1oFT7lP12hjkBzUpTjskzXe2riW_0SU5lT3RJwoQD46_wvOVS9i3VGdSemv6xXy3tdp1o3Ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuario/get-usuario?usuarioId=5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"get-usuario"
+							],
+							"query": [
+								{
+									"key": "usuarioId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listaUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjk4MDI0Nzk1LCJyb2wiOlsiUk9MRV9VU0VSIl19.ahkX7HHfwsxYPdkoq5h12yOhM35maKADxmoIEaOynbAsxCdotl-Z9q6ekPVykk-d6zCfJmkyNGMCOCHUmP7ZNA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuario/lista-usuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"lista-usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signUp",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"user2\",\r\n    \"email\": \"user2@teste.com\",\r\n    \"username\": \"user2\",\r\n    \"senha\": \"123\",\r\n    \"senhaConfirmacao\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/usuario/sign-up",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUsuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"nomeCompleto\": \"user2 - update\",\r\n    \"email\": \"user2@teste.com\",\r\n    \"username\": \"user2 - update\",\r\n    \"senha\": \"123\",\r\n    \"senhaConfirmacao\": \"123\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/usuario/update-usuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"update-usuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

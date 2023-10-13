@@ -5,6 +5,7 @@ import com.cantina.cantina.domain.models.dtos.UpdateUsuarioDTO;
 import com.cantina.cantina.domain.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -16,6 +17,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService _usuarioService;
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/delete-usuario")
     public ResponseEntity<Object> deleteUsuario(@RequestParam(value = "usuarioId") Long usuarioId) {
         try {
@@ -30,6 +32,15 @@ public class UsuarioController {
     public ResponseEntity<Object> getCurrentUsuario() {
         try {
             return ResponseEntity.ok(_usuarioService.getCurrentUsuario());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-usuario")
+    public ResponseEntity<Object> getUsuario(@RequestParam(value = "usuarioId") Long usuarioId) {
+        try {
+            return ResponseEntity.ok(_usuarioService.getUsuario(usuarioId));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

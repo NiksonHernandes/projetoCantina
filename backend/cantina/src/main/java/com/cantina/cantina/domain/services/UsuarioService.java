@@ -10,7 +10,9 @@ public interface UsuarioService {
 
     void deleteUsuario(Long usuarioId);
     UsuarioDTO getCurrentUsuario();
+    UsuarioDTO getUsuario(Long usuarioId);
     List<UsuarioDTO> listaUsuario();
     void signUp(SignUpDTO signUpDTO);
     UpdateUsuarioDTO updateUsuario(UpdateUsuarioDTO updateUsuarioDTO);
+
 }
