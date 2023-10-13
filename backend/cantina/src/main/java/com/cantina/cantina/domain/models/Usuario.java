@@ -15,17 +15,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-    private String nomeCompleto;
-    private String cpf;
-    private String sexo;
-    private Integer semestreAtual;
-    private String curso;
-    private String rua;
-    private String bairro;
-    private String telefone;
-    private String celular;
+    private String email = "";
+    private String username = "";
+    private String nomeCompleto = "";
 
     private String senha;
+
+    private String cpf = "";
+    private String sexo = "";
+    private Integer semestreAtual = 0;
+    private String curso = "";
+    private String rua = "";
+    private String bairro = "";
+    private String telefone = "";
+    private String celular = "";
 
 }

@@ -1,11 +1,16 @@
 package com.cantina.cantina.domain.services;
 
-import com.cantina.cantina.domain.models.Usuario;
+import com.cantina.cantina.domain.models.dtos.SignUpDTO;
+import com.cantina.cantina.domain.models.dtos.UpdateUsuarioDTO;
+import com.cantina.cantina.domain.models.dtos.UsuarioDTO;
 
 import java.util.List;
 
 public interface UsuarioService {
 
-    List<Usuario> listaUsuario();
-
+    void deleteUsuario(Long usuarioId);
+    UsuarioDTO getCurrentUsuario();
+    List<UsuarioDTO> listaUsuario();
+    void signUp(SignUpDTO signUpDTO);
+    UpdateUsuarioDTO updateUsuario(UpdateUsuarioDTO updateUsuarioDTO);
 }
