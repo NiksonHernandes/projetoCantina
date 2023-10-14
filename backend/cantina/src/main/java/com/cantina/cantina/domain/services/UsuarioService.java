@@ -11,7 +11,7 @@ public interface UsuarioService {
     void deleteUsuario(Long usuarioId);
     UsuarioDTO getCurrentUsuario();
     UsuarioDTO getUsuario(Long usuarioId);
-    List<UsuarioDTO> listaUsuario();
+    List<UsuarioDTO> listUsuario();
     void signUp(SignUpDTO signUpDTO);
     UpdateUsuarioDTO updateUsuario(UpdateUsuarioDTO updateUsuarioDTO);
 

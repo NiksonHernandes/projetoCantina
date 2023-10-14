@@ -58,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioDTO> listaUsuario() {
+    public List<UsuarioDTO> listUsuario() {
         List<Usuario> listaUsuario = _usuarioRepository.findAll();
 
         if (listaUsuario.isEmpty()) {
