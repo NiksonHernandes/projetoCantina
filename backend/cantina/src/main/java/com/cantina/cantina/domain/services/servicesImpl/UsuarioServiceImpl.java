@@ -1,6 +1,9 @@
 package com.cantina.cantina.domain.services.servicesImpl;
 
+import com.cantina.cantina.data.repositories.HistoricoPedidosRepository;
+import com.cantina.cantina.data.repositories.RoleRepository;
 import com.cantina.cantina.data.repositories.UsuarioRepository;
+import com.cantina.cantina.domain.models.HistoricoPedidos;
 import com.cantina.cantina.domain.models.Role;
 import com.cantina.cantina.domain.models.Usuario;
 import com.cantina.cantina.domain.models.dtos.SignUpDTO;
@@ -16,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.Authenticator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository _usuarioRepository;
+
+    @Autowired
+    private HistoricoPedidosRepository _historicoPedidosRepository;
+
+    @Autowired
+    private RoleRepository _roleRepository;
 
     @Override
     @Transactional
@@ -34,6 +44,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Usuario usuario = _usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new IllegalArgumentException("O ID do usuário não foi encontrado."));
+
+        //testar pra ver se deleta o histórico de pedidos dele
+        Optional<HistoricoPedidos> historicoPedidos = _historicoPedidosRepository.findByUsuario_Id(usuario.getId());
+
+        if (historicoPedidos.isPresent()) {
+            _historicoPedidosRepository.delete(historicoPedidos.get());
+        } else {
+            throw new IllegalArgumentException("Histórico de pedidos não encontrado.");
+        }
 
         _usuarioRepository.delete(usuario);
     }
@@ -94,12 +113,23 @@ public class UsuarioServiceImpl implements UsuarioService {
        usuario.setUsername(signUpDTO.getUsername());
        usuario.setNomeCompleto(signUpDTO.getNomeCompleto());
 
+       //Adiciona a role padrão de user
+       List<Role> roles = new ArrayList<>();
+       roles.add(_roleRepository.findByName("ROLE_USER"));
+       usuario.setRoles(roles);
+
         //criptografa a senha
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String senhaCriptografada = bCryptPasswordEncoder.encode(signUpDTO.getSenha());
         usuario.setSenha(senhaCriptografada);
 
-        _usuarioRepository.save(usuario);
+        Usuario novoUsuario = _usuarioRepository.save(usuario);
+
+        //Gera um novo ID do histórico de pedido para ele
+        HistoricoPedidos historicoPedidos = new HistoricoPedidos();
+        historicoPedidos.setUsuario(novoUsuario);
+
+        HistoricoPedidos novoHistorico = _historicoPedidosRepository.save(historicoPedidos);
     }
 
     @Override

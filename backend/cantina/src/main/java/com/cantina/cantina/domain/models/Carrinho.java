@@ -22,6 +22,7 @@ public class Carrinho {
 
     private Float valorTotal;
     private String descricaoDaCompra;
+    private Boolean carrinhoFechado;
     private LocalDateTime dataPedido;
 
     //Lista de alimentos

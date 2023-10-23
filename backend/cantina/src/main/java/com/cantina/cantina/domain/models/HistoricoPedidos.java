@@ -18,6 +18,10 @@ public class HistoricoPedidos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //Usuário responsável por esse histórico
+    @OneToOne(cascade = CascadeType.ALL)
+    private Usuario usuario;
+
     @OneToMany(mappedBy = "historicoPedidos", cascade = CascadeType.ALL)
     @OrderBy("dataPedido ASC")
     private List<Carrinho> carrinhoList = new ArrayList<Carrinho>();

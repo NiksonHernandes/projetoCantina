@@ -1,9 +1,10 @@
 package com.cantina.cantina.application.controllers;
 
+import com.cantina.cantina.domain.models.dtos.SignUpDTO;
 import com.cantina.cantina.domain.services.HistoricoPedidosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/historicoPedidos")
