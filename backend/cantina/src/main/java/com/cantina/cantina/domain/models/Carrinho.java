@@ -26,11 +26,11 @@ public class Carrinho {
     private LocalDateTime dataPedido;
 
     //Lista de alimentos
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "carrinho_alimentos",
-            joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "alimento_id", referencedColumnName = "id"))
-    private List<Alimento> alimentos = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "carrinho_alimentos",
+//            joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "alimento_id", referencedColumnName = "id"))
+//    private List<Alimento> alimentos = new ArrayList<>();
 
     //Lista de bebidas
     @ManyToMany(fetch = FetchType.EAGER)

@@ -14,10 +14,11 @@ public class CarrinhoController {
     @Autowired
     private CarrinhoService _carrinhoService;
 
-    @PostMapping("/abrir-carrinho")
-    public ResponseEntity<Object> abrirCarrinho() {
+    @PostMapping("/adicionar-alimento")
+    public ResponseEntity<Object> adicionarAlimento(@RequestParam(value = "alimentoId") Long alimentoId,
+                                                    @RequestParam(value = "quantidadeAlimento") Integer quantidadeAlimento) {
         try {
-            _carrinhoService.abrirCarrinho();
+            _carrinhoService.adicionarAlimentoNoCarrinho(alimentoId, quantidadeAlimento);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
