@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
 
+    List<Carrinho> findByCarrinhoFechadoIsTrue(); //Carrinho feechado
+    List<Carrinho> findByCarrinhoFechadoIsFalse(); //Carrinho Aberto
     List<Carrinho> findByHistoricoPedidos_Id(Long historicoPedidoId);
     Optional<Carrinho> findByHistoricoPedidos_IdAndCarrinhoFechado(Long historicoPedidoId, Boolean isCarrinhoFechado);
 

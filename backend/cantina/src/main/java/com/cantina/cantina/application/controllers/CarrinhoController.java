@@ -25,6 +25,17 @@ public class CarrinhoController {
         }
     }
 
+    @PostMapping("/adicionar-bebida")
+    public ResponseEntity<Object> adicionarBebida(@RequestParam(value = "bebidaId") Long bebidaId,
+                                                    @RequestParam(value = "quantidadeBebida") Integer quantidadeBebida) {
+        try {
+            _carrinhoService.adicionarBebidaNoCarrinho(bebidaId, quantidadeBebida);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/delete-carrinho")
     public ResponseEntity<Object> deleteCarrinho(@RequestParam(value = "carrinhoId") Long carrinhoId) {
@@ -46,14 +57,51 @@ public class CarrinhoController {
         }
     }
 
-//    @PostMapping("/adicionar-alimento")
-//    public ResponseEntity<Object> adicionarAlimentoNoCarrinho(@RequestBody SignUpDTO signUpDTO) {
-//        try {
-//            //_usuarioService.signUp(signUpDTO);
-//            return ResponseEntity.ok().build();
-//        } catch (Exception ex) {
-//            return ResponseEntity.badRequest().body(ex.getMessage());
-//        }
-//    }
+    @GetMapping("/get-carrinho")
+    public ResponseEntity<Object> getCarrinho(@RequestParam(value = "carrinhoId") Long carrinhoId) {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinho(carrinhoId));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-carrinho-abertos")
+    public ResponseEntity<Object> getCarrinhoAbertos() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoAbertos());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+    @GetMapping("/get-carrinho-fechados")
+    public ResponseEntity<Object> getCarrinhoFechados() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoFechados());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/list-carrinho")
+    public ResponseEntity<Object> listCarrinho() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.listCarrinho());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/remover-alimento")
+    public ResponseEntity<Object> removerAlimento(@RequestParam(value = "alimentoId") Long alimentoId,
+                                                    @RequestParam(value = "carrinhoId") Long carrinhoId,
+                                                        @RequestParam(value = "quantidadeAlimento") Integer quantidadeAlimento) {
+        try {
+            _carrinhoService.removerAlimentoDoCarrinho(alimentoId, carrinhoId, quantidadeAlimento);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
 
 }

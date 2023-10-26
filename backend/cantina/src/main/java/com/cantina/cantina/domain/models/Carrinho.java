@@ -33,11 +33,11 @@ public class Carrinho {
 //    private List<Alimento> alimentos = new ArrayList<>();
 
     //Lista de bebidas
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "carrinho_bebidas",
-            joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "bebida_id", referencedColumnName = "id"))
-    private List<Bebida> bebidas = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "carrinho_bebidas",
+//            joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "bebida_id", referencedColumnName = "id"))
+//    private List<Bebida> bebidas = new ArrayList<>();
 
     //Relacionamento com o histórico de pedidos
     @ManyToOne
