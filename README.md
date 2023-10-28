@@ -8,6 +8,6 @@ Versão do Java do projeto - 17
 
 =============================
 
-Versão do Angular CLI: 16.2.8
+Versão do Angular CLI: 15.2.8
 Versão do Node: 18.16.0
 NPM: 9.5.1
