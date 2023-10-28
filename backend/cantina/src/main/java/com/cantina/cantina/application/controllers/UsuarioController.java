@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -46,10 +44,10 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/lista-usuario")
-    public ResponseEntity<Object> listaUsuario() {
+    @GetMapping("/list-usuario")
+    public ResponseEntity<Object> listUsuario() {
         try {
-            return ResponseEntity.ok(_usuarioService.listaUsuario());
+            return ResponseEntity.ok(_usuarioService.listUsuario());
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

@@ -39,11 +39,15 @@ public class Usuario implements UserDetails {
     private String celular = "";
 
     //lista de roles
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_roles",
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<Role>();
+
+    //Relacionamento com o histórico de pedidos
+//    @OneToOne(cascade = CascadeType.ALL)
+//    private HistoricoPedidos historicoPedidos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { return this.roles; }

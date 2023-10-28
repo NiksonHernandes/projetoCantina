@@ -1,6 +1,6 @@
 package com.cantina.cantina.domain.models.dtos;
 
-import com.cantina.cantina.domain.models.Usuario;
+import com.cantina.cantina.domain.models.Bebida;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,37 +14,30 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 //@JsonInclude(JsonInclude.Include.NON_NULL) //Ignora os valores vazios
-public class UsuarioDTO {
+public class BebidaDTO {
 
-    private Long id;
+    private Long bebidaId;
+    private String nomeBebida;
+    private Float valorBebida;
+    private Integer qntEstoqueBebida;
+    private String descricaoBebida;
+    private Boolean bebidaDisponivel;
 
-    private String email;
-    private String username;
-    private String nomeCompleto;
-    private String cpf;
-    private String sexo;
-    private Integer semestreAtual;
-    private String curso;
-    private String rua;
-    private String bairro;
-    private String telefone;
-    private String celular;
-
-    public static UsuarioDTO toDTO(Usuario obj) {
+    public static BebidaDTO toDTO(Bebida obj) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-        UsuarioDTO dto = modelMapper.map(obj, UsuarioDTO.class); //transforma obj passado para UsuarioDTO
+        BebidaDTO dto = modelMapper.map(obj, BebidaDTO.class); //transforma obj passado para UsuarioDTO
 
         return dto;
     }
 
-    public static List<UsuarioDTO> toListDTO(List<Usuario> obj) {
+    public static List<BebidaDTO> toListDTO(List<Bebida> obj) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 
-        List<UsuarioDTO> dtos = obj
+        List<BebidaDTO> dtos = obj
                 .stream()
-                .map(x -> modelMapper.map(x, UsuarioDTO.class))
+                .map(x -> modelMapper.map(x, BebidaDTO.class))
                 .collect(Collectors.toList());
 
         return dtos;
