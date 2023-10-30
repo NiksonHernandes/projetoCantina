@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Router } from '@angular/router';
+import Endpoints from '../../core/sources/api.source';
+import { environment } from 'src/environments/environments';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -13,7 +15,7 @@ export class AuthenticationService {
   private accessTokenSubject: BehaviorSubject<string | null>;
   public accessTokenObservable: Observable<string | null>;
 
-  apiUrl = 'http://localhost:8080';
+  apiUrl = environment.apiUrl;
 
   constructor(private router: Router, private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')!));
@@ -32,7 +34,8 @@ export class AuthenticationService {
   };
 
   login(username: string, senha: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { username, senha })
+    console.log("inicip" + this.apiUrl + "/login")
+    return this.http.post<any>(`${this.apiUrl}${Endpoints.auth.login}`, { username, senha })
       .pipe(map(ssoDto => {
         localStorage.setItem('currentUser', JSON.stringify(ssoDto.current_user));
         localStorage.setItem('accessToken', JSON.stringify(ssoDto.access_token));
