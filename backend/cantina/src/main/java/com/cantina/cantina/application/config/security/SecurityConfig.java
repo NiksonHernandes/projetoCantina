@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,12 +40,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(HttpMethod.GET, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/sign-up").permitAll()
-                        //.requestMatchers(HttpMethod.GET, "/questionario/get-questionario").permitAll()
-
-                        //.requestMatchers(HttpMethod.GET, "/user/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated() //todos endpoints precisam ser autenticados
                 )
-                .cors().and().csrf().disable()
+                .cors()
+                .and().csrf().disable()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), _userDetailsServiceImpl))
                 .exceptionHandling()
