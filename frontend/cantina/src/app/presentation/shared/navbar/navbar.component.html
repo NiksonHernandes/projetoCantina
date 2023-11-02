@@ -1,0 +1,21 @@
+<nav class="navbar container-fluid">
+    <a href="#" class="logo">CODING DESENVOLVEDOR</a>
+    <input type="checkbox" id="toggler" />
+    <label for="toggler"><i class="ri-menu-line"></i></label>
+    <div class="menu">
+        <ul class="list">
+            <li><a href="#">Página inicial</a></li>
+            <li><a href="#">Cardápio</a></li>
+            <li><a href="#">Carrinho</a></li>
+            <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+                <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Meus dados </a>
+                <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu">
+                    <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Action</a>
+                    <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Another action</a>
+                    <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Something else here</a>
+                </div>
+            </li>
+            <li><a href="#" (click)="logout()">Logout</a></li>
+        </ul>
+    </div>
+</nav>
