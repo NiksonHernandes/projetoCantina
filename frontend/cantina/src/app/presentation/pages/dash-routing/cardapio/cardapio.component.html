@@ -1,0 +1,44 @@
+<div class="container-fluid px-0">
+
+    <div class="container-fluid px-0 position-relative">
+        <!-- <img src="../../../../../assets/imagens/imagemingredientes.jpg" class="img-fluid w-100" alt="imagem cardápio"> -->
+        <img src="../../../../../assets/imagens/fundocardapio.jpg" class="img-fluid w-100" alt="imagem cardápio">
+        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center div-texto">
+            <h1 class="text-white text-sm tituloCardapio">Nossos produtos</h1>
+            <p class="text-white text-sm descricaoCardapio">Nossos produtos são deliciosos alimentos e bebidas da cantina, que satisfazem todos os paladares com sabor e variedade.</p>
+            <div class="row">
+                <div class="col d-none d-md-block">
+                    <button class="btn btn-outline-custom" (click)="scrollToSection('secaoAlimentos')">Alimentos</button>
+                </div>
+                <div class="col d-none d-md-block">
+                    <button class="btn btn-outline-custom" (click)="scrollToSection('secaoBebidas')">Bebidas</button>
+                </div>
+                <div class="col d-none d-md-block">
+                    <button class="btn btn-outline-custom" (click)="scrollToSection('secaoOfertas')">Ofertas</button>
+                </div>
+                <div class="col d-none d-md-block">
+                    <button class="btn btn-outline-custom" (click)="scrollToSection('secaoOfertas')">Outros</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="papelFundo">
+        <div style="width: 90%; height: auto;">
+
+            <section id="secaoAlimentos">
+                alimentos
+            </section>
+
+            <section id="secaoBebidas">
+                Bebidas
+            </section>
+
+            <section id="secaoOfertas">
+                Ofertas
+            </section>
+            
+        </div>
+    </div>
+</div>

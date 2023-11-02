@@ -4,14 +4,14 @@ import { DashRoutingComponent } from './presentation/pages/dash-routing/dash-rou
 import { AuthGuard } from './core/security/auth.guard';
 import { LoginComponent } from './presentation/pages/public-routing/login/login.component';
 import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.component';
+import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/cardapio.component';
 
 const routes: Routes = [
-  // { path: '', component: HomeComponent }
-
   // Authentication Required
   {
     path: 'dash', component: DashRoutingComponent, children: [
-      {path: '', component: HomeComponent}
+      {path: '', component: HomeComponent},
+      {path: 'cardapio', component: CardapioComponent}
     ],
     canActivate: [AuthGuard]
   },

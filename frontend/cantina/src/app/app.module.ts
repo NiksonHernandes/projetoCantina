@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor, JwtInterceptor } from './core';
 import { NavbarComponent } from './presentation/shared/navbar/navbar.component';
 import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.component';
+import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/cardapio.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.
     LoginComponent,
     DashRoutingComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    CardapioComponent
   ],
   imports: [
     BrowserModule,
