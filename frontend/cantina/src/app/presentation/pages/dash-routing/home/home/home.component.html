@@ -1,22 +1,22 @@
 <div class="container-fluid px-0">
 
-    <ngb-carousel class="full-width-carousel">
+    <ngb-carousel class="full-width-carousel carousel">
         <ng-template ngbSlide>
-            <div class="picsum-img-wrapper" style="width: 100%; height: 400px; overflow: hidden;">
+            <div class="picsum-img-wrapper" style="width: 100%; overflow: hidden; height: 400px;">
                 <img src="../../../../assets/imagens/pexels-valeria-boltneva-1639557.jpg" alt="Random third slide"
-                    style="width: 100%; height: auto; object-fit: cover;">
+                    style="width: 100%; height: 100%; object-fit: cover;">
             </div>
 
             <div class="carousel-caption">
-                <h3>Third slide label</h3>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                <h3>Os melhores hambúrgueres da cidade!</h3>
+                <p>Se você está em busca dos melhores hambúrgueres da cidade, sugiro explorar as opções.</p>
             </div>
         </ng-template>
 
         <ng-template ngbSlide>
-            <div class="picsum-img-wrapper" style="width: 100%; height: 400px; overflow: hidden;">
-                <img [src]="images[1]" alt="Random second slide"
-                    style="width: 100%; height: auto; object-fit: cover;" />
+            <div class="picsum-img-wrapper" style="width: 100%; overflow: hidden; height: 400px;">
+                <img src="../../../../../../assets/imagens/pexels-mathias-reding-9685229.jpg" alt="Random second slide"
+                    style="width: 100%; height: 100%; object-fit: cover;" />
             </div>
             <div class="carousel-caption">
                 <h3>Second slide label</h3>
@@ -26,43 +26,128 @@
     </ngb-carousel>
 
     <div class="papelFundo">
-        <div style="background-color: white; width: 90%;">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt ut asperiores, impedit optio vitae,
-                ratione consequatur minima nihil, pariatur magni quod est ex aperiam ullam facere eaque excepturi dicta
-                labore?</p>
+        <div style="background-color: white; width: 90%; height: auto;">
+
+            <div>
+                <h1 class="text-center my-4">OFERTAS DO DIA</h1>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Hambúrguer Clássico</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">Hambúrguer Clássico</h5> -->
+                            <div class="col">
+                                <img [src]="images[1]" class="card-img-top img-teste" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">Carne de hambúrguer, queijo cheddar, alface, tomate, cebola
+                                        roxa, maionese, ketchup, mostarda e picles em um pão de hambúrguer.
+                                    </p>
+                                    <p class="text-center"> R$ 22,00</p>
+                                    <a href="#" class="btn btn-secondary">Adicionar ao carrinho</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Hambúrguer Vegetariano</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="col">
+                                <img [src]="images[2]" class="card-img-top img-teste" alt="...">
+                                <div class="card-body">
+                                    <!-- <h5 class="card-title">Hambúrguer Vegetariano:</h5> -->
+                                    <p class="card-text">Almôndega de grão-de-bico, queijo suíço, abacate, espinafre,
+                                        cebola caramelizada, maionese vegana e molho de iogurte com ervas em um pão de
+                                        hambúrguer integral.</p>
+                                    <p class="text-center"> R$ 22,00</p>
+                                    <a href="#" class="btn btn-secondary">Adicionar ao carrinho</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Hambúrguer de Frango Grelhado</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">Hambúrguer de Frango Grelhado</h5> -->
+                            <div class="col">
+                                <img [src]="images[0]" class="card-img-top img-teste" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">Peito de frango grelhado, queijo provolone, rúcula, bacon,
+                                        abacate, molho de alho e molho de pimenta em um pão de hambúrguer integral.</p>
+                                    <p class="text-center"> R$ 22,00</p>
+                                    <a href="#" class="btn btn-secondary">Adicionar ao carrinho</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-6">
+                    <h2 class="featurette-heading fw-normal lh-1">Hambúrguer suiço. <span class="text-muted">Isso vai te
+                            surpreender.</span></h2>
+                    <p class="lead">O hambúrguer suíço é uma deliciosa combinação de carne, queijo suíço e cogumelos.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="../../../../../../assets/imagens/hamburguersuico.jpg" class="img-fluid rounded"
+                        alt="imagem hamburguer">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-6 order-md-2">
+                    <h2 class="featurette-heading fw-normal lh-1">Oh yeah, isso é bom. <span class="text-muted">Veja
+                            você mesmo.</span></h2>
+                    <p class="lead">A nova Coca-Cola sabor café combina a refrescância clássica com o aroma envolvente
+                        do café, criando uma experiência única de sabor em cada gole. Confira já! Disponível na cantina.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center order-md-1">
+                    <img src="../../../../../../assets/imagens/bebidaIMG.jpg" class="img-fluid rounded"
+                        alt="imagem hamburguer">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-6">
+                    <h2 class="featurette-heading fw-normal lh-1">Espaço amplo. <span class="text-muted">Xeque-mate.</span></h2>
+                    <p class="lead">O espaço para estudos oferece um ambiente tranquilo e produtivo, ideal para concentração e aprendizado.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="../../../../../../assets/imagens/espaço.jpg" class="img-fluid rounded"
+                        alt="imagem espaço">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <footer class="container">
+                <p class="float-end"><a href="#">Voltar para o topo</a></p>
+                <p>© 2017–2023 Empresa X, Inc. · <a href="#">Privacidade</a> · <a href="#">Termos</a></p>
+            </footer>
+
         </div>
     </div>
 </div>
