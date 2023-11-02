@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/carrinho")
 public class CarrinhoController {
@@ -15,9 +17,11 @@ public class CarrinhoController {
     private CarrinhoService _carrinhoService;
 
     @PostMapping("/adicionar-alimento")
-    public ResponseEntity<Object> adicionarAlimento(@RequestParam(value = "alimentoId") Long alimentoId,
-                                                    @RequestParam(value = "quantidadeAlimento") Integer quantidadeAlimento) {
+    public ResponseEntity<Object> adicionarAlimento(@RequestBody Map<String, Object> params) {
         try {
+            long alimentoId = Long.parseLong(params.get("alimentoId").toString());
+            int quantidadeAlimento = Integer.parseInt(params.get("quantidadeAlimento").toString());
+
             _carrinhoService.adicionarAlimentoNoCarrinho(alimentoId, quantidadeAlimento);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -26,9 +30,11 @@ public class CarrinhoController {
     }
 
     @PostMapping("/adicionar-bebida")
-    public ResponseEntity<Object> adicionarBebida(@RequestParam(value = "bebidaId") Long bebidaId,
-                                                    @RequestParam(value = "quantidadeBebida") Integer quantidadeBebida) {
+    public ResponseEntity<Object> adicionarBebida(@RequestBody Map<String, Object> params) {
         try {
+            long bebidaId = Long.parseLong(params.get("bebidaId").toString());
+            int quantidadeBebida= Integer.parseInt(params.get("quantidadeBebida").toString());
+
             _carrinhoService.adicionarBebidaNoCarrinho(bebidaId, quantidadeBebida);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -74,6 +80,16 @@ public class CarrinhoController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+
+    @GetMapping("/get-carrinho-produtos")
+    public ResponseEntity<Object> getCarrinhoProdutos(@RequestParam(value = "carrinhoId") Long carrinhoId) {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoProdutos(carrinhoId));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
     @GetMapping("/get-carrinho-fechados")
     public ResponseEntity<Object> getCarrinhoFechados() {
         try {

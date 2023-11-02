@@ -12,6 +12,7 @@ import { ErrorInterceptor, JwtInterceptor } from './core';
 import { NavbarComponent } from './presentation/shared/navbar/navbar.component';
 import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.component';
 import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/cardapio.component';
+import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carrinho/get-carrinho-open/get-carrinho-open.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/ca
     DashRoutingComponent,
     NavbarComponent,
     HomeComponent,
-    CardapioComponent
+    CardapioComponent,
+    GetCarrinhoOpenComponent,
   ],
   imports: [
     BrowserModule,

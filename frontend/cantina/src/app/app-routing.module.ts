@@ -5,13 +5,15 @@ import { AuthGuard } from './core/security/auth.guard';
 import { LoginComponent } from './presentation/pages/public-routing/login/login.component';
 import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.component';
 import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/cardapio.component';
+import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carrinho/get-carrinho-open/get-carrinho-open.component';
 
 const routes: Routes = [
   // Authentication Required
   {
     path: 'dash', component: DashRoutingComponent, children: [
       {path: '', component: HomeComponent},
-      {path: 'cardapio', component: CardapioComponent}
+      {path: 'cardapio', component: CardapioComponent},
+      {path: 'carrinho-open/:id', component: GetCarrinhoOpenComponent},
     ],
     canActivate: [AuthGuard]
   },

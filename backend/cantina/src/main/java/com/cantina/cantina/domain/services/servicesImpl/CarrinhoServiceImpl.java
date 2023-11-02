@@ -2,6 +2,9 @@ package com.cantina.cantina.domain.services.servicesImpl;
 
 import com.cantina.cantina.data.repositories.*;
 import com.cantina.cantina.domain.models.*;
+import com.cantina.cantina.domain.models.dtos.AlimentoDTO;
+import com.cantina.cantina.domain.models.dtos.BebidaDTO;
+import com.cantina.cantina.domain.models.dtos.CarrinhoAlimentoEBebidaDTO;
 import com.cantina.cantina.domain.models.dtos.CarrinhoDTO;
 import com.cantina.cantina.domain.services.CarrinhoService;
 import jakarta.transaction.Transactional;
@@ -11,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -268,6 +272,59 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         }
 
         return CarrinhoDTO.toListDTO(carrinhoList);
+    }
+
+    @Override
+    public CarrinhoAlimentoEBebidaDTO getCarrinhoProdutos(Long carrinhoId) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        //Alimento lista
+        List<CarrinhoAlimento> carrinhoAlimentoIdList = _carrinhoAlimentoRepository.findByCarrinho_Id(carrinho.getId());
+        List<AlimentoDTO> alimentoList = new ArrayList<>();
+
+        for (CarrinhoAlimento carrinhoAlimento : carrinhoAlimentoIdList) {
+            Optional<Alimento> alimento = _alimentoRepository.findById(carrinhoAlimento.getAlimento().getId());
+
+            if (alimento.isPresent()) {
+                AlimentoDTO alimentoDTO = AlimentoDTO.toDTO(alimento.get());
+                alimentoDTO.setQuantidadeAlimentoCarrinho(carrinhoAlimento.getQuantidadeAlimento());
+
+                Float somaProduto = carrinhoAlimento.getQuantidadeAlimento() * alimento.get().getValorAlimento();
+                alimentoDTO.setSomaAlimentoNoCarrinho(somaProduto);
+
+                alimentoList.add(alimentoDTO);
+            }
+        }
+
+        //Bebida lista
+        List<CarrinhoBebida> carrinhoBebidaIdList = _carrinhoBebidaRepository.findByCarrinho_Id(carrinho.getId());
+        List<BebidaDTO> bebidaList = new ArrayList<>();
+
+        for (CarrinhoBebida carrinhoBebida : carrinhoBebidaIdList) {
+            Optional<Bebida> bebida = _bebidaRepository.findById(carrinhoBebida.getBebida().getId());
+
+            if (bebida.isPresent()) {
+                BebidaDTO bebidaDTO = BebidaDTO.toDTO(bebida.get());
+                bebidaDTO.setQuantidadeBebidaCarrinho(carrinhoBebida.getQuantidadeBebida());
+
+                Float somaProduto = carrinhoBebida.getQuantidadeBebida() * bebida.get().getValorBebida();
+                bebidaDTO.setSomaBebidaNoCarrinho(somaProduto);
+
+                bebidaList.add(bebidaDTO);
+            }
+        }
+
+        CarrinhoAlimentoEBebida newCarrinhoAlimentoEBebida = new CarrinhoAlimentoEBebida();
+        newCarrinhoAlimentoEBebida.setValorTotal(carrinho.getValorTotal());
+        newCarrinhoAlimentoEBebida.setDescricaoDaCompra(carrinho.getDescricaoDaCompra());
+        newCarrinhoAlimentoEBebida.setCarrinhoFechado(carrinho.getCarrinhoFechado());
+        newCarrinhoAlimentoEBebida.setDataPedido(carrinho.getDataPedido());
+
+        newCarrinhoAlimentoEBebida.setAlimentos(alimentoList);
+        newCarrinhoAlimentoEBebida.setBebidas(bebidaList);
+
+        return CarrinhoAlimentoEBebidaDTO.toDTO(newCarrinhoAlimentoEBebida);
     }
 
     @Override

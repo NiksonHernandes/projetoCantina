@@ -1,0 +1,81 @@
+<div class="container-fluid px-0 h-100">
+
+    <div class="papelFundo">
+        <div style="background-color: white; width: 90%; height: auto;">
+
+            <div>
+                <h1 class="text-center my-4">Carrinho</h1>
+            </div>
+
+            <div class="card p-2 m-2">
+                <div class="card-body">
+                    <div class="card-header text-center">Alimentos</div>
+                    <div class="table-responsive text-center">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome Alimento</th>
+                                    <th scope="col">Preço Alimento</th>
+                                    <th scope="col">Quantidade Alimento</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of carrinhoList?.alimentos; let i = index">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td>{{item.nomeAlimento}}</td>
+                                    <td>{{ item.valorAlimento | currency:'BRL' }}</td>
+                                    <td>{{item.quantidadeAlimentoCarrinho}}</td>
+                                    <td>{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
+                                    <td><button type="button" class="btn btn-outline-info">Info</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr class="featurette-divider">
+
+                    <div class="card-header text-center">Bebidas</div>
+                    <div class="table-responsive text-center">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome Bebida</th>
+                                    <th scope="col">Preço Bebida</th>
+                                    <th scope="col">Quantidade Bebida</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of carrinhoList?.bebidas; let i = index">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td>{{item.nomeBebida}}</td>
+                                    <td>{{ item.valorBebida | currency:'BRL' }}</td>
+                                    <td>{{item.quantidadeBebidaCarrinho}}</td>
+                                    <td>{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
+                                    <td><button type="button" class="btn btn-outline-info">Info</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+ 
+
+                    <div class="text-left ml-2" *ngIf="carrinhoList">
+                        <div class="d-flex justify-content-between align-items-center mb-3 ml-2">
+                            <div class="total-value">
+                                <p><strong>Total do Carrinho:</strong></p>
+                                <p class="total-amount">{{ carrinhoList.valorTotal | currency:'BRL' }}</p>
+                            </div>
+                            <button type="button" class="btn btn-custom">Comprar</button>
+                        </div>
+                    </div>
+           
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
