@@ -321,6 +321,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         newCarrinhoAlimentoEBebida.setCarrinhoFechado(carrinho.getCarrinhoFechado());
         newCarrinhoAlimentoEBebida.setDataPedido(carrinho.getDataPedido());
         newCarrinhoAlimentoEBebida.setCarrinhoId(carrinho.getId());
+        newCarrinhoAlimentoEBebida.setOpcaoPagamento(carrinho.getOpcaoPagamento());
 
         newCarrinhoAlimentoEBebida.setAlimentos(alimentoList);
         newCarrinhoAlimentoEBebida.setBebidas(bebidaList);
@@ -348,6 +349,15 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         }
 
         return CarrinhoDTO.toListDTO(carrinhoList);
+    }
+
+    @Override
+    public void opcaoPagamento(Long carrinhoId, Integer opcao) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        carrinho.setOpcaoPagamento(opcao);
+        _carrinhoRepository.save(carrinho);
     }
 
     @Override
@@ -414,6 +424,43 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         }
 
         somarCarrinho(carrinho.getId());
+    }
+
+    @Override
+    public void resetarOpcao(Long carrinhoId) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        carrinho.setOpcaoPagamento(null);
+        _carrinhoRepository.save(carrinho);
+    }
+
+    @Override
+    public CarrinhoDTO verificaIsCarrinhoExiste() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = (Usuario) authentication.getPrincipal(); //pega o usuário autenticado
+
+        Optional<HistoricoPedidos> historicoPedidosOptional = _historicoPedidosRepository.findByUsuario_Id(currentUser.getId());
+
+        if (historicoPedidosOptional.isEmpty()) {
+            throw new IllegalArgumentException("Histórico de pedidos não encontrado");
+        }
+
+        List<Carrinho> carrinhoList = _carrinhoRepository.findByHistoricoPedidos_Id(historicoPedidosOptional.get().getId());
+
+        if (carrinhoList.isEmpty()) {
+            throw new IllegalArgumentException("Carrinho vazio! Adicione algum item ao carrinho.");
+        }
+
+        Carrinho carrinho = new Carrinho();
+
+        for (Carrinho car : carrinhoList) {
+            if (!car.getCarrinhoFechado()) { //Se existir carrinho aberto
+                carrinho = car;
+            }
+        }
+
+        return CarrinhoDTO.toDTO(carrinho);
     }
 
 }

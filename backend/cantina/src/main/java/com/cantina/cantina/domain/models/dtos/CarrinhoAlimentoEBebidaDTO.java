@@ -23,6 +23,10 @@ public class CarrinhoAlimentoEBebidaDTO {
     private Boolean carrinhoFechado;
     private LocalDateTime dataPedido;
 
+    private Integer opcaoPagamento; //0 - qrcode
+    //1 - Cartao
+    //2 - Na hora
+
     List<AlimentoDTO> alimentos;
     List<BebidaDTO> bebidas;
 

@@ -57,8 +57,32 @@ export class CarrinhoRepository {
         );
     };
 
-   removerBebida(bebidaCarrinhoEQuantidade: any): Observable<void> {
+    removerBebida(bebidaCarrinhoEQuantidade: any): Observable<void> {
         return this.httpClient.post<void>(environment.apiUrl + `/carrinho/remover-bebida`, bebidaCarrinhoEQuantidade, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    verificaIsCarrinhoExiste(): Observable<Carrinho> {
+        return this.httpClient.get<Carrinho>(environment.apiUrl + `/carrinho/verifica-is-carrinho-existe`, this.httpOptions).pipe(
+            map((data: Carrinho) => {
+                return data;
+            })
+        );
+    };
+
+    opcaoPagamento(carrinhoEopcao: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/opcao-pagamento`, carrinhoEopcao, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    resetarOpcao(carrinhoId: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/resetar-opcao`, carrinhoId, this.httpOptions).pipe(
             map(data => {
                 return data;
             })

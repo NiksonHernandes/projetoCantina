@@ -8,6 +8,7 @@ export class CarrinhoAlimentoEBebida {
     descricaoDaCompra?: string;
     carrinhoFechado?: boolean;
     dataPedido?: Date;
+    opcaoPagamento?: number;
     
     alimentos?: Alimento[];
     bebidas?: Bebida[];

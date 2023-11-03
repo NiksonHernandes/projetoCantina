@@ -5,6 +5,8 @@ import { Usuario } from '../models/usuario.model';
 import { Router } from '@angular/router';
 import Endpoints from '../../core/sources/api.source';
 import { environment } from 'src/environments/environments';
+import jwt_decode from 'jwt-decode';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -56,5 +58,22 @@ export class AuthenticationService {
 
         this.router.navigate(['/login']);
     };
+
+    verificaPermissaoAdmin(): boolean {
+        let isAdmin
+        const token: any = this.accessToken;
+        const decodedToken: any = jwt_decode(token);
+
+        //Acesse as informações das roles no payload do JWT
+        const roles: string[] = decodedToken.rol;
+
+        isAdmin = roles.includes("ROLE_ADMIN");//True se for Admin
+
+        if (isAdmin) {
+            console.log("É admin");
+            return true;
+        }
+        return false;
+    }
 
 }

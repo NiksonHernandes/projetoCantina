@@ -16,8 +16,13 @@ public interface CarrinhoService {
     CarrinhoAlimentoEBebidaDTO getCarrinhoProdutos(Long carrinhoId);
     List<CarrinhoDTO> getCarrinhoFechados();
     List<CarrinhoDTO> listCarrinho();
+    void opcaoPagamento(Long carrinhoId, Integer opcao);
     void removerAlimentoDoCarrinho(Long alimentoId, Long carrinhoId, Integer quantidadeAlimento);
     void removerBebidaDoCarrinho(Long bebidaId, Long carrinhoId, Integer quantidadeBebida);
+    void resetarOpcao(Long carrinhoId);
+    CarrinhoDTO verificaIsCarrinhoExiste();
+
+
 
 
     //remover alimento do carrinho

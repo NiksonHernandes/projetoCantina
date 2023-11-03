@@ -108,6 +108,19 @@ public class CarrinhoController {
         }
     }
 
+    @PostMapping("/opcao-pagamento")
+    public ResponseEntity<Object> opcaoPagamento(@RequestBody Map<String, Object> params) {
+        try {
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+            int opcao = Integer.parseInt(params.get("opcao").toString());
+
+            _carrinhoService.opcaoPagamento(carrinhoId, opcao);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
     @PostMapping("/remover-alimento")
     public ResponseEntity<Object> removerAlimento(@RequestBody Map<String, Object> params) {
         try {
@@ -125,12 +138,31 @@ public class CarrinhoController {
     @PostMapping("/remover-bebida")
     public ResponseEntity<Object> removerBebida(@RequestBody Map<String, Object> params) {
         try {
-            long bebidaId = Long.parseLong(params.get("bebidaId").toString());
             long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
-            int quantidadeBebida = Integer.parseInt(params.get("quantidadeBebida").toString());
 
-            _carrinhoService.removerBebidaDoCarrinho(bebidaId, carrinhoId, quantidadeBebida);
+            _carrinhoService.resetarOpcao(carrinhoId);
             return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/resetar-opcao")
+    public ResponseEntity<Object> resetarOpcao(@RequestBody Map<String, Object> params) {
+        try {
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+
+            _carrinhoService.resetarOpcao(carrinhoId);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/verifica-is-carrinho-existe")
+    public ResponseEntity<Object> verificaIsCarrinhoExiste() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.verificaIsCarrinhoExiste());
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

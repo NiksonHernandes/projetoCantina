@@ -129,14 +129,130 @@
                     </div>
 
                     <div class="text-left ml-2" *ngIf="carrinhoList">
-                        <div class="d-flex justify-content-between align-items-center mb-3 ml-2">
+                        <div class="d-flex justify-content-between align-items-center mb-3 ml-2"
+                            *ngIf="!isFinalizarCompra">
                             <div class="total-value">
                                 <p><strong>Total do Carrinho:</strong></p>
                                 <p class="total-amount">{{ carrinhoList.valorTotal | currency:'BRL' }}</p>
                             </div>
-                            <button type="button" class="btn btn-custom">Finalizar Compra</button>
+                            <button type="button" id="btnFinalizar" class="btn btn-custom"
+                                (click)="finalizarCompra()">Opções de Pagamento</button>
                         </div>
                     </div>
+
+                    <!-- Finalizar compra -->
+                    <span *ngIf="isFinalizarCompra">
+                        <hr class="featurette-divider">
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h1 class="text-center"
+                                        style="display: flex; justify-content: center; align-items: center;">
+                                        Escolha a opção de pagamento
+                                        <button class="btn btn-link btn-reset" *ngIf="carrinhoList?.opcaoPagamento == 1 || carrinhoList?.opcaoPagamento == 2 || carrinhoList?.opcaoPagamento == 0" (click)="redefinirOpcaoes()">
+                                            <i class="bi bi-gear" style="font-size: 1.2em;"></i> Redefinir opção de pagamento
+                                        </button>
+                                    </h1>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="payment-option" [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 0, 'payment-option': carrinhoList?.opcaoPagamento != 0}">
+                                                <h2>Pagamento por QR Code</h2>
+                                                <p>Escaneie o QR Code para efetuar o pagamento.</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                    fill="currentColor" class="bi bi-qr-code payment-icon"
+                                                    viewBox="0 0 16 16">
+                                                    <path d="M2 2h2v2H2V2Z" />
+                                                    <path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z" />
+                                                    <path d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z" />
+                                                    <path
+                                                        d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z" />
+                                                    <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z" />
+                                                </svg>
+                                                <button class="btn btn-secondary m-2" (click)="opcaoQRcode()" *ngIf="carrinhoList?.opcaoPagamento != 0"[disabled]="carrinhoList?.opcaoPagamento == 1 || carrinhoList?.opcaoPagamento == 2">Selecionar</button>  <!--(click)="openScrollableContent(longContent)" -->
+                                                <button class="btn btn-success m-2" *ngIf="carrinhoList?.opcaoPagamento == 0">Selecionado</button>
+                                            </div>
+
+                                            <!-- Modal de pagamento -->
+                                            <!-- <ng-template #longContent let-modal>
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Pagar com QRCode</h4>
+                                                    <button type="button" class="btn-close" aria-label="Close"
+                                                        (click)="modal.dismiss('Cross click')"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <p style="color: #000; font-size: 1.5em; font-weight: bold;">
+                                                        Escaneie o QR Code para efetuar o pagamento.
+                                                    </p>
+                                                    <div
+                                                        style="border: 2px solid #000; padding: 20px; display: inline-block; background-color: #fff;">
+                                                        <img src="../../../../../../assets/imagens/scan_me_qr_code.jpg"
+                                                            width="300" height="300" alt="QR Code">
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <p>Chave Pix Aleatória:</p>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="text" class="form-control input-group-text"
+                                                                id="pixKey"
+                                                                value="XLASSD-1233-OAKJDU-00193-ASDIAJXASD-IAUSDH1233"
+                                                                readonly>
+
+                                                            <button class="btn btn-secondary btn-sm"
+                                                                (click)="copyPixKey()">Copiar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                        (click)="modal.close('Close click')">Fechar</button>
+                                                </div>
+                                            </ng-template> -->
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="payment-option" [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 1, 'payment-option': carrinhoList?.opcaoPagamento != 1}">
+                                                <h2>Pagamento com Cartão</h2>
+                                                <p>Insira os detalhes do seu cartão para efetuar o pagamento.</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                    fill="currentColor" class="bi bi-credit-card-2-back payment-icon"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z" />
+                                                    <path
+                                                        d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z" />
+                                                </svg>
+                                                <button class="btn btn-secondary m-2" *ngIf="carrinhoList?.opcaoPagamento != 1" [disabled]="carrinhoList?.opcaoPagamento == 0 || carrinhoList?.opcaoPagamento == 2" 
+                                                    (click)="opcaoCartao()">Selecionar</button>
+                                                <button class="btn btn-success m-2" *ngIf="carrinhoList?.opcaoPagamento == 1">Selecionado</button>
+                                            </div>
+                                            <!-- qrCode == true || pgHora == true -->
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="payment-option" [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 2, 'payment-option': carrinhoList?.opcaoPagamento != 2}">
+                                                <h2>Pagamento na Hora da Retirada</h2>
+                                                <p>Realize o pagamento no momento da retirada dos produtos.</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                                  </svg>
+                                                <button class="btn btn-secondary m-2" *ngIf="carrinhoList?.opcaoPagamento != 2" [disabled]="carrinhoList?.opcaoPagamento == 0 || carrinhoList?.opcaoPagamento == 1" (click)="opcaoPagarHora()">Selecionar</button> 
+                                                <button class="btn btn-success m-2" *ngIf="carrinhoList?.opcaoPagamento == 2">Selecionado</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-left m-2" *ngIf="carrinhoList">
+                            <div class="d-flex justify-content-between align-items-center mb-3 ml-2">
+                                <div class="total-value mt-2">
+                                    <p><strong>Total do Carrinho:</strong></p>
+                                    <p class="total-amount">{{ carrinhoList.valorTotal | currency:'BRL' }}</p>
+                                </div>
+                                <button type="button" id="btnFinalizar" class="btn btn-custom">Finalizar Compra</button>
+                            </div>
+                        </div>
+                    </span>
                 </div>
                 <ng-template #semCarrinho>
                     <div class="card-body">
@@ -149,26 +265,4 @@
     </div>
 </div>
 
-<!-- <ng-template #content let-modal>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Remover Item</h4>
-            <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body">
-            <p class="mb-3">Tem certeza de que deseja remover o item do carrinho?</p>
-            <div class="form-group">
-                <label for="quantidade">Informe a quantidade:</label>
-                <input type="number" class="form-control" name="quantidade" min="1" value="1" [(ngModel)]="resposta">
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close()">Remover</button>
-            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
-        </div>
-    </div>
-</ng-template> -->
-
 <hr />
-
-<pre>{{ resposta }}</pre>

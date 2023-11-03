@@ -60,4 +60,28 @@ export class CarrinhoService {
         );
     };
 
+    verificaIsCarrinhoExiste(): Observable<Carrinho> {
+        return this.carrinhoRepository.verificaIsCarrinhoExiste().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    opcaoPagamento(carrinhoEopcao: any): Observable<void> {
+        return this.carrinhoRepository.opcaoPagamento(carrinhoEopcao).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    resetarOpcao(carrinhoId: any): Observable<void> {
+        return this.carrinhoRepository.resetarOpcao(carrinhoId).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }

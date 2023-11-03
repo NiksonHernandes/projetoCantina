@@ -14,6 +14,7 @@ import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.
 import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/cardapio.component';
 import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carrinho/get-carrinho-open/get-carrinho-open.component';
 import { DeleteAlimentoComponent } from './presentation/pages/dash-routing/carrinho/delete-alimento/delete-alimento.component';
+import { ToastComponent } from './presentation/shared/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DeleteAlimentoComponent } from './presentation/pages/dash-routing/carri
     CardapioComponent,
     GetCarrinhoOpenComponent,
     DeleteAlimentoComponent,
+    ToastComponent,
   ],
   imports: [
     BrowserModule,

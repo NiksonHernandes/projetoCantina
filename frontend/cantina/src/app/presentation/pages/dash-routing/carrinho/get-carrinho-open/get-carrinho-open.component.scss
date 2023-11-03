@@ -19,20 +19,24 @@
 .total-value {
     font-size: 18px;
     text-align: left;
-    color: #333; /* Cor do texto */
+    color: #333;
+    /* Cor do texto */
 }
 
 /* Estilo para o valor total em si */
 .total-amount {
     font-size: 24px;
     font-weight: bold;
-    color: #e74c3c; /* Cor destacada para o valor total */
+    color: #e74c3c;
+    /* Cor destacada para o valor total */
 }
 
 /* Estilo para o botão "Comprar" */
 .btn-custom {
-    background-color: #3498db; /* Cor de fundo do botão */
-    color: #fff; /* Cor do texto do botão */
+    background-color: #117217;
+    /* Cor de fundo do botão */
+    color: #fff;
+    /* Cor do texto do botão */
     border: none;
     padding: 10px 20px;
     font-size: 18px;
@@ -42,5 +46,48 @@
 }
 
 .btn-custom:hover {
-    background-color: #2980b9; /* Cor de fundo do botão quando hover */
+    background-color: #117217b4;
+    /* Cor de fundo do botão quando hover */
 }
+
+.payment-option {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.payment-option h2 {
+    font-size: 1.5rem;
+}
+
+.payment-icon {
+    font-size: 32px;
+}
+
+.btn-reset {
+    font-size: 0.4em;
+    color: #007bff;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+
+.btn-reset:hover {
+    transform: scale(1.1);
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.btn-reset i {
+    margin-right: 3px;
+}
+
+.div-verde {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid green;
+    border-radius: 5px;
+    text-align: center; 
+}
+
