@@ -42,7 +42,7 @@
                                 <div class="card-body">
                                     <!-- <h5 class="card-title">{{item.nomeAlimento}}</h5> -->
                                     <p class="card-text">{{item.descricaoAlimento}}</p>
-                                    <p class="card-text">R$ {{item.valorAlimento}}</p>
+                                    <p class="card-text">{{item.valorAlimento | currency:'BRL'}}</p>
                               </div>
                                 <div class="card-footer">
                                     <div class="input-group">
@@ -74,7 +74,7 @@
                                 <div class="card-body">
                                     <!-- <h5 class="card-title">{{item.nomeBebida}}</h5> -->
                                     <p class="card-text">{{item.descricaoBebida}}</p>
-                                    <p class="card-text">R$ {{item.valorBebida}}</p>
+                                    <p class="card-text">{{item.valorBebida | currency:'BRL'}}</p>
                                 </div>
                                 <div class="card-footer">
                                     <div class="card-footer">

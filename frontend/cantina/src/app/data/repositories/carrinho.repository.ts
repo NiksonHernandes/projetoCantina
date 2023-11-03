@@ -49,4 +49,20 @@ export class CarrinhoRepository {
         );
     };
 
+    removerAlimento(alimentoCarrinhoEQuantidade: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/remover-alimento`, alimentoCarrinhoEQuantidade, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+   removerBebida(bebidaCarrinhoEQuantidade: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/remover-bebida`, bebidaCarrinhoEQuantidade, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }

@@ -109,11 +109,27 @@ public class CarrinhoController {
     }
 
     @PostMapping("/remover-alimento")
-    public ResponseEntity<Object> removerAlimento(@RequestParam(value = "alimentoId") Long alimentoId,
-                                                    @RequestParam(value = "carrinhoId") Long carrinhoId,
-                                                        @RequestParam(value = "quantidadeAlimento") Integer quantidadeAlimento) {
+    public ResponseEntity<Object> removerAlimento(@RequestBody Map<String, Object> params) {
         try {
+            long alimentoId = Long.parseLong(params.get("alimentoId").toString());
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+            int quantidadeAlimento = Integer.parseInt(params.get("quantidadeAlimento").toString());
+
             _carrinhoService.removerAlimentoDoCarrinho(alimentoId, carrinhoId, quantidadeAlimento);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/remover-bebida")
+    public ResponseEntity<Object> removerBebida(@RequestBody Map<String, Object> params) {
+        try {
+            long bebidaId = Long.parseLong(params.get("bebidaId").toString());
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+            int quantidadeBebida = Integer.parseInt(params.get("quantidadeBebida").toString());
+
+            _carrinhoService.removerBebidaDoCarrinho(bebidaId, carrinhoId, quantidadeBebida);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

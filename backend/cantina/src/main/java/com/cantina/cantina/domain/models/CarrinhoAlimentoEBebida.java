@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CarrinhoAlimentoEBebida {
 
+    private Long carrinhoId;
     private Float valorTotal;
     private String descricaoDaCompra;
     private Boolean carrinhoFechado;

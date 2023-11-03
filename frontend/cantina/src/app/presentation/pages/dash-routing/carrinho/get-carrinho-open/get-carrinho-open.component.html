@@ -8,8 +8,10 @@
             </div>
 
             <div class="card p-2 m-2">
-                <div class="card-body">
-                    <div class="card-header text-center">Alimentos</div>
+                <div class="card-body" *ngIf="isCarrinhoExiste; else semCarrinho">
+                    <div class="card-header text-center">
+                        <h5>Alimentos</h5>
+                    </div>
                     <div class="table-responsive text-center">
                         <table class="table">
                             <thead>
@@ -29,7 +31,38 @@
                                     <td>{{ item.valorAlimento | currency:'BRL' }}</td>
                                     <td>{{item.quantidadeAlimentoCarrinho}}</td>
                                     <td>{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
-                                    <td><button type="button" class="btn btn-outline-info">Info</button></td>
+                                    <td><button type="button" class="btn btn-outline-danger" (click)="open(content)"
+                                            ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
+                                    </td>
+
+                                    <ng-template #content let-modal>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Remover Alimento</h4>
+                                                <button type="button" class="btn-close" aria-label="Fechar"
+                                                    (click)="modal.dismiss('Cross click')"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-3">Tem certeza de que deseja remover o
+                                                    {{item.nomeAlimento}} do carrinho?
+                                                </p>
+                                                <div class="form-group">
+                                                    <label for="quantidade">Informe a quantidade que deseja
+                                                        <strong>manter</strong> no carrinho:</label>
+                                                    <input type="number" class="form-control" name="quantidade" min="0"
+                                                        max={{item.quantidadeAlimentoCarrinho}} value="1"
+                                                        [(ngModel)]="resposta"
+                                                        oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    (click)=" removerAlimento(item.alimentoId!)">Remover</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    (click)="modal.dismiss()">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
                                 </tr>
                             </tbody>
                         </table>
@@ -37,7 +70,9 @@
 
                     <hr class="featurette-divider">
 
-                    <div class="card-header text-center">Bebidas</div>
+                    <div class="card-header text-center">
+                        <h5>Bebidas</h5>
+                    </div>
                     <div class="table-responsive text-center">
                         <table class="table">
                             <thead>
@@ -57,12 +92,41 @@
                                     <td>{{ item.valorBebida | currency:'BRL' }}</td>
                                     <td>{{item.quantidadeBebidaCarrinho}}</td>
                                     <td>{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
-                                    <td><button type="button" class="btn btn-outline-info">Info</button></td>
+                                    <td><button type="button" class="btn btn-outline-danger" (click)="open(content)"
+                                            ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
+                                    </td>
+
+                                    <ng-template #content let-modal>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Remover Item</h4>
+                                                <button type="button" class="btn-close" aria-label="Fechar"
+                                                    (click)="modal.dismiss('Cross click')"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-3">Tem certeza de que deseja remover o item do carrinho?
+                                                </p>
+                                                <div class="form-group">
+                                                    <label for="quantidade">Informe a quantidade que deseja
+                                                        <strong>manter</strong> no carrinho:</label>
+                                                    <input type="number" class="form-control" name="quantidade" min="0"
+                                                        max={{item.quantidadeBebidaCarrinho}} value="1"
+                                                        [(ngModel)]="resposta"
+                                                        oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    (click)=" removerBebida(item.bebidaId!)">Remover</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    (click)="modal.dismiss()">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
- 
 
                     <div class="text-left ml-2" *ngIf="carrinhoList">
                         <div class="d-flex justify-content-between align-items-center mb-3 ml-2">
@@ -70,12 +134,41 @@
                                 <p><strong>Total do Carrinho:</strong></p>
                                 <p class="total-amount">{{ carrinhoList.valorTotal | currency:'BRL' }}</p>
                             </div>
-                            <button type="button" class="btn btn-custom">Comprar</button>
+                            <button type="button" class="btn btn-custom">Finalizar Compra</button>
                         </div>
                     </div>
-           
                 </div>
+                <ng-template #semCarrinho>
+                    <div class="card-body">
+                        <p>opss..</p>
+                    </div>
+                </ng-template>
+
             </div>
         </div>
     </div>
 </div>
+
+<!-- <ng-template #content let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Remover Item</h4>
+            <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p class="mb-3">Tem certeza de que deseja remover o item do carrinho?</p>
+            <div class="form-group">
+                <label for="quantidade">Informe a quantidade:</label>
+                <input type="number" class="form-control" name="quantidade" min="1" value="1" [(ngModel)]="resposta">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close()">Remover</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+        </div>
+    </div>
+</ng-template> -->
+
+<hr />
+
+<pre>{{ resposta }}</pre>

@@ -320,6 +320,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         newCarrinhoAlimentoEBebida.setDescricaoDaCompra(carrinho.getDescricaoDaCompra());
         newCarrinhoAlimentoEBebida.setCarrinhoFechado(carrinho.getCarrinhoFechado());
         newCarrinhoAlimentoEBebida.setDataPedido(carrinho.getDataPedido());
+        newCarrinhoAlimentoEBebida.setCarrinhoId(carrinho.getId());
 
         newCarrinhoAlimentoEBebida.setAlimentos(alimentoList);
         newCarrinhoAlimentoEBebida.setBebidas(bebidaList);
@@ -372,11 +373,44 @@ public class CarrinhoServiceImpl implements CarrinhoService {
             throw new IllegalArgumentException("Alimento não encontrado.");
         }
 
-        if (quantidadeAlimento.equals(carrinhoAlimento.get().getQuantidadeAlimento())) { //remover tudo
+        if (quantidadeAlimento == 0) { //remover tudo
             _carrinhoAlimentoRepository.delete(carrinhoAlimento.get());
         } else {
             carrinhoAlimento.get().setQuantidadeAlimento(quantidadeAlimento);
             _carrinhoAlimentoRepository.save(carrinhoAlimento.get());
+        }
+
+        somarCarrinho(carrinho.getId());
+    }
+
+    @Override
+    @Transactional
+    public void removerBebidaDoCarrinho(Long bebidaId, Long carrinhoId, Integer quantidadeBebida) {
+        if (quantidadeBebida.describeConstable().isEmpty()) {
+            throw new IllegalArgumentException("Informe a quantidade.");
+        }
+
+        Bebida bebida  = _bebidaRepository.findById(bebidaId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID da bebida não foi encontrado."));
+
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        if (carrinho.getCarrinhoFechado()) {
+            throw new IllegalArgumentException("Não pode alterar um carrinho fechado");
+        }
+
+        Optional<CarrinhoBebida> carrinhoBebida = _carrinhoBebidaRepository.findByBebida_IdAndCarrinho_Id(bebida.getId(), carrinho.getId());
+
+        if (carrinhoBebida.isEmpty()) {
+            throw new IllegalArgumentException("Bebida não encontrado.");
+        }
+
+        if (quantidadeBebida == 0) { //remover tudo
+            _carrinhoBebidaRepository.delete(carrinhoBebida.get());
+        } else {
+            carrinhoBebida.get().setQuantidadeBebida(quantidadeBebida);
+            _carrinhoBebidaRepository.save(carrinhoBebida.get());
         }
 
         somarCarrinho(carrinho.getId());
