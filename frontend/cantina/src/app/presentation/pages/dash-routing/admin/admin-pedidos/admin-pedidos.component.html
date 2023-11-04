@@ -532,7 +532,7 @@
                         </ng-container>
 
 
-                        <!-- Modal -->
+                        <!-- Modal visualizar-->
                         <ng-template #longContent let-modal>
                             <div class="modal-header">
                                 <h4 class="modal-title">Dados do pedido</h4>
@@ -540,8 +540,122 @@
                                     (click)="modal.dismiss('Cross click')">
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <p style="color: #000; font-size: 1.5em; font-weight: bold;"> Dados do pedido
+                            <div class="modal-body ">
+                                <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center"> Dados
+                                    do pedido
+                                    selecionado: </p>
+
+                                <div class="container" *ngIf="pedidoCurrent">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="carrinhoID">Carrinho ID</label>
+                                            <input type="text" class="form-control" id="carrinhoID"
+                                                [(ngModel)]="pedidoCurrent.carrinhoId" name="carrinhoID" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dataPedidoEntregue">Data do Pedido Entregue</label>
+                                            <input *ngIf="pedidoCurrent.dataPedido != null" type="text"
+                                                class="form-control" id="dataPedidoEntregue"
+                                                [value]="transformarData(pedidoCurrent.dataPedido)"
+                                                name="dataPedidoEntregue" readonly>
+                                            <input *ngIf="pedidoCurrent.dataPedido === null" type="text"
+                                                class="form-control" id="dataPedidoEntregue" value="Data não atribuida"
+                                                name="dataPedidoEntregue" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="tipoPagamento">Tipo de Pagamento</label>
+                                            <input type="text" class="form-control"
+                                                *ngIf="pedidoCurrent.opcaoPagamento == 0" value="Pagamento com QRCode"
+                                                readonly>
+
+                                            <input type="text" class="form-control"
+                                                *ngIf="pedidoCurrent.opcaoPagamento == 1" value="Pagamento com cartão"
+                                                readonly>
+
+                                            <input type="text" class="form-control"
+                                                *ngIf="pedidoCurrent.opcaoPagamento == 2" value="Pagamento na retirada"
+                                                readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="valorTotal">Valor Total</label>
+                                            <input type="text" class="form-control" id="valorTotal"
+                                                [(ngModel)]="pedidoCurrent.valorTotal" name="valorTotal" readonly>
+                                        </div>
+                                    </form>
+
+                                    <hr>
+
+                                    <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center">
+                                        Alimentos: </p>
+
+                                    <div class="table-responsive text-center">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Nome Alimento</th>
+                                                    <th scope="col">Quantidade Alimento</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of pedidoCurrent?.alimentos; let i = index">
+                                                    <th scope="row">{{i + 1}}</th>
+                                                    <td>{{item.nomeAlimento}}</td>
+                                                    <!-- <td>{{ item.valorAlimento | currency:'BRL' }}</td> -->
+                                                    <td>{{item.quantidadeAlimentoCarrinho}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <hr>
+
+                                    <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center">
+                                        Bebidas: </p>
+
+                                    <div class="table-responsive text-center">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Nome Bebida</th>
+                                                    <th scope="col">Quantidade Bebida</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of pedidoCurrent?.bebidas; let i = index">
+                                                    <th scope="row">{{i + 1}}</th>
+                                                    <td>{{item.nomeBebida}}</td>
+                                                    <!-- <td>{{ item.valorAlimento | currency:'BRL' }}</td> -->
+                                                    <td>{{item.quantidadeBebidaCarrinho}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <p style="color: #c01d1d; font-size: 1em; font-weight: bold;" class="text-start">
+                                        Valor total da compra: {{pedidoCurrent.valorTotal | currency:'BRL'}}</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger"
+                                    (click)="modal.dismiss('Cross click')">Fechar</button>
+                            </div>
+                        </ng-template>
+
+                        <!-- Modal adicionar alimento -->
+                        <ng-template #adidicionarAlimento let-modal>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Dados do pedido</h4>
+                                <button type="button" class="btn-close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
+                                </button>
+                            </div>
+                            <div class="modal-body ">
+                                <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center"> Dados
+                                    do pedido
                                     selecionado </p>
 
                                 <div class="container" *ngIf="pedidoCurrent">
@@ -552,7 +666,7 @@
                                                 [(ngModel)]="pedidoCurrent.carrinhoId" name="carrinhoID" readonly>
                                         </div>
 
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label for="nomeUsuario">Nome do Usuário</label>
                                             <input *ngIf="pedidoCurrent.nomeUsuario != null" type="text"
                                                 class="form-control" id="nomeUsuario"
@@ -560,7 +674,7 @@
                                             <input *ngIf="pedidoCurrent.nomeUsuario === null" type="text"
                                                 class="form-control" id="nomeUsuario" value="--" name="nomeUsuario"
                                                 readonly>
-                                        </div>
+                                        </div> -->
 
                                         <div class="form-group">
                                             <label for="dataPedidoEntregue">Data do Pedido Entregue</label>

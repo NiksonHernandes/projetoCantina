@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { Carrinho } from 'src/app/domain/models/carrinho.model';
+import { CarrinhoAlimentoEBebida } from 'src/app/domain/models/carrinhoAlimentoEBebida.mode';
 import { CarrinhoService } from 'src/app/domain/services/carrinho.service';
 import { ToastService } from 'src/app/domain/services/toast.service';
 
@@ -22,7 +23,7 @@ export class AdminPedidosComponent {
     listPedidosAprovados: Carrinho[] = [];
     listPedidosRecusados: Carrinho[] = [];
 
-    pedidoCurrent?: Carrinho = new Carrinho();
+    pedidoCurrent?: CarrinhoAlimentoEBebida = new CarrinhoAlimentoEBebida();
 
     listPedidosCancelados: Carrinho[] = [];
     listPedidosEntregues: Carrinho[] = [];
@@ -48,8 +49,25 @@ export class AdminPedidosComponent {
 
     getPedido(carrinhoId: number) {
 
+        // return new Promise<void>((resolve, reject) => {
+        //     this.carrinhoService.getCarrinho(carrinhoId).subscribe({
+        //         next: (data) => {
+        //             this.pedidoCurrent = data;
+
+        //             console.log("sucesso! - getCarrinho", data);
+        //             resolve(); // Resolva a Promise quando a ch
+        //         },
+        //         error: (error) => {
+        //             this.toastMessage(error, 2);
+        //             console.log("Erro - getCarrinho", error);
+        //             reject(error);
+        //         }
+        //     });
+
+        // });
+        
         return new Promise<void>((resolve, reject) => {
-            this.carrinhoService.getCarrinho(carrinhoId).subscribe({
+            this.carrinhoService.getCarrinhoProdutos(carrinhoId).subscribe({
                 next: (data) => {
                     this.pedidoCurrent = data;
 
