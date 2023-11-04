@@ -134,6 +134,12 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         //Verifica se o existe um carrinho aberto
         Optional<Carrinho> existeCarrinhoAberto = _carrinhoRepository.findByHistoricoPedidos_IdAndCarrinhoFechado(historicoPedidoId, false);
 
+        if (existeCarrinhoAberto.isPresent()) {
+            if (existeCarrinhoAberto.get().getStatusPedido() == 0) {
+                throw new IllegalArgumentException("Aguardando para adicionar. Pedido em análise");
+            }
+        }
+
         CarrinhoAlimento carrinhoAlimento = new CarrinhoAlimento();
 
         if (existeCarrinhoAberto.isPresent()) {
@@ -256,6 +262,25 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     }
 
     @Override
+    public void finalizarPedido(CarrinhoDTO carrinhoDTO) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoDTO.getCarrinhoId())
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        if (carrinho.getOpcaoPagamento() == 1) {
+            carrinho.setTipoCartao(carrinhoDTO.getTipoCartao());
+            carrinho.setNumeroCartao(carrinhoDTO.getNumeroCartao());
+            carrinho.setValidadeCartao(carrinhoDTO.getValidadeCartao());
+            carrinho.setCodigoCartao(carrinhoDTO.getCodigoCartao());
+        } else if (carrinho.getOpcaoPagamento() == 2) {
+             carrinho.setCodigoDoPedido("SXXIOA-00917-OPALDD");
+        }
+
+        carrinho.setStatusPedido(0);
+
+        _carrinhoRepository.save(carrinho);
+    }
+
+    @Override
     public CarrinhoDTO getCarrinho(Long carrinhoId) {
         Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
                 .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
@@ -322,6 +347,14 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         newCarrinhoAlimentoEBebida.setDataPedido(carrinho.getDataPedido());
         newCarrinhoAlimentoEBebida.setCarrinhoId(carrinho.getId());
         newCarrinhoAlimentoEBebida.setOpcaoPagamento(carrinho.getOpcaoPagamento());
+
+        newCarrinhoAlimentoEBebida.setStatusPedido(carrinho.getStatusPedido());
+        newCarrinhoAlimentoEBebida.setTipoCartao(carrinho.getTipoCartao());
+        newCarrinhoAlimentoEBebida.setNumeroCartao(carrinho.getNumeroCartao());
+        newCarrinhoAlimentoEBebida.setValidadeCartao(carrinho.getValidadeCartao());
+        newCarrinhoAlimentoEBebida.setCodigoCartao(carrinho.getCodigoCartao());
+        newCarrinhoAlimentoEBebida.setCodigoDoPedido(carrinho.getCodigoDoPedido());
+
 
         newCarrinhoAlimentoEBebida.setAlimentos(alimentoList);
         newCarrinhoAlimentoEBebida.setBebidas(bebidaList);
@@ -458,6 +491,10 @@ public class CarrinhoServiceImpl implements CarrinhoService {
             if (!car.getCarrinhoFechado()) { //Se existir carrinho aberto
                 carrinho = car;
             }
+        }
+
+        if (carrinho.getId() == null) {
+            throw new IllegalArgumentException("Carrinho vazio! Adicione algum item ao carrinho.");
         }
 
         return CarrinhoDTO.toDTO(carrinho);

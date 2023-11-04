@@ -1,5 +1,6 @@
 package com.cantina.cantina.application.controllers;
 
+import com.cantina.cantina.domain.models.dtos.CarrinhoDTO;
 import com.cantina.cantina.domain.models.dtos.SignUpDTO;
 import com.cantina.cantina.domain.services.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,16 @@ public class CarrinhoController {
     public ResponseEntity<Object> fecharCarrinho(@RequestParam(value = "carrinhoId") Long carrinhoId) {
         try {
             _carrinhoService.fechaCarrinho(carrinhoId);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/finalizar-pedido")
+    public ResponseEntity<Object> finalizarPedido(@RequestBody CarrinhoDTO carrinhoDTO) {
+        try {
+            _carrinhoService.finalizarPedido(carrinhoDTO);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -138,9 +149,11 @@ public class CarrinhoController {
     @PostMapping("/remover-bebida")
     public ResponseEntity<Object> removerBebida(@RequestBody Map<String, Object> params) {
         try {
+            long bebidaId = Long.parseLong(params.get("bebidaId").toString());
             long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+            int quantidadeBebida = Integer.parseInt(params.get("quantidadeBebida").toString());
 
-            _carrinhoService.resetarOpcao(carrinhoId);
+            _carrinhoService.removerBebidaDoCarrinho(bebidaId, carrinhoId, quantidadeBebida);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

@@ -84,4 +84,12 @@ export class CarrinhoService {
         );
     };
 
+    finalizarPedido(carrinho: any): Observable<void> {
+        return this.carrinhoRepository.finalizarPedido(carrinho).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }

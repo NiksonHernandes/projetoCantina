@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cardapio } from 'src/app/domain/models/cardapio.model';
 import { CardapioService } from 'src/app/domain/services/cardapio.service';
 import { CarrinhoService } from 'src/app/domain/services/carrinho.service';
@@ -15,11 +15,12 @@ export class CardapioComponent {
     cardapioId: number = 1;
     quantidadeAlimentos: number = 1;
 
+    resposta: number = 1;
+    closeResult = '';
+
     cardapioListWithQuantidade?: any;
 
-    //valor = document.getElementById("valorQuantidade") as HTMLElement;
-
-    constructor(config: NgbCarouselConfig, private el: ElementRef, private cardapioService: CardapioService, private carrinhoService: CarrinhoService) {
+    constructor(config: NgbCarouselConfig, private el: ElementRef, private cardapioService: CardapioService, private carrinhoService: CarrinhoService,  private modalService: NgbModal,) {
         config.interval = 10000;
         config.wrap = false;
         config.keyboard = false;
@@ -50,10 +51,19 @@ export class CardapioComponent {
         });
     }
 
+    open(content: any) {
+        this.resposta = 1
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+            }
+        );
+    }
+
     adicionarAlimentoCarrinho(alimentoId: number) {
         let alimentoEQuantidade =  {
             alimentoId: alimentoId,
-            quantidadeAlimento: 1
+            quantidadeAlimento: this.resposta
         }
 
         this.carrinhoService.adicionarAlimentoNoCarrinho(alimentoEQuantidade).subscribe({

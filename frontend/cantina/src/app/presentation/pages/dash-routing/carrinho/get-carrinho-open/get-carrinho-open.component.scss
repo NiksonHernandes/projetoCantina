@@ -33,7 +33,7 @@
 
 /* Estilo para o botão "Comprar" */
 .btn-custom {
-    background-color: #117217;
+    background-color: green;
     /* Cor de fundo do botão */
     color: #fff;
     /* Cor do texto do botão */
@@ -88,6 +88,25 @@
     padding: 20px;
     border: 1px solid green;
     border-radius: 5px;
-    text-align: center; 
+    text-align: center;
 }
 
+.status-analise {
+    color: #007bff;
+    font-size: 1.5em;
+}
+
+.status-aprovado {
+    color: #28a745;
+    font-size: 1.5em;
+}
+
+.status-recusado {
+    color: #dc3545;
+    font-size: 1.5em;
+}
+
+.status-entregue {
+    color: #17a2b8;
+    font-size: 1.5em;
+}

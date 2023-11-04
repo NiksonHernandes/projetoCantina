@@ -26,6 +26,19 @@ public class CarrinhoAlimentoEBebida {
     private Integer opcaoPagamento; //0 - qrcode
     //1 - Cartao
     //2 - Na hora
+    private Integer statusPedido;
+    //0 - pedido em análise
+    //1 - aprovada
+    //2 - recusado
+    //3 - entregue
+
+    private Integer tipoCartao; //0 - Credito
+    //1 - débito
+    private Long numeroCartao;
+    private String validadeCartao;
+    private Long codigoCartao;
+
+    private String codigoDoPedido;
 
     List<AlimentoDTO> alimentos;
     List<BebidaDTO> bebidas;

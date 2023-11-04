@@ -11,6 +11,7 @@ public interface CarrinhoService {
     void adicionarBebidaNoCarrinho(Long bebidaId, Integer quantidadeBebida);
     void deleteCarrinho(Long carrinhoId);
     void fechaCarrinho(Long carrinhoId); //Quando fechar tem que reduzir a quantidade no estoque
+    void finalizarPedido(CarrinhoDTO carrinhoDTO);
     CarrinhoDTO getCarrinho(Long carrinhoId);
     List<CarrinhoDTO> getCarrinhoAbertos();
     CarrinhoAlimentoEBebidaDTO getCarrinhoProdutos(Long carrinhoId);

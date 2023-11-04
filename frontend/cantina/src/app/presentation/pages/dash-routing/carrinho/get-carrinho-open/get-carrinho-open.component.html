@@ -21,7 +21,7 @@
                                     <th scope="col">Preço Alimento</th>
                                     <th scope="col">Quantidade Alimento</th>
                                     <th scope="col">Valor</th>
-                                    <th scope="col">Opções</th>
+                                    <th scope="col" *ngIf="carrinhoList?.statusPedido == null">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,8 +31,10 @@
                                     <td>{{ item.valorAlimento | currency:'BRL' }}</td>
                                     <td>{{item.quantidadeAlimentoCarrinho}}</td>
                                     <td>{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
-                                    <td><button type="button" class="btn btn-outline-danger" (click)="open(content)"
-                                            ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger" (click)="open(content)" *ngIf="carrinhoList?.statusPedido == null"
+                                            ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i>
+                                        </button>
                                     </td>
 
                                     <ng-template #content let-modal>
@@ -67,66 +69,72 @@
                             </tbody>
                         </table>
                     </div>
+                  
+                    <span *ngIf="carrinhoList?.bebidas && carrinhoList?.bebidas!.length > 0">
+                        <hr class="featurette-divider">
 
-                    <hr class="featurette-divider">
+                        <div class="card-header text-center">
+                            <h5>Bebidas</h5>
+                        </div>
+                        <div class="table-responsive text-center">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nome Bebida</th>
+                                        <th scope="col">Preço Bebida</th>
+                                        <th scope="col">Quantidade Bebida</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col" *ngIf="carrinhoList?.statusPedido == null">Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of carrinhoList?.bebidas; let i = index">
+                                        <th scope="row">{{i + 1}}</th>
+                                        <td>{{item.nomeBebida}}</td>
+                                        <td>{{ item.valorBebida | currency:'BRL' }}</td>
+                                        <td>{{item.quantidadeBebidaCarrinho}}</td>
+                                        <td>{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
+                                        <td><button type="button" class="btn btn-outline-danger" (click)="open(content)"
+                                                *ngIf="carrinhoList?.statusPedido == null"
+                                                ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
+                                        </td>
 
-                    <div class="card-header text-center">
-                        <h5>Bebidas</h5>
-                    </div>
-                    <div class="table-responsive text-center">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nome Bebida</th>
-                                    <th scope="col">Preço Bebida</th>
-                                    <th scope="col">Quantidade Bebida</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col">Opções</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of carrinhoList?.bebidas; let i = index">
-                                    <th scope="row">{{i + 1}}</th>
-                                    <td>{{item.nomeBebida}}</td>
-                                    <td>{{ item.valorBebida | currency:'BRL' }}</td>
-                                    <td>{{item.quantidadeBebidaCarrinho}}</td>
-                                    <td>{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
-                                    <td><button type="button" class="btn btn-outline-danger" (click)="open(content)"
-                                            ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
-                                    </td>
-
-                                    <ng-template #content let-modal>
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="modal-basic-title">Remover Item</h4>
-                                                <button type="button" class="btn-close" aria-label="Fechar"
-                                                    (click)="modal.dismiss('Cross click')"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="mb-3">Tem certeza de que deseja remover o item do carrinho?
-                                                </p>
-                                                <div class="form-group">
-                                                    <label for="quantidade">Informe a quantidade que deseja
-                                                        <strong>manter</strong> no carrinho:</label>
-                                                    <input type="number" class="form-control" name="quantidade" min="0"
-                                                        max={{item.quantidadeBebidaCarrinho}} value="1"
-                                                        [(ngModel)]="resposta"
-                                                        oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                        <ng-template #content let-modal>
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Remover Item</h4>
+                                                    <button type="button" class="btn-close" aria-label="Fechar"
+                                                        (click)="modal.dismiss('Cross click')"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="mb-3">Tem certeza de que deseja remover o item do
+                                                        carrinho?
+                                                    </p>
+                                                    <div class="form-group">
+                                                        <label for="quantidade">Informe a quantidade que deseja
+                                                            <strong>manter</strong> no carrinho:</label>
+                                                        <input type="number" class="form-control" name="quantidade"
+                                                            min="0" max={{item.quantidadeBebidaCarrinho}} value="1"
+                                                            [(ngModel)]="resposta"
+                                                            oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                        (click)=" removerBebida(item.bebidaId!)">Remover</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        (click)="modal.dismiss()">Cancelar</button>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    (click)=" removerBebida(item.bebidaId!)">Remover</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    (click)="modal.dismiss()">Cancelar</button>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                        </ng-template>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </span>
+
+
 
                     <div class="text-left ml-2" *ngIf="carrinhoList">
                         <div class="d-flex justify-content-between align-items-center mb-3 ml-2"
@@ -149,14 +157,22 @@
                                     <h1 class="text-center"
                                         style="display: flex; justify-content: center; align-items: center;">
                                         Escolha a opção de pagamento
-                                        <button class="btn btn-link btn-reset" *ngIf="carrinhoList?.opcaoPagamento == 1 || carrinhoList?.opcaoPagamento == 2 || carrinhoList?.opcaoPagamento == 0" (click)="redefinirOpcaoes()">
-                                            <i class="bi bi-gear" style="font-size: 1.2em;"></i> Redefinir opção de pagamento
-                                        </button>
+                                        <span *ngIf="carrinhoList?.statusPedido == null">
+                                            <button class="btn btn-link btn-reset"
+                                                *ngIf="carrinhoList?.opcaoPagamento == 1 || carrinhoList?.opcaoPagamento == 2 || carrinhoList?.opcaoPagamento == 0"
+                                                (click)="redefinirOpcaoes()">
+                                                <i class="bi bi-gear" style="font-size: 1.2em;"></i> Redefinir opção de
+                                                pagamento
+                                            </button>
+                                        </span>
+
                                     </h1>
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="payment-option" [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 0, 'payment-option': carrinhoList?.opcaoPagamento != 0}">
+                                            <div class="payment-option"
+                                                [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 0, 'payment-option': carrinhoList?.opcaoPagamento != 0}">
+                                                <!-- PAGAMENTO POR QRCODE -->
                                                 <h2>Pagamento por QR Code</h2>
                                                 <p>Escaneie o QR Code para efetuar o pagamento.</p>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -169,48 +185,21 @@
                                                         d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z" />
                                                     <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z" />
                                                 </svg>
-                                                <button class="btn btn-secondary m-2" (click)="opcaoQRcode()" *ngIf="carrinhoList?.opcaoPagamento != 0"[disabled]="carrinhoList?.opcaoPagamento == 1 || carrinhoList?.opcaoPagamento == 2">Selecionar</button>  <!--(click)="openScrollableContent(longContent)" -->
-                                                <button class="btn btn-success m-2" *ngIf="carrinhoList?.opcaoPagamento == 0">Selecionado</button>
+                                                <button class="btn btn-secondary m-2" (click)="opcaoQRcode()"
+                                                    *ngIf="carrinhoList?.opcaoPagamento != 0"
+                                                    [disabled]="carrinhoList?.opcaoPagamento == 1 || carrinhoList?.opcaoPagamento == 2">Selecionar</button>
+                                                <span *ngIf="carrinhoList?.opcaoPagamento == 0">
+                                                    <button class="btn btn-success m-2"
+                                                        [disabled]="carrinhoList?.opcaoPagamento == 0 && carrinhoList?.statusPedido == null"
+                                                        (click)="openScrollableContent(longContent)">Visualizar</button>
+                                                </span>
+
                                             </div>
-
-                                            <!-- Modal de pagamento -->
-                                            <!-- <ng-template #longContent let-modal>
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Pagar com QRCode</h4>
-                                                    <button type="button" class="btn-close" aria-label="Close"
-                                                        (click)="modal.dismiss('Cross click')"></button>
-                                                </div>
-                                                <div class="modal-body text-center">
-                                                    <p style="color: #000; font-size: 1.5em; font-weight: bold;">
-                                                        Escaneie o QR Code para efetuar o pagamento.
-                                                    </p>
-                                                    <div
-                                                        style="border: 2px solid #000; padding: 20px; display: inline-block; background-color: #fff;">
-                                                        <img src="../../../../../../assets/imagens/scan_me_qr_code.jpg"
-                                                            width="300" height="300" alt="QR Code">
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <p>Chave Pix Aleatória:</p>
-                                                        <div class="input-group input-group-sm">
-                                                            <input type="text" class="form-control input-group-text"
-                                                                id="pixKey"
-                                                                value="XLASSD-1233-OAKJDU-00193-ASDIAJXASD-IAUSDH1233"
-                                                                readonly>
-
-                                                            <button class="btn btn-secondary btn-sm"
-                                                                (click)="copyPixKey()">Copiar</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
-                                                        (click)="modal.close('Close click')">Fechar</button>
-                                                </div>
-                                            </ng-template> -->
 
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="payment-option" [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 1, 'payment-option': carrinhoList?.opcaoPagamento != 1}">
+                                            <div class="payment-option"
+                                                [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 1, 'payment-option': carrinhoList?.opcaoPagamento != 1}">
                                                 <h2>Pagamento com Cartão</h2>
                                                 <p>Insira os detalhes do seu cartão para efetuar o pagamento.</p>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -221,21 +210,37 @@
                                                     <path
                                                         d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z" />
                                                 </svg>
-                                                <button class="btn btn-secondary m-2" *ngIf="carrinhoList?.opcaoPagamento != 1" [disabled]="carrinhoList?.opcaoPagamento == 0 || carrinhoList?.opcaoPagamento == 2" 
+                                                <button class="btn btn-secondary m-2"
+                                                    *ngIf="carrinhoList?.opcaoPagamento != 1"
+                                                    [disabled]="carrinhoList?.opcaoPagamento == 0 || carrinhoList?.opcaoPagamento == 2"
                                                     (click)="opcaoCartao()">Selecionar</button>
-                                                <button class="btn btn-success m-2" *ngIf="carrinhoList?.opcaoPagamento == 1">Selecionado</button>
+                                                <span *ngIf="carrinhoList?.opcaoPagamento == 1">
+                                                    <button class="btn btn-success m-2"
+                                                        [disabled]="carrinhoList?.opcaoPagamento == 1 && carrinhoList?.statusPedido == null"
+                                                        (click)="openScrollableContent(longContent)">Visualizar</button>
+                                                </span>
+
                                             </div>
-                                            <!-- qrCode == true || pgHora == true -->
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="payment-option" [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 2, 'payment-option': carrinhoList?.opcaoPagamento != 2}">
+                                            <div class="payment-option"
+                                                [ngClass]="{'div-verde': carrinhoList?.opcaoPagamento == 2, 'payment-option': carrinhoList?.opcaoPagamento != 2}">
                                                 <h2>Pagamento na Hora da Retirada</h2>
                                                 <p>Realize o pagamento no momento da retirada dos produtos.</p>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-                                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-                                                  </svg>
-                                                <button class="btn btn-secondary m-2" *ngIf="carrinhoList?.opcaoPagamento != 2" [disabled]="carrinhoList?.opcaoPagamento == 0 || carrinhoList?.opcaoPagamento == 1" (click)="opcaoPagarHora()">Selecionar</button> 
-                                                <button class="btn btn-success m-2" *ngIf="carrinhoList?.opcaoPagamento == 2">Selecionado</button>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                    fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+                                                </svg>
+                                                <button class="btn btn-secondary m-2"
+                                                    *ngIf="carrinhoList?.opcaoPagamento != 2"
+                                                    [disabled]="carrinhoList?.opcaoPagamento == 0 || carrinhoList?.opcaoPagamento == 1"
+                                                    (click)="opcaoPagarHora()">Selecionar</button>
+                                                <span *ngIf="carrinhoList?.opcaoPagamento == 2">
+                                                    <button class="btn btn-success m-2"
+                                                        [disabled]="carrinhoList?.opcaoPagamento == 2 && carrinhoList?.statusPedido == null"
+                                                        (click)="openScrollableContent(longContent)">Visualizar</button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -249,9 +254,165 @@
                                     <p><strong>Total do Carrinho:</strong></p>
                                     <p class="total-amount">{{ carrinhoList.valorTotal | currency:'BRL' }}</p>
                                 </div>
-                                <button type="button" id="btnFinalizar" class="btn btn-custom">Finalizar Compra</button>
+                                <button type="button" id="btnFinalizar" class="btn btn-custom"
+                                    (click)="openScrollableContent(longContent)"
+                                    *ngIf="carrinhoList?.statusPedido == null">Finalizar Compra</button>
+
+
+                                <div *ngIf="carrinhoList?.statusPedido != null">
+                                    <span
+                                        [ngClass]="{'status-analise': carrinhoList!.statusPedido == 0, 'status-aprovado': carrinhoList!.statusPedido == 1, 'status-recusado': carrinhoList!.statusPedido == 2, 'status-entregue':         carrinhoList!.statusPedido == 3}">
+                                        {{ carrinhoList!.statusPedido == 0 ? 'Pedido em análise' :
+                                        carrinhoList!.statusPedido == 1 ? 'Pedido aprovado' :
+                                        carrinhoList!.statusPedido == 2 ? 'Pedido recusado' :
+                                        carrinhoList!.statusPedido == 3 ? 'Pedido entregue' : '' }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Modal de pagamento -->
+                        <ng-template #longContent let-modal>
+                            <div class="modal-header">
+                                <h4 class="modal-title" *ngIf="carrinhoList?.opcaoPagamento == 0">Pagar com QRCode</h4>
+                                <h4 class="modal-title" *ngIf="carrinhoList?.opcaoPagamento == 1">Pagar com Cartão</h4>
+                                <h4 class="modal-title" *ngIf="carrinhoList?.opcaoPagamento == 2">Pagamento na hora da
+                                    retirada</h4>
+                                <button type="button" class="btn-close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <p style="color: #000; font-size: 1.5em; font-weight: bold;"
+                                    *ngIf="carrinhoList?.opcaoPagamento == 0"> Escaneie o QR Code para efetuar o
+                                    pagamento. </p>
+                                <p style="color: #000; font-size: 1.5em; font-weight: bold;"
+                                    *ngIf="carrinhoList?.opcaoPagamento == 1"> Insira os dados do cartão para efetuar o
+                                    pagamento. </p>
+                                <p style="color: #000; font-size: 1.5em; font-weight: bold;"
+                                    *ngIf="carrinhoList?.opcaoPagamento == 2"> Anote o código de retirada. </p>
+
+                                <!-- pagar QRCODE -->
+                                <span *ngIf="carrinhoList?.opcaoPagamento == 0">
+                                    <div
+                                        style="border: 2px solid #000; padding: 20px; display: inline-block; background-color: #fff;">
+                                        <img src="../../../../../../assets/imagens/scan_me_qr_code.jpg" width="300"
+                                            height="300" alt="QR Code">
+                                    </div>
+                                    <div class="mt-4">
+                                        <p>Chave Pix Aleatória:</p>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control input-group-text" id="pixKey"
+                                                value="XLASSD-1233-OAKJDU-00193-ASDIAJXASD-IAUSDH1233" readonly>
+                                            <button class="btn btn-secondary btn-sm"
+                                                (click)="copyPixKey()">Copiar</button>
+                                        </div>
+                                    </div>
+                                </span>
+                                <!-- pagar Cartao -->
+                                <span *ngIf="carrinhoList?.opcaoPagamento == 1">
+                                    <div class="payment-container">
+                                        <!-- Conteúdo para pagamento com cartão -->
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6>Escolha a opção de pagamento:</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="payment-options">
+                                                    <div class="credit-option">
+                                                        <label>
+                                                            <input type="radio" name="paymentOption" value="0"
+                                                                [(ngModel)]="tipoCartao" checked> Pagamento com
+                                                            Cartão de Crédito
+                                                        </label>
+                                                    </div>
+                                                    <div class="debit-option">
+                                                        <label>
+                                                            <input type="radio" name="paymentOption" value="1"
+                                                                [(ngModel)]="tipoCartao">
+                                                            Pagamento com Cartão de Débito
+                                                        </label>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <form [formGroup]="cartaoForm" class="cartao">
+                                                        <div class="form-group field">
+                                                            <label for="numeroCartao">Número do Cartão:</label>
+                                                            <input type="number" class="form-control" id="numeroCartao"
+                                                                formControlName="numeroCartao"
+                                                                placeholder="Número do Cartão"
+                                                                [ngClass]="{ 'is-invalid': submitted && formField['numeroCartao'].errors }">
+                                                            <div *ngIf="submitted && formField['numeroCartao'].errors"
+                                                                class="invalid-feedback">
+                                                                <div
+                                                                    *ngIf="formField['numeroCartao'].errors['required']">
+                                                                    Número é obrigatório.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group field">
+                                                            <label for="dataValidade">Data de Validade:</label>
+                                                            <input type="text" class="form-control" id="dataValidade"
+                                                                placeholder="MM/AA" maxlength="5"
+                                                                formControlName="validadeCartao"
+                                                                [ngClass]="{ 'is-invalid': submitted && formField['validadeCartao'].errors }">
+                                                            <div *ngIf="submitted && formField['validadeCartao'].errors"
+                                                                class="invalid-feedback">
+                                                                <div
+                                                                    *ngIf="formField['validadeCartao'].errors['required']">
+                                                                    Data é obrigatório.</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group field">
+                                                            <label for="codigoSeguranca">Código de Segurança:</label>
+                                                            <input type="text" class="form-control" pattern="\d*"
+                                                                id="codigoSeguranca" placeholder="Código de Segurança"
+                                                                maxlength="4" formControlName="codigoCartao"
+                                                                [ngClass]="{ 'is-invalid': submitted && formField['codigoCartao'].errors }">
+                                                            <div *ngIf="submitted && formField['codigoCartao'].errors"
+                                                                class="invalid-feedback">
+                                                                <div
+                                                                    *ngIf="formField['codigoCartao'].errors['required']">
+                                                                    Data é obrigatório.</div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+
+                                <!-- pagar na hora -->
+                                <span *ngIf="carrinhoList?.opcaoPagamento == 2">
+                                    <div class="mt-4">
+                                        <p>Código de retirada:</p>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control input-group-text" id="pixKey"
+                                                value={{carrinhoList?.codigoDoPedido}} readonly>
+                                            <button class="btn btn-secondary btn-sm"
+                                                (click)="copyPixKey()">Copiar</button>
+                                        </div>
+                                    </div>
+                                </span>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger"
+                                    (click)="modal.close('Close click')">Fechar</button>
+                                <button type="button" class="btn btn-success"
+                                    *ngIf="carrinhoList?.opcaoPagamento == 1 && carrinhoList?.statusPedido == null"
+                                    (click)="onSubmit()">Comprar</button>
+                                <button type="button" class="btn btn-success"
+                                    *ngIf="carrinhoList?.opcaoPagamento == 0 && carrinhoList?.statusPedido == null"
+                                    (click)="comprarQrCode()">Comprar</button>
+                                <button type="button" class="btn btn-success"
+                                    *ngIf="carrinhoList?.opcaoPagamento == 2 && carrinhoList?.statusPedido == null"
+                                    (click)="comprarPgHora()">Comprar</button>
+                            </div>
+                        </ng-template>
                     </span>
                 </div>
                 <ng-template #semCarrinho>
@@ -264,5 +425,7 @@
         </div>
     </div>
 </div>
+
+
 
 <hr />

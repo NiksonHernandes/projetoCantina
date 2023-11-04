@@ -6,5 +6,12 @@ export class Carrinho {
     carrinhoFechado?: boolean;
     dataPedido?: Date;
     opcaoPagamento?: number;
+
+    statusPedido?: number;
+    tipoCartao?: number;
+    numeroCartao?: number;
+    validadeCartao?: string;
+    codigoCartao?: number;
+    codigoDoPedido?: string;
     
 }

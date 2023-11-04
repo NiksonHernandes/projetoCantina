@@ -89,4 +89,12 @@ export class CarrinhoRepository {
         );
     };
 
+    finalizarPedido(carrinho: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/finalizar-pedido`, carrinho, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }

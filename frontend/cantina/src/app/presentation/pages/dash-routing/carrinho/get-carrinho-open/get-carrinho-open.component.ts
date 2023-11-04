@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CarrinhoAlimentoEBebida } from 'src/app/domain/models/carrinhoAlimentoEBebida.mode';
@@ -16,7 +17,13 @@ export class GetCarrinhoOpenComponent {
     closeResult = '';
     isFinalizarCompra?: boolean;
 
+    opcaoPagamento?: number;
+    tipoCartao?: string;
+
     resposta: number = 1;
+
+    cartaoForm!: FormGroup;
+    submitted = false;
 
     qrCode?: boolean;
     cartao?: boolean;
@@ -25,50 +32,98 @@ export class GetCarrinhoOpenComponent {
     randomPixKey?: string;
 
     constructor(
+        private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
         private carrinhoService: CarrinhoService,
         private modalService: NgbModal,
-    ) { }
+    ) {
+        this.tipoCartao = '0';
+    }
 
     async ngOnInit(): Promise<void> {
         await this.getCarrinho();
-        this.capturaLocalStorage();
+
+        this.cartaoForm = this.formBuilder.group({
+            numeroCartao: [this.carrinhoList?.numeroCartao || '', Validators.required],
+            validadeCartao: [this.carrinhoList?.validadeCartao || '', Validators.required],
+            codigoCartao: [this.carrinhoList?.codigoCartao || '', Validators.required],
+        });
+
     }
 
-    capturaLocalStorage() {
-        // const valorLocalStorage = localStorage.getItem('opcaoPagamento');
+    get formField() { return this.cartaoForm.controls; }
 
-        // if (valorLocalStorage) {
-        //     this.isFinalizarCompra = true;
-        // }
+    onSubmit() {
+        this.submitted = true;
 
-        // if (valorLocalStorage == "qrcode") {
-        //     this.qrCode = true;
-        //     document.addEventListener("DOMContentLoaded", function () {
-        //         const qrCodeCor = document.querySelector('.corCode') as HTMLElement;
-        //         qrCodeCor.style.border = '2px solid green';
-        //     });
+        if (this.cartaoForm.invalid) {
+            return;
+        }
 
-        // } else if (valorLocalStorage == "cartao") {
-        //     this.cartao = true;
-        //     document.addEventListener("DOMContentLoaded", function () {
-        //         const corCartao = document.querySelector('.corCartao') as HTMLElement;
-        //         corCartao.style.border = '2px solid green';
-        //     });
+        let carrinhoDTO = {
+            carrinhoId: this.carrinhoList?.carrinhoId,
+            opcaoPagamento: this.opcaoPagamento,
+            tipoCartao: this.tipoCartao,
+            numeroCartao: this.formField['numeroCartao'].value,
+            validadeCartao: this.formField['validadeCartao'].value,
+            codigoCartao: this.formField['codigoCartao'].value,
+        }
 
-        // } else if (valorLocalStorage == "pgHora") {
-        //     this.pgHora = true;
+        this.carrinhoService.finalizarPedido(carrinhoDTO).subscribe({
+            next: (data) => {
+                //alert("removido com sucesso");
+                console.log("sucesso! -finalizarPedid", data);
+                this.getCarrinho();
+                this.modalService.dismissAll();
+            },
+            error: (error) => {
+                alert(error);
+                console.log("Erro - removerBebida", error);
+            }
+        });
 
-        //     document.addEventListener("DOMContentLoaded", function () {
-        //         const corRetirada = document.querySelector('.corRetirada') as HTMLElement;
-        //         corRetirada.style.border = '2px solid green';
-        //     });
-        // } else {
-        //     console.log("valor", valorLocalStorage);
-        // }
+        console.log("valor", carrinhoDTO)
+    }
 
+    comprarQrCode() {
+        let carrinhoDTO = {
+            carrinhoId: this.carrinhoList?.carrinhoId,
+            opcaoPagamento: this.opcaoPagamento
+        }
 
+        this.carrinhoService.finalizarPedido(carrinhoDTO).subscribe({
+            next: (data) => {
+                //alert("removido com sucesso");
+                console.log("sucesso! -finalizarPedid", data);
+                this.getCarrinho();
+                this.modalService.dismissAll();
+            },
+            error: (error) => {
+                alert(error);
+                console.log("Erro - removerBebida", error);
+            }
+        });
+    }
+
+    comprarPgHora() {
+        let carrinhoDTO = {
+            carrinhoId: this.carrinhoList?.carrinhoId,
+            opcaoPagamento: this.opcaoPagamento
+        }
+
+        this.carrinhoService.finalizarPedido(carrinhoDTO).subscribe({
+            next: (data) => {
+                //alert("removido com sucesso");
+                console.log("sucesso! - finalizarPedid", data);
+                this.getCarrinho();
+                this.modalService.dismissAll();
+            },
+            error: (error) => {
+                alert(error);
+                console.log("Erro - removerBebida", error);
+            }
+        });
     }
 
     copyPixKey() {
@@ -92,34 +147,6 @@ export class GetCarrinhoOpenComponent {
         this.modalService.open(longContent, { scrollable: true });
     }
 
-    // getCarrinho() {
-    //     const carrinhoId = this.route.snapshot.params['id'];
-    //     //const carrinhoId = 41
-
-    //     if (carrinhoId) {
-    //         this.isCarrinhoExiste = true;
-    //         this.carrinhoService.getCarrinhoProdutos(carrinhoId).subscribe({
-    //             next: (data) => {
-    //                 this.carrinhoList = data;
-
-    //                 if (this.carrinhoList?.opcaoPagamento == 0 || this.carrinhoList?.opcaoPagamento == 1 || this.carrinhoList?.opcaoPagamento == 2) {
-    //                     this.isFinalizarCompra = true;
-    //                 }
-    //                 console.log("Adicionado com sucesso! - getCarrinhoProdutos", data);
-    //             },
-    //             error: (error) => {
-    //                 alert(error);
-    //                 console.log("Erro - getCarrinhoProdutos", error);
-    //                 // this.router.navigate(['/dash']);
-    //             }
-    //         })
-
-    //     } else {
-    //         alert("Id do carrinho não encontrado");
-    //         this.isCarrinhoExiste = false;
-    //     }
-    // }
-
     getCarrinho() {
         return new Promise<void>((resolve, reject) => {
             const carrinhoId = this.route.snapshot.params['id'];
@@ -133,7 +160,8 @@ export class GetCarrinhoOpenComponent {
                         if (this.carrinhoList?.opcaoPagamento == 0 || this.carrinhoList?.opcaoPagamento == 1 || this.carrinhoList?.opcaoPagamento == 2) {
                             this.isFinalizarCompra = true;
                         }
-                        console.log("Adicionado com sucesso! - getCarrinhoProdutos", data);
+
+                        console.log("sucesso! - getCarrinhoProdutos", data);
                         resolve(); // Resolva a Promise quando a chamada for concluída com sucesso
                     },
                     error: (error) => {
@@ -198,23 +226,14 @@ export class GetCarrinhoOpenComponent {
 
     opcaoQRcode() {
         this.definirPagamento(0);
-
-        const qrCodeCor = document.querySelector('.corCode') as HTMLElement;
-        qrCodeCor.style.border = '2px solid green';
     }
 
     opcaoCartao() {
         this.definirPagamento(1);
-
-        const corCartao = document.querySelector('.corCartao') as HTMLElement;
-        corCartao.style.border = '2px solid green';
     }
 
     opcaoPagarHora() {
         this.definirPagamento(2);
-
-        const corRetirada = document.querySelector('.corRetirada') as HTMLElement;
-        corRetirada.style.border = '2px solid green';
     }
 
     definirPagamento(opcao: number) {
@@ -252,11 +271,6 @@ export class GetCarrinhoOpenComponent {
                 console.log("Erro - resetarOpca", error);
             }
         })
-
-        const qrCodeCor = document.querySelector('.corCode') as HTMLElement;
-        qrCodeCor.style.border = '1px solid #ddd';
-        const corCartao = document.querySelector('.corCartao') as HTMLElement;
-        corCartao.style.border = '1px solid #ddd';
     }
 
 }
