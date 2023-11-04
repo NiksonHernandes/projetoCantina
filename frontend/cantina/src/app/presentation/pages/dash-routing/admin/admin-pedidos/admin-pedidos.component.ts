@@ -98,6 +98,23 @@ export class AdminPedidosComponent {
         });
     }
 
+    transformarData(dataHora: any): string {
+        const data = new Date(dataHora);
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+        const ano = data.getFullYear();
+        const hora = data.getHours();
+        const minutos = data.getMinutes();
+    
+        const diaFormatado = dia < 10 ? `0${dia}` : dia.toString();
+        const mesFormatado = mes < 10 ? `0${mes}` : mes.toString();
+        const horaFormatada = hora < 10 ? `0${hora}` : hora.toString();
+        const minutosFormatados = minutos < 10 ? `0${minutos}` : minutos.toString();
+    
+        const dataFormatada = `${diaFormatado}/${mesFormatado}/${ano} às ${horaFormatada}:${minutosFormatados}`;
+        return dataFormatada;
+    }
+
     getCarrinhoPedidoAprovados() {
         this.carrinhoService.getCarrinhoPedidoAprovados().subscribe({
             next: (data) => {
