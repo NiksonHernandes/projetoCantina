@@ -13,5 +13,6 @@ export class Carrinho {
     validadeCartao?: string;
     codigoCartao?: number;
     codigoDoPedido?: string;
-    
+    nomeUsuario?: string;
+        
 }

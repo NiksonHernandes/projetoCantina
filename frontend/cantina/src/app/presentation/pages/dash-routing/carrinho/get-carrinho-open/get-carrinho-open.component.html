@@ -263,7 +263,7 @@
                                     <span
                                         [ngClass]="{'status-analise': carrinhoList!.statusPedido == 0, 'status-aprovado': carrinhoList!.statusPedido == 1, 'status-recusado': carrinhoList!.statusPedido == 2, 'status-entregue':         carrinhoList!.statusPedido == 3}">
                                         {{ carrinhoList!.statusPedido == 0 ? 'Pedido em análise' :
-                                        carrinhoList!.statusPedido == 1 ? 'Pedido aprovado' :
+                                        carrinhoList!.statusPedido == 1 ? 'Pedido aprovado. Seu pedido esta sendo preparado!' :
                                         carrinhoList!.statusPedido == 2 ? 'Pedido recusado' :
                                         carrinhoList!.statusPedido == 3 ? 'Pedido entregue' : '' }}
                                     </span>
@@ -425,7 +425,5 @@
         </div>
     </div>
 </div>
-
-
 
 <hr />

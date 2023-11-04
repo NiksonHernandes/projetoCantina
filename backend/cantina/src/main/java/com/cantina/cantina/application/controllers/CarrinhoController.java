@@ -54,6 +54,7 @@ public class CarrinhoController {
         }
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/fechar-carrinho")
     public ResponseEntity<Object> fecharCarrinho(@RequestParam(value = "carrinhoId") Long carrinhoId) {
         try {
@@ -105,6 +106,51 @@ public class CarrinhoController {
     public ResponseEntity<Object> getCarrinhoFechados() {
         try {
             return ResponseEntity.ok(_carrinhoService.getCarrinhoFechados());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-carrinho-pedido-pendente")
+    public ResponseEntity<Object> getCarrinhoPedidoPendente() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoPedidoPendente());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-carrinho-pedido-aprovados")
+    public ResponseEntity<Object> getCarrinhoPedidoAprovados() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoPedidoAprovados());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-carrinho-pedido-recusados")
+    public ResponseEntity<Object> getCarrinhoPedidoRecusados() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoPedidoRecusados());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-carrinho-pedido-cancelados")
+    public ResponseEntity<Object> getCarrinhoPedidoCancelados() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoPedidoCancelados());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/get-carrinho-pedido-entregues")
+    public ResponseEntity<Object> getCarrinhoPedidoEntregues() {
+        try {
+            return ResponseEntity.ok(_carrinhoService.getCarrinhoPedidoEntregues());
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
@@ -176,6 +222,42 @@ public class CarrinhoController {
     public ResponseEntity<Object> verificaIsCarrinhoExiste() {
         try {
             return ResponseEntity.ok(_carrinhoService.verificaIsCarrinhoExiste());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/aceitar-pedido")
+    public ResponseEntity<Object> aceitarPedido(@RequestBody Map<String, Object> params) {
+        try {
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+            _carrinhoService.aceitarPedido(carrinhoId);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/recusar-pedido")
+    public ResponseEntity<Object> recusarPedido(@RequestBody Map<String, Object> params) {
+        try {
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+
+            _carrinhoService.recusarPedido(carrinhoId);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/cancelar-pedido")
+    public ResponseEntity<Object> cancelarPedido(@RequestBody Map<String, Object> params) {
+        try {
+            long carrinhoId = Long.parseLong(params.get("carrinhoId").toString());
+
+            _carrinhoService.cancelarPedido(carrinhoId);
+            return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

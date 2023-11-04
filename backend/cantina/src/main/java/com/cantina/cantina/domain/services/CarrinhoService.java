@@ -16,15 +16,20 @@ public interface CarrinhoService {
     List<CarrinhoDTO> getCarrinhoAbertos();
     CarrinhoAlimentoEBebidaDTO getCarrinhoProdutos(Long carrinhoId);
     List<CarrinhoDTO> getCarrinhoFechados();
+    List<CarrinhoDTO> getCarrinhoPedidoPendente();
+    List<CarrinhoDTO> getCarrinhoPedidoAprovados();
+    List<CarrinhoDTO> getCarrinhoPedidoRecusados();
+    List<CarrinhoDTO> getCarrinhoPedidoCancelados();
+    List<CarrinhoDTO> getCarrinhoPedidoEntregues();
     List<CarrinhoDTO> listCarrinho();
     void opcaoPagamento(Long carrinhoId, Integer opcao);
     void removerAlimentoDoCarrinho(Long alimentoId, Long carrinhoId, Integer quantidadeAlimento);
     void removerBebidaDoCarrinho(Long bebidaId, Long carrinhoId, Integer quantidadeBebida);
     void resetarOpcao(Long carrinhoId);
     CarrinhoDTO verificaIsCarrinhoExiste();
-
-
-
+    void aceitarPedido(Long carrinhoId);
+    void recusarPedido(Long carrinhoId);
+    void cancelarPedido(Long carrinhoId);
 
     //remover alimento do carrinho
     //remover todos os alimentos do carrinho -> posso usar o deleteCarrinho

@@ -135,8 +135,10 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         Optional<Carrinho> existeCarrinhoAberto = _carrinhoRepository.findByHistoricoPedidos_IdAndCarrinhoFechado(historicoPedidoId, false);
 
         if (existeCarrinhoAberto.isPresent()) {
-            if (existeCarrinhoAberto.get().getStatusPedido() == 0) {
-                throw new IllegalArgumentException("Aguardando para adicionar. Pedido em análise");
+            if (existeCarrinhoAberto.get().getStatusPedido() != null) {
+                if (existeCarrinhoAberto.get().getStatusPedido() == 0) {
+                    throw new IllegalArgumentException("Aguardando para adicionar. Pedido em análise");
+                }
             }
         }
 
@@ -232,6 +234,61 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     }
 
     @Override
+    public List<CarrinhoDTO> getCarrinhoPedidoPendente() {
+        List<Carrinho> carrinhoListPendentes = _carrinhoRepository.findByStatusPedido(0);
+
+        if (carrinhoListPendentes.isEmpty()) {
+            throw new IllegalArgumentException("Não há pedidos pendentes.");
+        }
+
+        return CarrinhoDTO.toListDTO(carrinhoListPendentes);
+    }
+
+    @Override
+    public List<CarrinhoDTO> getCarrinhoPedidoAprovados() {
+        List<Carrinho> carrinhoListPendentes = _carrinhoRepository.findByStatusPedido(1);
+
+        if (carrinhoListPendentes.isEmpty()) {
+            throw new IllegalArgumentException("Não há pedidos aprovados. Lista vazia!");
+        }
+
+        return CarrinhoDTO.toListDTO(carrinhoListPendentes);
+    }
+
+    @Override
+    public List<CarrinhoDTO> getCarrinhoPedidoRecusados() {
+        List<Carrinho> carrinhoListPendentes = _carrinhoRepository.findByStatusPedido(2);
+
+        if (carrinhoListPendentes.isEmpty()) {
+            throw new IllegalArgumentException("Não há pedidos recusados. Lista vazia!");
+        }
+
+        return CarrinhoDTO.toListDTO(carrinhoListPendentes);
+    }
+
+    @Override
+    public List<CarrinhoDTO> getCarrinhoPedidoCancelados() {
+        List<Carrinho> carrinhoListPendentes = _carrinhoRepository.findByStatusPedido(4);
+
+        if (carrinhoListPendentes.isEmpty()) {
+            throw new IllegalArgumentException("Não há pedidos cancelados. Lista vazia!");
+        }
+
+        return CarrinhoDTO.toListDTO(carrinhoListPendentes);
+    }
+
+    @Override
+    public List<CarrinhoDTO> getCarrinhoPedidoEntregues() {
+        List<Carrinho> carrinhoListPendentes = _carrinhoRepository.findByStatusPedido(3);
+
+        if (carrinhoListPendentes.isEmpty()) {
+            throw new IllegalArgumentException("Não há pedidos Entregues. Lista vazia!");
+        }
+
+        return CarrinhoDTO.toListDTO(carrinhoListPendentes);
+    }
+
+    @Override
     @Transactional
     public void deleteCarrinho(Long carrinhoId) {
          Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
@@ -251,11 +308,8 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
                 .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
 
-        if (!usuario.getId().equals(carrinho.getHistoricoPedidos().getId())) {
-            throw new IllegalArgumentException("Você não pode fechar o carrinho de outra pessoa.");
-        }
-
         carrinho.setCarrinhoFechado(true);
+        carrinho.setStatusPedido(3);
         carrinho.setDataPedido(LocalDateTime.now());
 
         _carrinhoRepository.save(carrinho);
@@ -263,6 +317,9 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public void finalizarPedido(CarrinhoDTO carrinhoDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = (Usuario) authentication.getPrincipal(); //pega o usuário autenticado
+
         Carrinho carrinho = _carrinhoRepository.findById(carrinhoDTO.getCarrinhoId())
                 .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
 
@@ -276,6 +333,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         }
 
         carrinho.setStatusPedido(0);
+        carrinho.setNomeUsuario(currentUser.getNomeCompleto());
 
         _carrinhoRepository.save(carrinho);
     }
@@ -498,6 +556,34 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         }
 
         return CarrinhoDTO.toDTO(carrinho);
+    }
+
+    @Override
+    public void aceitarPedido(Long carrinhoId) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        carrinho.setStatusPedido(1);
+        _carrinhoRepository.save(carrinho);
+    }
+
+    @Override
+    public void recusarPedido(Long carrinhoId) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        carrinho.setStatusPedido(2);
+        _carrinhoRepository.save(carrinho);
+    }
+
+    @Override
+    public void cancelarPedido(Long carrinhoId) {
+        Carrinho carrinho = _carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        carrinho.setStatusPedido(4);
+        carrinho.setCarrinhoFechado(true);
+        _carrinhoRepository.save(carrinho);
     }
 
 }

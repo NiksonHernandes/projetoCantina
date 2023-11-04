@@ -1,0 +1,594 @@
+<div class="container-fluid px-0 h-100">
+
+    <app-toast aria-live="polite" aria-atomic="true"></app-toast>
+
+    <div class="papelFundo">
+        <div style="background-color: white; width: 90%; height: auto; margin-top: 2px; border-radius: 10px;">
+            <section class="nps-section-list-questionarios">
+
+                <div class="nps-header px-4">
+                    <h1 class="nps-header-title">[ADMIN] Área de Trabalho<span class="nps-header-title-dot">.</span>
+                    </h1>
+                    <p class="nps-header-subtitle">Aqui, como administrador, você tem acesso a todas os detalhes de
+                        pedidos
+                        disponíveis.</p>
+                </div>
+
+                <div class="card nps-card p-4 mx-3">
+                    <nav ngbNav #nav="ngbNav" class="nav-tabs mt-0">
+
+                        <!--Dados do squad-->
+                        <!-- <ng-container ngbNavItem>
+                            <a ngbNavLink class="navLink">Dados da área</a>
+                        </ng-container> -->
+
+                        <!--pedidos pendentes-->
+                        <ng-container ngbNavItem>
+                            <a ngbNavLink class="navLink">Pedidos pendentes</a>
+                            <ng-template ngbNavContent>
+
+                                <div class="mb-2 row">
+                                    <div class="nps-header col-xs-3 mb-2 col-sm-auto">
+                                        <p class="nps-header-subtitle">Aqui você pode ver todos os <span
+                                                class="fw-bold">pedidos pendentes</span> atualmente.
+                                        </p>
+                                    </div>
+
+                                    <div class="col-xs-2 col-sm-auto d-flex ms-auto">
+                                        <button type="button" class="btn btn-success"
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
+                                            [closeDelay]="250">
+                                            <i class="bi bi-person-fill-add"></i>
+                                            Adicionar novos produtos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive text-center">
+                                    <table class="table table-striped nps-table align-middle"
+                                        *ngIf="listPedidosPendentes?.length != 0; else emptyList">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="nps-table-th">#</th>
+                                                <th scope="col" class="nps-table-th">carrinho ID</th>
+                                                <th scope="col" class="nps-table-th">Nome do usuário</th>
+                                                <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                                <th scope="col" class="nps-table-th">Status do pedido</th>
+                                                <th scope="col" class="nps-table-th">Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pedido of listPedidosPendentes; let i = index">
+                                                <th scope="row">{{i + 1}}</th>
+                                                <td class="nps-table-td">
+                                                    {{pedido.carrinhoId}}
+                                                </td>
+                                                <td class="nps-table-td"> {{pedido.nomeUsuario}}
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.opcaoPagamento">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Cartão de crédito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Cartão de débito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td">
+                                                    <button type="button" class="btn btn-primary m-1"
+                                                        ngbTooltip="Visualizar pedido"
+                                                        (click)="openScrollableContent(longContent, pedido.carrinhoId!)">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-success m-1"
+                                                        ngbTooltip="Aprovar pedido"
+                                                        (click)="aceitarPedido(pedido.carrinhoId!)">
+                                                        <i class="bi bi-check"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger m-1"
+                                                        ngbTooltip="Reprovar pedido"
+                                                        (click)="recusarPedido(pedido.carrinhoId!)">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <ng-template #emptyList>Nenhum pedido encontrado - Lista vazia</ng-template>
+                            </ng-template>
+                        </ng-container>
+
+                        <!--Pedidos aprovados-->
+                        <ng-container ngbNavItem>
+                            <a ngbNavLink class="navLink" (click)="getCarrinhoPedidoAprovados()">Pedidos aprovados</a>
+                            <ng-template ngbNavContent>
+
+                                <div class="mb-2 row">
+                                    <div class="nps-header col-xs-3 mb-2 col-sm-auto">
+                                        <p class="nps-header-subtitle">Aqui você pode ver todos os <span
+                                                class="fw-bold">pedidos aprovados</span> atualmente.
+                                        </p>
+                                    </div>
+
+                                    <div class="col-xs-2 col-sm-auto d-flex ms-auto">
+                                        <button type="button" class="btn btn-success"
+                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
+                                            [closeDelay]="250">
+                                            <i class="bi bi-person-fill-add"></i>
+                                            Adicionar novos produtos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive text-center">
+                                    <table class="table table-striped nps-table align-middle"
+                                        *ngIf="listPedidosAprovados?.length != 0; else emptyList">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="nps-table-th">#</th>
+                                                <th scope="col" class="nps-table-th">carrinho ID</th>
+                                                <th scope="col" class="nps-table-th">Nome do usuário</th>
+                                                <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                                <th scope="col" class="nps-table-th">Status do pedido</th>
+                                                <th scope="col" class="nps-table-th">Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pedido of listPedidosAprovados; let i = index">
+                                                <th scope="row">{{i + 1}}</th>
+                                                <td class="nps-table-td">
+                                                    {{pedido.carrinhoId}}
+                                                </td>
+                                                <td class="nps-table-td"> {{pedido.nomeUsuario}}
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.opcaoPagamento">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Cartão de crédito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Cartão de débito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Pedido aprovado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td">
+                                                    <button type="button" class="btn btn-primary m-1"
+                                                        ngbTooltip="Visualizar pedido">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-success m-1"
+                                                        ngbTooltip="Concluir pedido - Pedido pronto"
+                                                        (click)="fecharPedido(pedido.carrinhoId!)">
+                                                        <i class="bi bi-cart-check"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger m-1"
+                                                        ngbTooltip="Cancelar pedido"
+                                                        (click)="cancelarPedido(pedido.carrinhoId!)">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <ng-template #emptyList>Nenhum usuário encontrado - Lista vazia</ng-template>
+
+                            </ng-template>
+                        </ng-container>
+
+                        <!-- Pedidos recusados -->
+                        <ng-container ngbNavItem>
+                            <a ngbNavLink class="navLink" (click)="getCarrinhoPedidoRecusados()">Pedidos recusados</a>
+                            <ng-template ngbNavContent>
+
+                                <div class="mb-2 row">
+                                    <div class="nps-header col-xs-3 mb-2 col-sm-auto">
+                                        <p class="nps-header-subtitle">Aqui você pode ver todos os <span
+                                                class="fw-bold">pedidos recusados</span> atualmente.
+                                        </p>
+                                    </div>
+
+                                    <div class="col-xs-2 col-sm-auto d-flex ms-auto">
+                                        <button type="button" class="btn btn-success"
+                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
+                                            [closeDelay]="250">
+                                            <i class="bi bi-person-fill-add"></i>
+                                            Adicionar novos produtos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive text-center">
+                                    <table class="table table-striped nps-table align-middle"
+                                        *ngIf="listPedidosRecusados?.length != 0; else emptyList">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="nps-table-th">#</th>
+                                                <th scope="col" class="nps-table-th">carrinho ID</th>
+                                                <th scope="col" class="nps-table-th">Nome do usuário</th>
+                                                <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                                <th scope="col" class="nps-table-th">Status do pedido</th>
+                                                <th scope="col" class="nps-table-th">Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pedido of listPedidosRecusados; let i = index">
+                                                <th scope="row">{{i + 1}}</th>
+                                                <td class="nps-table-td">
+                                                    {{pedido.carrinhoId}}
+                                                </td>
+                                                <td class="nps-table-td"> {{pedido.nomeUsuario}}
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.opcaoPagamento">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Cartão de crédito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Cartão de débito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Pedido aprovado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pedido recusado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td">
+                                                    <button type="button" class="btn btn-danger m-1"
+                                                        ngbTooltip="Fechar carrinho"
+                                                        (click)="fecharPedido(pedido.carrinhoId!)">
+                                                        <i class="bi bi-cart-x"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <ng-template #emptyList>Nenhum usuário encontrado - Lista vazia</ng-template>
+
+                            </ng-template>
+                        </ng-container>
+
+                        <!-- Pedidos Cancelados -->
+                        <ng-container ngbNavItem>
+                            <a ngbNavLink class="navLink" (click)="getCarrinhoPedidoCancelados()">Pedidos cancelados</a>
+                            <ng-template ngbNavContent>
+
+                                <div class="mb-2 row">
+                                    <div class="nps-header col-xs-3 mb-2 col-sm-auto">
+                                        <p class="nps-header-subtitle">Aqui você pode ver todos os <span
+                                                class="fw-bold">pedidos cancelados</span> atualmente.
+                                        </p>
+                                    </div>
+
+                                    <div class="col-xs-2 col-sm-auto d-flex ms-auto">
+                                        <button type="button" class="btn btn-success"
+                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
+                                            [closeDelay]="250">
+                                            <i class="bi bi-person-fill-add"></i>
+                                            Adicionar novos produtos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive text-center">
+                                    <table class="table table-striped nps-table align-middle"
+                                        *ngIf="listPedidosCancelados?.length != 0; else emptyList">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="nps-table-th">#</th>
+                                                <th scope="col" class="nps-table-th">carrinho ID</th>
+                                                <th scope="col" class="nps-table-th">Nome do usuário</th>
+                                                <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                                <th scope="col" class="nps-table-th">Status do pedido</th>
+                                                <th scope="col" class="nps-table-th">Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pedido of listPedidosCancelados; let i = index">
+                                                <th scope="row">{{i + 1}}</th>
+                                                <td class="nps-table-td">
+                                                    {{pedido.carrinhoId}}
+                                                </td>
+                                                <td class="nps-table-td"> {{pedido.nomeUsuario}}
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.opcaoPagamento">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Cartão de crédito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Cartão de débito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Pedido aprovado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pedido recusado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        <ngb-highlight result="Pedido entregue"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="4">
+                                                        <ngb-highlight result="Pedido cancelado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <ng-template #emptyList>Nenhum usuário encontrado - Lista vazia</ng-template>
+
+                            </ng-template>
+                        </ng-container>
+
+                        <!-- Pedidos Entregues -->
+                        <ng-container ngbNavItem>
+                            <a ngbNavLink class="navLink" (click)="getCarrinhoPedidoEntregues()">Pedidos entregues</a>
+                            <ng-template ngbNavContent>
+
+                                <div class="mb-2 row">
+                                    <div class="nps-header col-xs-3 mb-2 col-sm-auto">
+                                        <p class="nps-header-subtitle">Aqui você pode ver todos os <span
+                                                class="fw-bold">pedidos entregues</span> atualmente.
+                                        </p>
+                                    </div>
+
+                                    <div class="col-xs-2 col-sm-auto d-flex ms-auto">
+                                        <button type="button" class="btn btn-success"
+                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
+                                            [closeDelay]="250">
+                                            <i class="bi bi-person-fill-add"></i>
+                                            Adicionar novos produtos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive text-center">
+                                    <table class="table table-striped nps-table align-middle"
+                                        *ngIf="listPedidosEntregues?.length != 0; else emptyList">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="nps-table-th">#</th>
+                                                <th scope="col" class="nps-table-th">carrinho ID</th>
+                                                <th scope="col" class="nps-table-th">Nome do usuário</th>
+                                                <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                                <th scope="col" class="nps-table-th">Status do pedido</th>
+                                                <th scope="col" class="nps-table-th">Ações</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pedido of listPedidosEntregues; let i = index">
+                                                <th scope="row">{{i + 1}}</th>
+                                                <td class="nps-table-td">
+                                                    {{pedido.carrinhoId}}
+                                                </td>
+                                                <td class="nps-table-td"> {{pedido.nomeUsuario}}
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.opcaoPagamento">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Cartão de crédito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Cartão de débito"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                                <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Pedido aprovado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pedido recusado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        <ngb-highlight result="Pedido entregue"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="4">
+                                                        <ngb-highlight result="Pedido cancelado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <ng-template #emptyList>Nenhum usuário encontrado - Lista vazia</ng-template>
+
+                            </ng-template>
+                        </ng-container>
+
+
+                        <!-- Modal de pagamento -->
+                        <ng-template #longContent let-modal>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Pagar com QRCode</h4>
+                                <button type="button" class="btn-close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color: #000; font-size: 1.5em; font-weight: bold;"> Anote o código de
+                                    retirada. </p>
+
+                                <div class="container" *ngIf="pedidoCurrent">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="carrinhoID">Carrinho ID</label>
+                                            <input type="text" class="form-control" id="carrinhoID"
+                                                [(ngModel)]="pedidoCurrent.carrinhoId" name="carrinhoID" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="nomeUsuario">Nome do Usuário</label>
+                                            <input type="text" class="form-control" id="nomeUsuario"
+                                                [(ngModel)]="pedidoCurrent.nomeUsuario" name="nomeUsuario" readonly>
+                                                <td class="nps-table-td" [ngSwitch]="pedidoCurrent.nomeUsuario">
+                                                    <ng-container *ngSwitchCase="0">
+                                                        <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="1">
+                                                        <ngb-highlight result="Pedido aprovado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="2">
+                                                        <ngb-highlight result="Pedido recusado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="3">
+                                                        <ngb-highlight result="Pedido entregue"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchCase="4">
+                                                        <ngb-highlight result="Pedido cancelado"></ngb-highlight>
+                                                    </ng-container>
+                                                    <ng-container *ngSwitchDefault>
+                                                        <ngb-highlight class="text-italic"
+                                                            result="Nenhum dado registrado"></ngb-highlight>
+                                                    </ng-container>
+                                                </td>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="dataPedidoEntregue">Data do Pedido Entregue</label>
+                                            <input type="text" class="form-control" id="dataPedidoEntregue"
+                                                [(ngModel)]="pedidoCurrent.dataPedido" name="dataPedidoEntregue" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="tipoPagamento">Tipo de Pagamento</label>
+                                            <input type="text" class="form-control" id="tipoPagamento"
+                                                [(ngModel)]="pedidoCurrent.opcaoPagamento" name="tipoPagamento" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="valorTotal">Valor Total</label>
+                                            <input type="text" class="form-control" id="valorTotal"
+                                                [(ngModel)]="pedidoCurrent.valorTotal" name="valorTotal" readonly>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- pagar QRCODE -->
+                                <!-- <div class="card-body">
+                                    <form [formGroup]="pedidoForm" class="cartao">
+                                        <div class="form-group field">
+                                            <label for="carrinhoId">Carrinho ID:</label>
+                                            <input type="number" class="form-control" id="carrinhoId"
+                                                formControlName="carrinhoId" readonly>
+                                        </div>
+                                        <div class="form-group field">
+                                            <label>Valor todal do carrinho:</label>
+                                            <input type="number" class="form-control" formControlName="valorTotal"
+                                                readonly>
+                                        </div>
+
+                                    </form>
+
+                                </div> -->
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger">Voltar</button>
+                            </div>
+                        </ng-template>
+
+                    </nav>
+
+                    <div class="card-body">
+                        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+                        <!-- <button type="button" class="btn btn-danger">Retornar</button> -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+</div>

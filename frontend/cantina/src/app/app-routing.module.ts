@@ -6,6 +6,7 @@ import { LoginComponent } from './presentation/pages/public-routing/login/login.
 import { HomeComponent } from './presentation/pages/dash-routing/home/home/home.component';
 import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/cardapio.component';
 import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carrinho/get-carrinho-open/get-carrinho-open.component';
+import { AdminPedidosComponent } from './presentation/pages/dash-routing/admin/admin-pedidos/admin-pedidos.component';
 
 const routes: Routes = [
   // Authentication Required
@@ -14,6 +15,7 @@ const routes: Routes = [
       {path: '', component: HomeComponent},
       {path: 'cardapio', component: CardapioComponent},
       {path: 'carrinho-open/:id', component: GetCarrinhoOpenComponent},
+      {path: 'admin-pedidos', component: AdminPedidosComponent},
     ],
     canActivate: [AuthGuard]
   },

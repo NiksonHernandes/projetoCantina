@@ -4,7 +4,7 @@
     <label for="toggler"><i class="ri-menu-line"></i></label>
     <div class="menu">
         <ul class="list">
-            <li *ngIf="isAdmin"><a href="/dash" style="color: red;"><i class="bi bi-lock-fill"></i> ADMINISTRADOR</a></li>
+            <li *ngIf="isAdmin"><a href="/dash/admin-pedidos" style="color: red;"><i class="bi bi-lock-fill"></i> ADMINISTRADOR</a></li>
             <li><a href="/dash"><i class="bi bi-house"></i> Página inicial</a></li>
             <li><a href="/dash/cardapio"><i class="bi bi-egg-fried"></i> Cardápio</a></li>
             <li (click)="verificaIsCarrinhoExiste()"><a style="cursor: pointer;"> <i class="bi bi-cart"></i> Carrinho</a></li>

@@ -31,6 +31,7 @@ public class CarrinhoDTO {
     //1 - aprovada
     //2 - recusado
     //3 - entregue
+    //4- pedido cancelado
 
     private Integer tipoCartao; //0 - Credito
     //1 - débito
@@ -39,6 +40,7 @@ public class CarrinhoDTO {
     private Long codigoCartao;
 
     private String codigoDoPedido;
+    private String nomeUsuario;
     public static CarrinhoDTO toDTO(Carrinho obj) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);

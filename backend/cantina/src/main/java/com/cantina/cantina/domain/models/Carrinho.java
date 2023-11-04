@@ -42,6 +42,7 @@ public class Carrinho {
 
     private String codigoDoPedido;
 
+    private String nomeUsuario;
     //Relacionamento com o histórico de pedidos
     @ManyToOne
     @JoinColumn(name = "historicoPedido_id")

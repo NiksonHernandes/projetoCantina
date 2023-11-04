@@ -97,4 +97,77 @@ export class CarrinhoRepository {
         );
     };
 
+    
+    getCarrinhoPedidoPendente(): Observable<Carrinho[]> {
+        return this.httpClient.get<Carrinho[]>(environment.apiUrl + `/carrinho/get-carrinho-pedido-pendente`, this.httpOptions).pipe(
+            map((data: Carrinho[]) => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoAprovados(): Observable<Carrinho[]> {
+        return this.httpClient.get<Carrinho[]>(environment.apiUrl + `/carrinho/get-carrinho-pedido-aprovados`, this.httpOptions).pipe(
+            map((data: Carrinho[]) => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoRecusados(): Observable<Carrinho[]> {
+        return this.httpClient.get<Carrinho[]>(environment.apiUrl + `/carrinho/get-carrinho-pedido-recusados`, this.httpOptions).pipe(
+            map((data: Carrinho[]) => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoCancelados(): Observable<Carrinho[]> {
+        return this.httpClient.get<Carrinho[]>(environment.apiUrl + `/carrinho/get-carrinho-pedido-cancelados`, this.httpOptions).pipe(
+            map((data: Carrinho[]) => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoEntregues(): Observable<Carrinho[]> {
+        return this.httpClient.get<Carrinho[]>(environment.apiUrl + `/carrinho/get-carrinho-pedido-entregues`, this.httpOptions).pipe(
+            map((data: Carrinho[]) => {
+                return data;
+            })
+        );
+    };
+
+    aceitarPedido(carrinhoId: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/aceitar-pedido`, carrinhoId, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    recusarPedido(carrinhoId: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/recusar-pedido`, carrinhoId, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    cancelarPedido(carrinhoId: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/cancelar-pedido`, carrinhoId, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+    
+    fechaCarrinho(carrinhoId: any): Observable<void> {
+        return this.httpClient.post<void>(environment.apiUrl + `/carrinho/fechar-carrinho?carrinhoId=${carrinhoId}`, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }

@@ -15,6 +15,8 @@ import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/ca
 import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carrinho/get-carrinho-open/get-carrinho-open.component';
 import { DeleteAlimentoComponent } from './presentation/pages/dash-routing/carrinho/delete-alimento/delete-alimento.component';
 import { ToastComponent } from './presentation/shared/toast/toast.component';
+import { AdminPedidosComponent } from './presentation/pages/dash-routing/admin/admin-pedidos/admin-pedidos.component';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { ToastComponent } from './presentation/shared/toast/toast.component';
     GetCarrinhoOpenComponent,
     DeleteAlimentoComponent,
     ToastComponent,
+    AdminPedidosComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { ToastComponent } from './presentation/shared/toast/toast.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

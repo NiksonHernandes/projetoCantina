@@ -29,7 +29,7 @@
     <div class="papelFundo">
         <div style="width: 90%; height: auto;">
             <section id="secaoAlimentos" class="container">
-                <h1 class="text-center m-5"> Alimentos </h1>
+                <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Alimentos </h1>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <ng-container *ngFor="let item of cardapioList?.alimentos">
                         <div class="col text-center">
@@ -69,10 +69,10 @@
                                                 <label for="quantidade">Informe a quantidade que deseja
                                                     <strong>adicionar</strong> no carrinho:</label>
                                                 <input type="number" class="form-control" name="quantidade" min="1"
-                                                    max={{item.qntEstoqueAlimento}} value="1"
-                                                    [(ngModel)]="resposta"
+                                                    max={{item.qntEstoqueAlimento}} value="1" [(ngModel)]="resposta"
                                                     oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
-                                                    <p style="font-size: 0.8em; font-weight: bold; color: red">A quantidade de pedidos é limitada conforme o estoque disponível.</p>
+                                                <p style="font-size: 0.8em; font-weight: bold; color: red">A quantidade
+                                                    de pedidos é limitada conforme o estoque disponível.</p>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -88,11 +88,10 @@
                         </div>
                     </ng-container>
                 </div>
-
             </section>
 
             <section id="secaoBebidas" class="container">
-                <h1 class="text-center m-5"> Bebidas </h1>
+                <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Bebidas </h1>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <ng-container *ngFor="let item of cardapioList?.bebidas">
@@ -120,11 +119,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="d-grid gap-2">
-                                        <button class="btn btn-primary" type="button">Adicionar ao carrinho</button>
-                                    </div> -->
-                                    <!-- <a href="#" class="btn btn-primary">Adicionar ao carrinho</a> -->
-                                    <!-- <small class="text-body-secondary">Last updated 3 mins ago</small> -->
                                 </div>
                             </div>
                         </div>
@@ -136,6 +130,7 @@
                 Ofertas
             </section>
 
+            <app-toast aria-live="polite" aria-atomic="true"></app-toast>
         </div>
     </div>
 </div>

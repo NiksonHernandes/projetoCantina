@@ -92,4 +92,76 @@ export class CarrinhoService {
         );
     };
 
+    getCarrinhoPedidoPendente(): Observable<Carrinho[]> {
+        return this.carrinhoRepository.getCarrinhoPedidoPendente().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoAprovados(): Observable<Carrinho[]> {
+        return this.carrinhoRepository.getCarrinhoPedidoAprovados().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoRecusados(): Observable<Carrinho[]> {
+        return this.carrinhoRepository.getCarrinhoPedidoRecusados().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoCancelados(): Observable<Carrinho[]> {
+        return this.carrinhoRepository.getCarrinhoPedidoCancelados().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    getCarrinhoPedidoEntregues(): Observable<Carrinho[]> {
+        return this.carrinhoRepository.getCarrinhoPedidoEntregues().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    aceitarPedido(carrinhoId: any): Observable<void> {
+        return this.carrinhoRepository.aceitarPedido(carrinhoId).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    recusarPedido(carrinhoId: any): Observable<void> {
+        return this.carrinhoRepository.recusarPedido(carrinhoId).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+    
+    cancelarPedido(carrinhoId: any): Observable<void> {
+        return this.carrinhoRepository.cancelarPedido(carrinhoId).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    fechaCarrinho(carrinhoId: any): Observable<void> {
+        return this.carrinhoRepository.fechaCarrinho(carrinhoId).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }
