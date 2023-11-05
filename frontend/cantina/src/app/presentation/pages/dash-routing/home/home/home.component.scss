@@ -10,6 +10,23 @@
     align-items: center;
 }
 
+.container-linhas {
+    text-align: center;
+}
+
+.line {
+    width: 100%; /* A largura das linhas no eixo x */
+    border-top: 1px solid #4a4646; /* Cor e estilo das linhas */
+    display: inline-block;
+}
+
+h1 {
+    position: relative;
+    z-index: 1; /* Para colocar o texto sobre as linhas */
+    background-color: white; /* Para cobrir as linhas atrás do texto */
+    padding: 0 20px; /* Espaçamento do texto */
+}
+
 .carousel {
     margin-bottom: 20px;
     box-shadow: 0 0 20px #000;

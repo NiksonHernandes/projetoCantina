@@ -1,7 +1,6 @@
 <div class="container-fluid px-0">
 
     <div class="container-fluid px-0 position-relative">
-        <!-- <img src="../../../../../assets/imagens/imagemingredientes.jpg" class="img-fluid w-100" alt="imagem cardápio"> -->
         <img src="../../../../../assets/imagens/fundocardapio.jpg" class="img-fluid w-100" alt="imagem cardápio">
         <div
             class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center div-texto">
@@ -16,20 +15,26 @@
                 <div class="col d-none d-md-block">
                     <button class="btn btn-outline-custom" (click)="scrollToSection('secaoBebidas')">Bebidas</button>
                 </div>
-                <div class="col d-none d-md-block">
+                <!-- <div class="col d-none d-md-block">
                     <button class="btn btn-outline-custom" (click)="scrollToSection('secaoOfertas')">Ofertas</button>
                 </div>
                 <div class="col d-none d-md-block">
                     <button class="btn btn-outline-custom" (click)="scrollToSection('secaoOfertas')">Outros</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 
     <div class="papelFundo">
-        <div style="width: 90%; height: auto;">
+        <div style="width: 90%; height: auto;" class=" mb-3">
             <section id="secaoAlimentos" class="container">
-                <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Alimentos </h1>
+
+                <div class="title-wrapper">
+                    <div class="line"></div>
+                    <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Alimentos </h1>
+                    <div class="line"></div>
+                </div>
+
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <ng-container *ngFor="let item of cardapioList?.alimentos">
                         <div class="col text-center">
@@ -91,7 +96,12 @@
             </section>
 
             <section id="secaoBebidas" class="container">
-                <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Bebidas </h1>
+         
+                <div class="title-wrapper">
+                    <div class="line"></div>
+                    <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Bebidas </h1>
+                    <div class="line"></div>
+                </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <ng-container *ngFor="let item of cardapioList?.bebidas">
@@ -126,9 +136,9 @@
                 </div>
             </section>
 
-            <section id="secaoOfertas">
+            <!-- <section id="secaoOfertas">
                 Ofertas
-            </section>
+            </section> -->
 
             <app-toast aria-live="polite" aria-atomic="true"></app-toast>
         </div>

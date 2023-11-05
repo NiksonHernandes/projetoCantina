@@ -10,6 +10,17 @@
   align-items: center;
 }
 
+.title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.line {
+  flex: 1;
+  border-top: 4px solid #0d0d0d;
+  margin: 0 10px;
+}
+
 .div-texto {
   margin-top: 8%;
 }
