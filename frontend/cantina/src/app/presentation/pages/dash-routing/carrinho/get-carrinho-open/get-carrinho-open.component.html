@@ -2,36 +2,37 @@
 
     <div class="papelFundo">
         <div style="background-color: white; width: 90%; height: auto;">
-
-            <div>
-                <h1 class="text-center my-4">Carrinho</h1>
+            <div class="title-wrapper">
+                <div class="line"></div>
+                <h1 class="text-center my-4" style="text-shadow:2px 2px #4a4646;">Carrinho</h1>
+                <div class="line"></div>
             </div>
 
             <div class="card p-2 m-2">
                 <div class="card-body" *ngIf="isCarrinhoExiste; else semCarrinho">
                     <div class="card-header text-center">
-                        <h5>Alimentos</h5>
+                        <h5 style="color: #000; font-weight: bold; font-size: 1.5em;">Alimentos</h5>
                     </div>
                     <div class="table-responsive text-center">
-                        <table class="table">
+                        <table class="table table-striped nps-table align-middle">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nome Alimento</th>
-                                    <th scope="col">Preço Alimento</th>
-                                    <th scope="col">Quantidade Alimento</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col" *ngIf="carrinhoList?.statusPedido == null">Opções</th>
+                                    <th scope="col" class="nps-table-th">#</th>
+                                    <th scope="col" class="nps-table-th">Nome Alimento</th>
+                                    <th scope="col" class="nps-table-th">Preço Alimento</th>
+                                    <th scope="col" class="nps-table-th">Quantidade Alimento</th>
+                                    <th scope="col" class="nps-table-th">Valor</th>
+                                    <th scope="col" *ngIf="carrinhoList?.statusPedido == null" class="nps-table-th">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of carrinhoList?.alimentos; let i = index">
                                     <th scope="row">{{i + 1}}</th>
-                                    <td>{{item.nomeAlimento}}</td>
-                                    <td>{{ item.valorAlimento | currency:'BRL' }}</td>
-                                    <td>{{item.quantidadeAlimentoCarrinho}}</td>
-                                    <td>{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
-                                    <td>
+                                    <td class="nps-table-td">{{item.nomeAlimento}}</td>
+                                    <td class="nps-table-td">{{ item.valorAlimento | currency:'BRL' }}</td>
+                                    <td class="nps-table-td">{{item.quantidadeAlimentoCarrinho}}</td>
+                                    <td class="nps-table-td">{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
+                                    <td class="nps-table-td">
                                         <button type="button" class="btn btn-outline-danger" (click)="open(content)" *ngIf="carrinhoList?.statusPedido == null"
                                             ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i>
                                         </button>
@@ -74,28 +75,28 @@
                         <hr class="featurette-divider">
 
                         <div class="card-header text-center">
-                            <h5>Bebidas</h5>
+                            <h5 style="color: #000; font-weight: bold; font-size: 1.5em;">Bebidas</h5>
                         </div>
                         <div class="table-responsive text-center">
-                            <table class="table">
+                            <table class="table table-striped nps-table align-middle">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nome Bebida</th>
-                                        <th scope="col">Preço Bebida</th>
-                                        <th scope="col">Quantidade Bebida</th>
-                                        <th scope="col">Valor</th>
-                                        <th scope="col" *ngIf="carrinhoList?.statusPedido == null">Opções</th>
+                                        <th scope="col" class="nps-table-th">#</th>
+                                        <th scope="col" class="nps-table-th">Nome Bebida</th>
+                                        <th scope="col" class="nps-table-th">Preço Bebida</th>
+                                        <th scope="col" class="nps-table-th">Quantidade Bebida</th>
+                                        <th scope="col" class="nps-table-th">Valor</th>
+                                        <th scope="col" *ngIf="carrinhoList?.statusPedido == null" class="nps-table-th">Opções</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of carrinhoList?.bebidas; let i = index">
                                         <th scope="row">{{i + 1}}</th>
-                                        <td>{{item.nomeBebida}}</td>
-                                        <td>{{ item.valorBebida | currency:'BRL' }}</td>
-                                        <td>{{item.quantidadeBebidaCarrinho}}</td>
-                                        <td>{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
-                                        <td><button type="button" class="btn btn-outline-danger" (click)="open(content)"
+                                        <td class="nps-table-td" >{{item.nomeBebida}}</td>
+                                        <td class="nps-table-td">{{ item.valorBebida | currency:'BRL' }}</td>
+                                        <td class="nps-table-td">{{item.quantidadeBebidaCarrinho}}</td>
+                                        <td class="nps-table-td">{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
+                                        <td class="nps-table-td"><button type="button" class="btn btn-outline-danger" (click)="open(content)"
                                                 *ngIf="carrinhoList?.statusPedido == null"
                                                 ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
                                         </td>
