@@ -8,15 +8,18 @@
             <li><a href="/dash"><i class="bi bi-house"></i> Página inicial</a></li>
             <li><a href="/dash/cardapio"><i class="bi bi-egg-fried"></i> Cardápio</a></li>
             <li (click)="verificaIsCarrinhoExiste()"><a style="cursor: pointer;"> <i class="bi bi-cart"></i> Carrinho</a></li>
+
             <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
                 <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Meus dados </a>
-                <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu">
-                    <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Perfil</a>
-                    <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Logout</a>
+
+                <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu dropdown-itens">
+                    <a ngbDropdownItem href="/dash/perfil">Perfil</a>
+                 
                     <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Histórico de pedidos</a>
+                    <a ngbDropdownItem href="#"  (click)="logout()">Logout</a>
                 </div>
+
             </li>
-            <li><a href="#" (click)="logout()">Logout</a></li>
         </ul>
     </div>
 </nav>

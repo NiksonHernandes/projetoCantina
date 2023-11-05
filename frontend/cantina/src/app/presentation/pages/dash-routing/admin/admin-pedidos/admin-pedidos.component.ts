@@ -40,7 +40,7 @@ export class AdminPedidosComponent {
     ) { }
 
     async ngOnInit(): Promise<void> {
-        this.getCarrinhoPedidoPendente()
+        await this.getCarrinhoPedidoPendente()
 
         this.adicionarAlimentoForm = this.formBuilder.group({
             nomeAlimento: ['', Validators.required],

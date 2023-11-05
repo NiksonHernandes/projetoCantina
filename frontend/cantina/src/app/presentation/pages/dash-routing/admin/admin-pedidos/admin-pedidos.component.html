@@ -107,7 +107,6 @@
                                                         (click)="recusarPedido(pedido.carrinhoId!)">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
-
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -132,14 +131,14 @@
 
                                     <div class="col-xs-2 col-sm-auto d-flex ms-auto">
                                         <button type="button" class="btn btn-success"
-                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableAlimento(adidicionarAlimento)">
                                             <i class="bi bi-person-fill-add"></i>
-                                            Adicionar novos produtos
+                                            Adicionar novos alimentos
                                         </button>
                                         <button type="button" class="btn btn-success ms-2"
-                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableBebida(adidicionarBebida)">
                                             <i class="bi bi-person-fill-add"></i>
                                             Adicionar novas bebidas
                                         </button>
@@ -237,14 +236,14 @@
 
                                     <div class="col-xs-2 col-sm-auto d-flex ms-auto">
                                         <button type="button" class="btn btn-success"
-                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableAlimento(adidicionarAlimento)">
                                             <i class="bi bi-person-fill-add"></i>
-                                            Adicionar novos produtos
+                                            Adicionar novos alimentos
                                         </button>
                                         <button type="button" class="btn btn-success ms-2"
-                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableBebida(adidicionarBebida)">
                                             <i class="bi bi-person-fill-add"></i>
                                             Adicionar novas bebidas
                                         </button>
@@ -339,14 +338,14 @@
 
                                     <div class="col-xs-2 col-sm-auto d-flex ms-auto">
                                         <button type="button" class="btn btn-success"
-                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableAlimento(adidicionarAlimento)">
                                             <i class="bi bi-person-fill-add"></i>
-                                            Adicionar novos produtos
+                                            Adicionar novos alimentos
                                         </button>
                                         <button type="button" class="btn btn-success ms-2"
-                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableBebida(adidicionarBebida)">
                                             <i class="bi bi-person-fill-add"></i>
                                             Adicionar novas bebidas
                                         </button>
@@ -442,14 +441,14 @@
 
                                     <div class="col-xs-2 col-sm-auto d-flex ms-auto">
                                         <button type="button" class="btn btn-success"
-                                            ngbTooltip="Adicionar usuários na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableAlimento(adidicionarAlimento)">
                                             <i class="bi bi-person-fill-add"></i>
-                                            Adicionar novos produtos
+                                            Adicionar novos alimentos
                                         </button>
                                         <button type="button" class="btn btn-success ms-2"
-                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableBebida(adidicionarBebida)">
                                             <i class="bi bi-person-fill-add"></i>
                                             Adicionar novas bebidas
                                         </button>
@@ -693,8 +692,7 @@
                                         <div class="form-group field my-2">
                                             <label for="qntEstoqueAlimento">Quantidade disponível:</label>
                                             <input type="number" class="form-control" id="qntEstoqueAlimento"
-                                                placeholder="Quantidade disponível"
-                                                formControlName="qntEstoqueAlimento"
+                                                placeholder="Quantidade disponível" formControlName="qntEstoqueAlimento"
                                                 [ngClass]="{ 'is-invalid': submitted && formField['qntEstoqueAlimento'].errors }">
                                             <div *ngIf="submitted && formField['qntEstoqueAlimento'].errors"
                                                 class="invalid-feedback">

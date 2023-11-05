@@ -182,4 +182,20 @@ export class CarrinhoService {
         );
     };
 
+    getCurrentUser(): Observable<any> {
+        return this.carrinhoRepository.getCurrentUser().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    updateUser(user: any): Observable<any> {
+        return this.carrinhoRepository.updateUser(user).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    }
+
 }

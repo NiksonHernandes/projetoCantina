@@ -187,6 +187,21 @@ export class CarrinhoRepository {
             })
         );
     };
+    
+    getCurrentUser(): Observable<any> {
+        return this.httpClient.get<any>(environment.apiUrl + `/usuario/get-current-usuario`, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
 
+    updateUser(user: any): Observable<any> {
+        return this.httpClient.put<any>(environment.apiUrl + `/usuario/update-usuario`, user, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
 
 }

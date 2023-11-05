@@ -16,6 +16,7 @@ import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carr
 import { DeleteAlimentoComponent } from './presentation/pages/dash-routing/carrinho/delete-alimento/delete-alimento.component';
 import { ToastComponent } from './presentation/shared/toast/toast.component';
 import { AdminPedidosComponent } from './presentation/pages/dash-routing/admin/admin-pedidos/admin-pedidos.component';
+import { PerfilComponent } from './presentation/pages/dash-routing/perfil/perfil.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AdminPedidosComponent } from './presentation/pages/dash-routing/admin/a
     DeleteAlimentoComponent,
     ToastComponent,
     AdminPedidosComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,

@@ -148,7 +148,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         if (updateUsuarioDTO.getEmail().equals("") || updateUsuarioDTO.getUsername().equals("") ||
-                updateUsuarioDTO.getNomeCompleto().equals("") || updateUsuarioDTO.getSenha().equals("")) {
+                updateUsuarioDTO.getNomeCompleto().equals("")) {
             throw new IllegalArgumentException("Campos vazios.");
         }
 
@@ -164,9 +164,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new IllegalArgumentException("E-mail já existente!");
         }
 
-        if (!updateUsuarioDTO.getSenha().equals(updateUsuarioDTO.getSenhaConfirmacao())) {
-            throw new IllegalArgumentException("Senhas diferentes.");
-        }
+//        if (!updateUsuarioDTO.getSenha().equals(updateUsuarioDTO.getSenhaConfirmacao())) {
+//            throw new IllegalArgumentException("Senhas diferentes.");
+//        }
 
         usuarioModel.setNomeCompleto(updateUsuarioDTO.getNomeCompleto());
         usuarioModel.setEmail(updateUsuarioDTO.getEmail());
@@ -180,11 +180,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioModel.setTelefone(updateUsuarioDTO.getTelefone());
         usuarioModel.setCelular(updateUsuarioDTO.getCelular());
 
-        if (!updateUsuarioDTO.getSenha().isEmpty()) {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String senhaCriptografada = bCryptPasswordEncoder.encode(updateUsuarioDTO.getSenha());
-            usuarioModel.setSenha(senhaCriptografada);
-        }
+//        if (!updateUsuarioDTO.getSenha().isEmpty()) {
+//            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//            String senhaCriptografada = bCryptPasswordEncoder.encode(updateUsuarioDTO.getSenha());
+//            usuarioModel.setSenha(senhaCriptografada);
+//        }
 
         usuarioModel = _usuarioRepository.save(usuarioModel);
 
