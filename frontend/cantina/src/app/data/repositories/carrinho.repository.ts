@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
+import { Alimento } from "src/app/domain/models/alimento.model";
+import { Bebida } from "src/app/domain/models/bebida.model";
 import { Carrinho } from "src/app/domain/models/carrinho.model";
 import { CarrinhoAlimentoEBebida } from "src/app/domain/models/carrinhoAlimentoEBebida.mode";
 import { environment } from "src/environments/environments";
@@ -169,5 +171,22 @@ export class CarrinhoRepository {
             })
         );
     };
+
+    createAlimento(alimento: any): Observable<Alimento> {
+        return this.httpClient.post<Alimento>(environment.apiUrl + `/alimento/create-alimento`, alimento, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    createbebida(bebida: any): Observable<Bebida> {
+        return this.httpClient.post<Bebida>(environment.apiUrl + `/bebida/create-bebida`, bebida, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 
 }

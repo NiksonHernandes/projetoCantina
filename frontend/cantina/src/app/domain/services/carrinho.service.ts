@@ -4,6 +4,8 @@ import { Cardapio } from '../models/cardapio.model';
 import { CarrinhoRepository } from 'src/app/data/repositories/carrinho.repository';
 import { Carrinho } from '../models/carrinho.model';
 import { CarrinhoAlimentoEBebida } from '../models/carrinhoAlimentoEBebida.mode';
+import { Alimento } from '../models/alimento.model';
+import { Bebida } from '../models/bebida.model';
 
 @Injectable({
     providedIn: 'root'
@@ -158,6 +160,22 @@ export class CarrinhoService {
 
     fechaCarrinho(carrinhoId: any): Observable<void> {
         return this.carrinhoRepository.fechaCarrinho(carrinhoId).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    createAlimento(alimento: any): Observable<Alimento> {
+        return this.carrinhoRepository.createAlimento(alimento).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    createbebida(bebida: any): Observable<Bebida> {
+        return this.carrinhoRepository.createbebida(bebida).pipe(
             map(data => {
                 return data;
             })

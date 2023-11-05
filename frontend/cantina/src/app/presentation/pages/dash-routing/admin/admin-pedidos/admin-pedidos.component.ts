@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { Carrinho } from 'src/app/domain/models/carrinho.model';
@@ -17,7 +17,10 @@ export class AdminPedidosComponent {
     resposta: number = 1;
     closeResult = '';
 
-    pedidoForm!: FormGroup;
+    adicionarAlimentoForm!: FormGroup;
+    adicionarBebidaForm!: FormGroup;
+    submitted = false;
+    submittedBebida: boolean = false;
 
     listPedidosPendentes: Carrinho[] = [];
     listPedidosAprovados: Carrinho[] = [];
@@ -33,39 +36,90 @@ export class AdminPedidosComponent {
         private carrinhoService: CarrinhoService,
         private toastService: ToastService,
         private modalService: NgbModal,
+
     ) { }
 
     async ngOnInit(): Promise<void> {
         this.getCarrinhoPedidoPendente()
 
-        this.pedidoForm = this.formBuilder.group({
-            carrinhoId: [this.pedidoCurrent?.carrinhoId],
-            valorTotal: [this.pedidoCurrent?.valorTotal],
-            opcaoPagamento: [this.pedidoCurrent?.opcaoPagamento],
+        this.adicionarAlimentoForm = this.formBuilder.group({
+            nomeAlimento: ['', Validators.required],
+            valorAlimento: ['', Validators.required],
+            descricaoAlimento: ['', Validators.required],
+            qntEstoqueAlimento: ['', Validators.required],
+        });
+
+        this.adicionarBebidaForm = this.formBuilder.group({
+            nomeBebida: ['', Validators.required],
+            valorBebida: ['', Validators.required],
+            descricaoBebida: ['', Validators.required],
+            qntEstoqueBebida: ['', Validators.required],
         });
     }
 
-    get formField() { return this.pedidoForm.controls; }
+    get formField() { return this.adicionarAlimentoForm.controls; }
+    get formFieldBebida() { return this.adicionarBebidaForm.controls; }
+
+    adicionarAlimento() {
+        this.submitted = true;
+
+        if (this.adicionarAlimentoForm.invalid) {
+            return;
+        }
+
+        let alimentoObj = {
+            nomeAlimento: this.formField['nomeAlimento'].value,
+            valorAlimento: this.formField['valorAlimento'].value,
+            descricaoAlimento: this.formField['descricaoAlimento'].value,
+            alimentoDisponivel: true,
+            qntEstoqueAlimento: this.formField['qntEstoqueAlimento'].value,
+        }
+
+        this.carrinhoService.createAlimento(alimentoObj).subscribe({
+            next: (data) => {
+                this.toastMessage("Alimento criado com sucesso", 1);
+                console.log("sucesso! - .createAlimento", data);
+                this.modalService.dismissAll();
+            },
+            error: (error) => {
+                this.toastMessage(error, 2);
+                console.log("Erro -.createAlimento", error);
+                this.modalService.dismissAll();
+            }
+        });
+        console.log("aliment", alimentoObj)
+    }
+
+    adicionarBebida() {
+        this.submittedBebida = true;
+
+        if (this.adicionarBebidaForm.invalid) {
+            return;
+        }
+
+        let bebidaObj = {
+            nomeBebida: this.formFieldBebida['nomeBebida'].value,
+            valorBebida: this.formFieldBebida['valorBebida'].value,
+            descricaoBebida: this.formFieldBebida['descricaoBebida'].value,
+            bebidaDisponivel: true,
+            qntEstoqueBebida: this.formFieldBebida['qntEstoqueBebida'].value,
+        }
+
+        this.carrinhoService.createbebida(bebidaObj).subscribe({
+            next: (data) => {
+                this.toastMessage("Bebida criada com sucesso", 1);
+                console.log("sucesso! - createbebida", data);
+                this.modalService.dismissAll();
+            },
+            error: (error) => {
+                this.toastMessage(error, 2);
+                console.log("Erro - createbebida", error);
+                this.modalService.dismissAll();
+            }
+        });
+    }
 
     getPedido(carrinhoId: number) {
-
-        // return new Promise<void>((resolve, reject) => {
-        //     this.carrinhoService.getCarrinho(carrinhoId).subscribe({
-        //         next: (data) => {
-        //             this.pedidoCurrent = data;
-
-        //             console.log("sucesso! - getCarrinho", data);
-        //             resolve(); // Resolva a Promise quando a ch
-        //         },
-        //         error: (error) => {
-        //             this.toastMessage(error, 2);
-        //             console.log("Erro - getCarrinho", error);
-        //             reject(error);
-        //         }
-        //     });
-
-        // });
-        
         return new Promise<void>((resolve, reject) => {
             this.carrinhoService.getCarrinhoProdutos(carrinhoId).subscribe({
                 next: (data) => {
@@ -80,7 +134,6 @@ export class AdminPedidosComponent {
                     reject(error);
                 }
             });
-
         });
     }
 
@@ -96,6 +149,14 @@ export class AdminPedidosComponent {
     async openScrollableContent(longContent: any, carrinhoId: number) {
         await this.getPedido(carrinhoId);
         this.modalService.open(longContent, { scrollable: true });
+    }
+
+    async openScrollableAlimento(adidicionarAlimento: any) {
+        this.modalService.open(adidicionarAlimento, { scrollable: true });
+    }
+
+    async openScrollableBebida(adidicionarBebida: any) {
+        this.modalService.open(adidicionarBebida, { scrollable: true });
     }
 
     getCarrinhoPedidoPendente() {
@@ -123,12 +184,12 @@ export class AdminPedidosComponent {
         const ano = data.getFullYear();
         const hora = data.getHours();
         const minutos = data.getMinutes();
-    
+
         const diaFormatado = dia < 10 ? `0${dia}` : dia.toString();
         const mesFormatado = mes < 10 ? `0${mes}` : mes.toString();
         const horaFormatada = hora < 10 ? `0${hora}` : hora.toString();
         const minutosFormatados = minutos < 10 ? `0${minutos}` : minutos.toString();
-    
+
         const dataFormatada = `${diaFormatado}/${mesFormatado}/${ano} às ${horaFormatada}:${minutosFormatados}`;
         return dataFormatada;
     }
@@ -230,7 +291,7 @@ export class AdminPedidosComponent {
             next: (data) => {
                 this.toastMessage("Pedido fechado com sucesso!", 1);
                 console.log("sucesso! - fechaCarrinho", data);
-                this.getCarrinhoPedidoRecusados();
+                this.getCarrinhoPedidoAprovados();
             },
             error: (error) => {
                 this.toastMessage(error, 2);

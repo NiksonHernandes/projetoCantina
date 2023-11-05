@@ -82,8 +82,6 @@ export class GetCarrinhoOpenComponent {
                 console.log("Erro - removerBebida", error);
             }
         });
-
-        console.log("valor", carrinhoDTO)
     }
 
     comprarQrCode() {

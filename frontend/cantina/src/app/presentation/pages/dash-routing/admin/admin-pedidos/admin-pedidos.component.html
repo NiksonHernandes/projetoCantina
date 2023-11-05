@@ -31,14 +31,14 @@
 
                                     <div class="col-xs-2 col-sm-auto d-flex ms-auto">
                                         <button type="button" class="btn btn-success"
-                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableAlimento(adidicionarAlimento)">
                                             <i class="bi bi-person-fill-add"></i>
                                             Adicionar novos alimentos
                                         </button>
                                         <button type="button" class="btn btn-success ms-2"
-                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500"
-                                            [closeDelay]="250">
+                                            ngbTooltip="Adicionar clientes na área" [openDelay]="500" [closeDelay]="250"
+                                            (click)="openScrollableBebida(adidicionarBebida)">
                                             <i class="bi bi-person-fill-add"></i>
                                             Adicionar novas bebidas
                                         </button>
@@ -531,7 +531,6 @@
                             </ng-template>
                         </ng-container>
 
-
                         <!-- Modal visualizar-->
                         <ng-template #longContent let-modal>
                             <div class="modal-header">
@@ -603,7 +602,6 @@
                                                 <tr *ngFor="let item of pedidoCurrent?.alimentos; let i = index">
                                                     <th scope="row">{{i + 1}}</th>
                                                     <td>{{item.nomeAlimento}}</td>
-                                                    <!-- <td>{{ item.valorAlimento | currency:'BRL' }}</td> -->
                                                     <td>{{item.quantidadeAlimentoCarrinho}}</td>
                                                 </tr>
                                             </tbody>
@@ -648,69 +646,137 @@
                         <!-- Modal adicionar alimento -->
                         <ng-template #adidicionarAlimento let-modal>
                             <div class="modal-header">
-                                <h4 class="modal-title">Dados do pedido</h4>
+                                <h4 class="modal-title">Cadastrar novo alimento</h4>
                                 <button type="button" class="btn-close" aria-label="Close"
                                     (click)="modal.dismiss('Cross click')">
                                 </button>
                             </div>
                             <div class="modal-body ">
-                                <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center"> Dados
-                                    do pedido
-                                    selecionado </p>
+                                <p style="color: #000; font-size: 1.2em; font-weight: bold;" class="text-center"> Aqui
+                                    você poderá cadastrar um novo alimento </p>
 
-                                <div class="container" *ngIf="pedidoCurrent">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="carrinhoID">Carrinho ID</label>
-                                            <input type="text" class="form-control" id="carrinhoID"
-                                                [(ngModel)]="pedidoCurrent.carrinhoId" name="carrinhoID" readonly>
+                                <div class="container">
+                                    <form [formGroup]="adicionarAlimentoForm" class="cartao">
+                                        <div class="form-group field my-2">
+                                            <label for="nomeAlimento">Nome do alimento:</label>
+                                            <input type="text" class="form-control" id="nomeAlimento"
+                                                formControlName="nomeAlimento" placeholder="Nome do alimento"
+                                                [ngClass]="{ 'is-invalid': submitted && formField['nomeAlimento'].errors }">
+                                            <div *ngIf="submitted && formField['nomeAlimento'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['nomeAlimento'].errors['required']">
+                                                    Nome do alimento é obrigatório.</div>
+                                            </div>
                                         </div>
-
-                                        <!-- <div class="form-group">
-                                            <label for="nomeUsuario">Nome do Usuário</label>
-                                            <input *ngIf="pedidoCurrent.nomeUsuario != null" type="text"
-                                                class="form-control" id="nomeUsuario"
-                                                [(ngModel)]="pedidoCurrent.nomeUsuario" name="nomeUsuario" readonly>
-                                            <input *ngIf="pedidoCurrent.nomeUsuario === null" type="text"
-                                                class="form-control" id="nomeUsuario" value="--" name="nomeUsuario"
-                                                readonly>
-                                        </div> -->
-
-                                        <div class="form-group">
-                                            <label for="dataPedidoEntregue">Data do Pedido Entregue</label>
-                                            <input *ngIf="pedidoCurrent.dataPedido != null" type="text"
-                                                class="form-control" id="dataPedidoEntregue"
-                                                [value]="transformarData(pedidoCurrent.dataPedido)"
-                                                name="dataPedidoEntregue" readonly>
-                                            <input *ngIf="pedidoCurrent.dataPedido === null" type="text"
-                                                class="form-control" id="dataPedidoEntregue" value="Data não atribuida"
-                                                name="dataPedidoEntregue" readonly>
+                                        <div class="form-group field my-2">
+                                            <label for="valorAlimento">Valor do alimento:</label>
+                                            <input type="number" class="form-control" id="valorAlimento"
+                                                placeholder="12,00" formControlName="valorAlimento"
+                                                [ngClass]="{ 'is-invalid': submitted && formField['valorAlimento'].errors }">
+                                            <div *ngIf="submitted && formField['valorAlimento'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['valorAlimento'].errors['required']">
+                                                    Valor do alimento é obrigatório.</div>
+                                            </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label for="tipoPagamento">Tipo de Pagamento</label>
-                                            <input type="text" class="form-control"
-                                                *ngIf="pedidoCurrent.opcaoPagamento == 0" value="Pagamento com QRCode"
-                                                readonly>
-
-                                            <input type="text" class="form-control"
-                                                *ngIf="pedidoCurrent.opcaoPagamento == 1" value="Pagamento com cartão"
-                                                readonly>
-
-                                            <input type="text" class="form-control"
-                                                *ngIf="pedidoCurrent.opcaoPagamento == 2" value="Pagamento na retirada"
-                                                readonly>
+                                        <div class="form-group field my-2">
+                                            <label for="descricaoAlimento">Descrição do alimento:</label>
+                                            <input type="text" class="form-control" id="descricaoAlimento"
+                                                placeholder="Descrição do alimento" formControlName="descricaoAlimento"
+                                                [ngClass]="{ 'is-invalid': submitted && formField['descricaoAlimento'].errors }">
+                                            <div *ngIf="submitted && formField['descricaoAlimento'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['descricaoAlimento'].errors['required']">
+                                                    Descrição é obrigatória.</div>
+                                            </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label for="valorTotal">Valor Total</label>
-                                            <input type="text" class="form-control" id="valorTotal"
-                                                [(ngModel)]="pedidoCurrent.valorTotal" name="valorTotal" readonly>
+                                        <div class="form-group field my-2">
+                                            <label for="qntEstoqueAlimento">Quantidade disponível:</label>
+                                            <input type="number" class="form-control" id="qntEstoqueAlimento"
+                                                placeholder="Quantidade disponível"
+                                                formControlName="qntEstoqueAlimento"
+                                                [ngClass]="{ 'is-invalid': submitted && formField['qntEstoqueAlimento'].errors }">
+                                            <div *ngIf="submitted && formField['qntEstoqueAlimento'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['qntEstoqueAlimento'].errors['required']">
+                                                    Quantidade é obrigatória.</div>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-success"
+                                    (click)="adicionarAlimento()">Comprar</button>
+                                <button type="button" class="btn btn-danger"
+                                    (click)="modal.dismiss('Cross click')">Fechar</button>
+                            </div>
+                        </ng-template>
+
+                        <!-- Modal adicionar Bebida -->
+                        <ng-template #adidicionarBebida let-modal>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Cadastrar nova bebida</h4>
+                                <button type="button" class="btn-close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
+                                </button>
+                            </div>
+                            <div class="modal-body ">
+                                <p style="color: #000; font-size: 1.2em; font-weight: bold;" class="text-center"> Aqui
+                                    você poderá cadastrar uma nova bebida</p>
+
+                                <div class="container">
+                                    <form [formGroup]="adicionarBebidaForm" class="cartao">
+                                        <div class="form-group field my-2">
+                                            <label for="nomeBebida">Nome da bebida:</label>
+                                            <input type="text" class="form-control" id="nomeBebida"
+                                                formControlName="nomeBebida" placeholder="Nome da bebida"
+                                                [ngClass]="{ 'is-invalid': submittedBebida && formField['nomeBebida'].errors }">
+                                            <div *ngIf="submittedBebida && formField['nomeBebida'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['nomeBebida'].errors['required']">
+                                                    Nome da bebida é obrigatório.</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field my-2">
+                                            <label for="valorBebida">Valor da bebida:</label>
+                                            <input type="number" class="form-control" id="valorBebida"
+                                                placeholder="12,00" formControlName="valorBebida"
+                                                [ngClass]="{ 'is-invalid': submittedBebida && formField['valorBebida'].errors }">
+                                            <div *ngIf="submittedBebida && formField['valorBebida'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['valorBebida'].errors['required']">
+                                                    Valor da bebida é obrigatório.</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field my-2">
+                                            <label for="descricaoBebida">Descrição da bebida:</label>
+                                            <input type="text" class="form-control" id="descricaoBebida"
+                                                placeholder="Descrição da bebida" formControlName="descricaoBebida"
+                                                [ngClass]="{ 'is-invalid': submittedBebida&& formField['descricaoBebida'].errors }">
+                                            <div *ngIf="submittedBebida && formField['descricaoBebida'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['descricaoBebida'].errors['required']">
+                                                    Descrição é obrigatória.</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field my-2">
+                                            <label for=" qntEstoqueBebida">Quantidade disponível:</label>
+                                            <input type="number" class="form-control" id="qntEstoqueBebida"
+                                                placeholder="Quantidade disponível" formControlName="qntEstoqueBebida"
+                                                [ngClass]="{ 'is-invalid': submittedBebida && formField['qntEstoqueBebida'].errors }">
+                                            <div *ngIf="submittedBebida && formField['qntEstoqueBebida'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formField['qntEstoqueBebida'].errors['required']">
+                                                    Quantidade é obrigatória.</div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success"
+                                    (click)="adicionarBebida()">Comprar</button>
                                 <button type="button" class="btn btn-danger"
                                     (click)="modal.dismiss('Cross click')">Fechar</button>
                             </div>

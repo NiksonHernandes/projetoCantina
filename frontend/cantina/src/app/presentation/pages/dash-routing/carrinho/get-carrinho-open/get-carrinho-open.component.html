@@ -387,8 +387,8 @@
 
                                 <!-- pagar na hora -->
                                 <span *ngIf="carrinhoList?.opcaoPagamento == 2">
-                                    <div class="mt-4">
-                                        <p>Código de retirada:</p>
+                                    <div class="mt-4" *ngIf="carrinhoList?.codigoDoPedido =='SXXIOA-00917-OPALDD'">
+                                        <p >Código de retirada:</p>
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control input-group-text" id="pixKey"
                                                 value={{carrinhoList?.codigoDoPedido}} readonly>
