@@ -1,22 +1,32 @@
 <nav class="navbar container-fluid">
-    <a href="#" class="logo">CODING DESENVOLVEDOR</a>
+    <!-- <a href="#" class="logo">
+        <img src="../../../../assets/imagens/LogtipoCantina-removebg-preview.png" alt="Random second slide"/>
+    </a> -->
+
+    <a class="logo" href="#">
+        <!-- Cantina -->
+        <span class="logo-text">Cantina</span>
+    </a>
+
     <input type="checkbox" id="toggler" />
     <label for="toggler"><i class="ri-menu-line"></i></label>
     <div class="menu">
         <ul class="list">
-            <li *ngIf="isAdmin"><a href="/dash/admin-pedidos" style="color: red;"><i class="bi bi-lock-fill"></i> ADMINISTRADOR</a></li>
+            <li *ngIf="isAdmin"><a href="/dash/admin-pedidos" style="color: red;"><i class="bi bi-lock-fill"></i>
+                    ADMINISTRADOR</a></li>
             <li><a href="/dash"><i class="bi bi-house"></i> Página inicial</a></li>
             <li><a href="/dash/cardapio"><i class="bi bi-egg-fried"></i> Cardápio</a></li>
-            <li (click)="verificaIsCarrinhoExiste()"><a style="cursor: pointer;"> <i class="bi bi-cart"></i> Carrinho</a></li>
+            <li (click)="verificaIsCarrinhoExiste()"><a style="cursor: pointer;"> <i class="bi bi-cart"></i>
+                    Carrinho</a></li>
 
             <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
                 <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Meus dados </a>
 
                 <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu dropdown-itens">
                     <a ngbDropdownItem href="/dash/perfil"><i class="bi bi-person-circle"></i> Perfil</a>
-                 
+
                     <a ngbDropdownItem href="/dash/historico"><i class="bi bi-box-seam"></i> Histórico de pedidos</a>
-                    <a ngbDropdownItem href="#"  (click)="logout()"><i class="bi bi-box-arrow-left"></i> Logout</a>
+                    <a ngbDropdownItem href="#" (click)="logout()"><i class="bi bi-box-arrow-left"></i> Logout</a>
                 </div>
 
             </li>

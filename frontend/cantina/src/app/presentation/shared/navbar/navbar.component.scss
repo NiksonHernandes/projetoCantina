@@ -30,8 +30,20 @@
 
 .logo {
     margin-right: 50px;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2em; /* Aumentei o tamanho da fonte para dar mais destaque */
+    color: #e3cac5;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-decoration: none; /* Removi a sublinhado do link */
 }
 
+.logo-text {
+    background-color: rgba(0, 0, 0, 0.261); /* Adicionei um fundo laranja para a palavra "Cantina" */
+    padding: 5px 10px; /* Adicionei espaço ao redor do texto para destacá-lo */
+    border-radius: 5px; /* Arredondei as bordas do fundo */
+    color: #fff; /* Cor do texto dentro do fundo laranja */
+}
 
 .list {
     list-style: none;
