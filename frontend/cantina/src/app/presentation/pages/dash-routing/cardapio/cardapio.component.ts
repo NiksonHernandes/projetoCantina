@@ -21,7 +21,7 @@ export class CardapioComponent {
 
     cardapioListWithQuantidade?: any;
 
-    constructor(config: NgbCarouselConfig, private toastService: ToastService,private el: ElementRef, private cardapioService: CardapioService, private carrinhoService: CarrinhoService, private modalService: NgbModal,) {
+    constructor(config: NgbCarouselConfig, private toastService: ToastService, private el: ElementRef, private cardapioService: CardapioService, private carrinhoService: CarrinhoService, private modalService: NgbModal) {
         config.interval = 10000;
         config.wrap = false;
         config.keyboard = false;
@@ -103,7 +103,6 @@ export class CardapioComponent {
         })
     };
 
-
     toastMessage(message: string, type: number) {
         const successToast = 1;
         const dangerToast = 2;
@@ -113,7 +112,6 @@ export class CardapioComponent {
 
         else if (type == successToast)
             this.toastService.show(message, { classname: 'bg-success text-light', delay: 2000 });
-    }
-
+    };
 
 }

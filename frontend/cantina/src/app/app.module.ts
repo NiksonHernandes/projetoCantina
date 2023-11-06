@@ -17,6 +17,7 @@ import { DeleteAlimentoComponent } from './presentation/pages/dash-routing/carri
 import { ToastComponent } from './presentation/shared/toast/toast.component';
 import { AdminPedidosComponent } from './presentation/pages/dash-routing/admin/admin-pedidos/admin-pedidos.component';
 import { PerfilComponent } from './presentation/pages/dash-routing/perfil/perfil.component';
+import { HistoricoComponent } from './presentation/pages/dash-routing/historico/historico.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { PerfilComponent } from './presentation/pages/dash-routing/perfil/perfil
     ToastComponent,
     AdminPedidosComponent,
     PerfilComponent,
+    HistoricoComponent,
   ],
   imports: [
     BrowserModule,

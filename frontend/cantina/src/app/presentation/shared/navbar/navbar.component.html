@@ -13,10 +13,10 @@
                 <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Meus dados </a>
 
                 <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu dropdown-itens">
-                    <a ngbDropdownItem href="/dash/perfil">Perfil</a>
+                    <a ngbDropdownItem href="/dash/perfil"><i class="bi bi-person-circle"></i> Perfil</a>
                  
-                    <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Histórico de pedidos</a>
-                    <a ngbDropdownItem href="#"  (click)="logout()">Logout</a>
+                    <a ngbDropdownItem href="/dash/historico"><i class="bi bi-box-seam"></i> Histórico de pedidos</a>
+                    <a ngbDropdownItem href="#"  (click)="logout()"><i class="bi bi-box-arrow-left"></i> Logout</a>
                 </div>
 
             </li>

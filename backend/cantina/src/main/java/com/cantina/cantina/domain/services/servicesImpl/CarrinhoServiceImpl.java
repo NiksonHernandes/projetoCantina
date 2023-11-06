@@ -422,10 +422,24 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public List<CarrinhoDTO> getCarrinhoFechados() {
-        List<Carrinho> carrinhoList = _carrinhoRepository.findByCarrinhoFechadoIsTrue();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = (Usuario) authentication.getPrincipal(); //pega o usuário autenticado
+
+        Optional<HistoricoPedidos> historicoPedidosOptional = _historicoPedidosRepository.findByUsuario_Id(currentUser.getId());
+
+        if (historicoPedidosOptional.isEmpty()){
+            throw new IllegalArgumentException("Não há histórico de pedidos.");
+        }
+
+        List<Carrinho> carrinhoList = _carrinhoRepository.findByHistoricoPedidos_IdAndCarrinhoFechadoIsTrue(historicoPedidosOptional.get().getId());
+
+//        Carrinho carrinho = _carrinhoRepository.findById(carrinhoDTO.getCarrinhoId())
+//                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
+
+        //List<Carrinho> carrinhoList = _carrinhoRepository.findByCarrinhoFechadoIsTrue();
 
         if (carrinhoList.isEmpty()) {
-            throw new IllegalArgumentException("Não há carrinhos fechados.");
+            throw new IllegalArgumentException("Ainda não há um histórico de pedidos.");
         }
 
         return CarrinhoDTO.toListDTO(carrinhoList);

@@ -1,0 +1,199 @@
+<div class="container-fluid px-0">
+    <div class="papelFundo">
+        <div style="width: 90%; min-height: 100vh; background-color: white ;" class=" mb-3">
+
+            <div class="title-wrapper">
+                <div class="line"></div>
+                <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Histórico de pedidos </h1>
+                <div class="line"></div>
+            </div>
+
+            <div class="container">
+                <div class="card">
+                    <div class="table-responsive text-center">
+                        <table class="table table-striped nps-table align-middle"
+                            *ngIf="pedidosFechados?.length != 0; else emptyList">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="nps-table-th">#</th>
+                                    <th scope="col" class="nps-table-th">carrinho ID</th>
+                                    <th scope="col" class="nps-table-th">Nome do usuário</th>
+                                    <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                    <th scope="col" class="nps-table-th">Valor pago</th>
+                                    <th scope="col" class="nps-table-th">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pedido of pedidosFechados; let i = index">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td class="nps-table-td">
+                                        {{pedido.carrinhoId}}
+                                    </td>
+                                    <td class="nps-table-td"> {{pedido.nomeUsuario}}
+                                    </td>
+                                    <td class="nps-table-td" [ngSwitch]="pedido.opcaoPagamento">
+                                        <ng-container *ngSwitchCase="0">
+                                            <ngb-highlight result="Cartão de crédito"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="1">
+                                            <ngb-highlight result="Cartão de débito"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            <ngb-highlight class="text-italic"
+                                                result="Nenhum dado registrado"></ngb-highlight>
+                                        </ng-container>
+                                    </td>
+                                    <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
+                                        <ng-container *ngSwitchCase="0">
+                                            <ngb-highlight result="Pedido pendente"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            <ngb-highlight class="text-italic"
+                                                result="Nenhum dado registrado"></ngb-highlight>
+                                        </ng-container>
+                                    </td>
+                                    <td class="nps-table-td">
+                                        <button type="button" class="btn btn-primary m-1" ngbTooltip="Visualizar pedido"
+                                            (click)="openScrollableContent(longContent, pedido.carrinhoId!)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <ng-template #emptyList>Nenhum pedido encontrado - Lista vazia</ng-template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal visualizar-->
+    <ng-template #longContent let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Dados do pedido</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            </button>
+        </div>
+        <div class="modal-body ">
+            <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center"> Dados
+                do pedido
+                selecionado: </p>
+
+            <div class="container" *ngIf="pedidoCurrent">
+                <form>
+                    <div class="form-group m-1">
+                        <label for="carrinhoID">Carrinho ID:</label>
+                        <input type="text" class="form-control" id="carrinhoID" [(ngModel)]="pedidoCurrent.carrinhoId"
+                            name="carrinhoID" readonly>
+                    </div>
+                    <div class="form-group m-1">
+                        <label for="dataPedidoEntregue">Data do Pedido Entregue:</label>
+                        <input *ngIf="pedidoCurrent.dataPedido != null" type="text" class="form-control"
+                            id="dataPedidoEntregue" [value]="transformarData(pedidoCurrent.dataPedido)"
+                            name="dataPedidoEntregue" readonly>
+                        <input *ngIf="pedidoCurrent.dataPedido === null" type="text" class="form-control"
+                            id="dataPedidoEntregue" value="Data não atribuida" name="dataPedidoEntregue" readonly>
+                    </div>
+
+                    <div class="form-group m-1">
+                        <label for="tipoPagamento">Tipo de Pagamento:</label>
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.opcaoPagamento == 0"
+                            value="Pagamento com QRCode" readonly>
+
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.opcaoPagamento == 1"
+                            value="Pagamento com cartão" readonly>
+
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.opcaoPagamento == 2"
+                            value="Pagamento na retirada" readonly>
+                    </div>
+
+                    <div class="form-group m-1">
+                        <label for="tipoPagamento">Status do pedido:</label>
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.statusPedido == 0"
+                            value="Pedido em análise" readonly>
+
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.statusPedido == 1"
+                            value="PEdido aprovado" readonly>
+
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.statusPedido == 2"
+                            value="Pedido recusado" readonly>
+
+                        <input type="text" class="form-control" *ngIf="pedidoCurrent.statusPedido == 3"
+                            value="Pedido entregue e finalizado" readonly>
+                    </div>
+
+                    <div class="form-group m-1">
+                        <label for="valorTotal">Valor Total:</label>
+                        <input type="text" class="form-control" id="valorTotal" [(ngModel)]="pedidoCurrent.valorTotal"
+                            name="valorTotal" readonly>
+                    </div>
+                </form>
+
+                <hr>
+
+                <span *ngIf="pedidoCurrent?.alimentos.length > 0">
+                    <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center">
+                        Alimentos: </p>
+
+                    <div class="table-responsive text-center">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome Alimento</th>
+                                    <th scope="col">Quantidade Alimento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of pedidoCurrent?.alimentos; let i = index">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td>{{item.nomeAlimento}}</td>
+                                    <td>{{item.quantidadeAlimentoCarrinho}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </span>
+
+                <span *ngIf="pedidoCurrent?.bebidas.length > 0">
+                    <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center">
+                        Bebidas: </p>
+
+                    <div class="table-responsive text-center">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome Bebida</th>
+                                    <th scope="col">Quantidade Bebida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of pedidoCurrent?.bebidas; let i = index">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td>{{item.nomeBebida}}</td>
+                                    <td>{{item.quantidadeBebidaCarrinho}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </span>
+
+
+                <hr>
+
+                <p style="color: #c01d1d; font-size: 1.2em; font-weight: bold;" class="text-start">
+                    Valor total da compra: {{pedidoCurrent.valorTotal | currency:'BRL'}}</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.dismiss('Cross click')">Fechar</button>
+        </div>
+    </ng-template>
+
+    <app-toast aria-live="polite" aria-atomic="true"></app-toast>
+</div>

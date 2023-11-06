@@ -585,50 +585,56 @@
 
                                     <hr>
 
-                                    <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center">
-                                        Alimentos: </p>
+                                    <span *ngIf="pedidoCurrent?.alimentos!.length > 0">
+                                        <p style="color: #000; font-size: 1.5em; font-weight: bold;"
+                                            class="text-center">
+                                            Alimentos: </p>
 
-                                    <div class="table-responsive text-center">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Nome Alimento</th>
-                                                    <th scope="col">Quantidade Alimento</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of pedidoCurrent?.alimentos; let i = index">
-                                                    <th scope="row">{{i + 1}}</th>
-                                                    <td>{{item.nomeAlimento}}</td>
-                                                    <td>{{item.quantidadeAlimentoCarrinho}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        <div class="table-responsive text-center">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Nome Alimento</th>
+                                                        <th scope="col">Quantidade Alimento</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of pedidoCurrent?.alimentos; let i = index">
+                                                        <th scope="row">{{i + 1}}</th>
+                                                        <td>{{item.nomeAlimento}}</td>
+                                                        <td>{{item.quantidadeAlimentoCarrinho}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </span>
 
-                                    <p style="color: #000; font-size: 1.5em; font-weight: bold;" class="text-center">
-                                        Bebidas: </p>
+                                    <span *ngIf="pedidoCurrent?.bebidas!.length > 0">
+                                        <p style="color: #000; font-size: 1.5em; font-weight: bold;"
+                                            class="text-center">
+                                            Bebidas: </p>
 
-                                    <div class="table-responsive text-center">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Nome Bebida</th>
-                                                    <th scope="col">Quantidade Bebida</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of pedidoCurrent?.bebidas; let i = index">
-                                                    <th scope="row">{{i + 1}}</th>
-                                                    <td>{{item.nomeBebida}}</td>
-                                                    <!-- <td>{{ item.valorAlimento | currency:'BRL' }}</td> -->
-                                                    <td>{{item.quantidadeBebidaCarrinho}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        <div class="table-responsive text-center">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Nome Bebida</th>
+                                                        <th scope="col">Quantidade Bebida</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of pedidoCurrent?.bebidas; let i = index">
+                                                        <th scope="row">{{i + 1}}</th>
+                                                        <td>{{item.nomeBebida}}</td>
+                                                        <!-- <td>{{ item.valorAlimento | currency:'BRL' }}</td> -->
+                                                        <td>{{item.quantidadeBebidaCarrinho}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </span>
 
                                     <hr>
 

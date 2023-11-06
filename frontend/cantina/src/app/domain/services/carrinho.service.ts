@@ -196,6 +196,14 @@ export class CarrinhoService {
                 return data;
             })
         );
-    }
+    };
+
+    getCarrinhoFechados(): Observable<any> {
+        return this.carrinhoRepository.getCarrinhoFechados().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
 
 }

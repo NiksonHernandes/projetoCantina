@@ -203,5 +203,13 @@ export class CarrinhoRepository {
             })
         );
     };
+  
+    getCarrinhoFechados(): Observable<any> {
+        return this.httpClient.get<any>(environment.apiUrl + `/carrinho/get-carrinho-fechados`, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
 
 }

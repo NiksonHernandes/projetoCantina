@@ -8,6 +8,7 @@ import { CardapioComponent } from './presentation/pages/dash-routing/cardapio/ca
 import { GetCarrinhoOpenComponent } from './presentation/pages/dash-routing/carrinho/get-carrinho-open/get-carrinho-open.component';
 import { AdminPedidosComponent } from './presentation/pages/dash-routing/admin/admin-pedidos/admin-pedidos.component';
 import { PerfilComponent } from './presentation/pages/dash-routing/perfil/perfil.component';
+import { HistoricoComponent } from './presentation/pages/dash-routing/historico/historico.component';
 
 const routes: Routes = [
   // Authentication Required
@@ -18,6 +19,7 @@ const routes: Routes = [
       {path: 'carrinho-open/:id', component: GetCarrinhoOpenComponent},
       {path: 'admin-pedidos', component: AdminPedidosComponent},
       {path: 'perfil', component: PerfilComponent},
+      {path: 'historico', component: HistoricoComponent},
     ],
     canActivate: [AuthGuard]
   },
