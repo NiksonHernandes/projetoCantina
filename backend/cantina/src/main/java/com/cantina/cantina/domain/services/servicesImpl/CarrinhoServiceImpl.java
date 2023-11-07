@@ -433,11 +433,6 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         List<Carrinho> carrinhoList = _carrinhoRepository.findByHistoricoPedidos_IdAndCarrinhoFechadoIsTrue(historicoPedidosOptional.get().getId());
 
-//        Carrinho carrinho = _carrinhoRepository.findById(carrinhoDTO.getCarrinhoId())
-//                .orElseThrow(() -> new IllegalArgumentException("O ID do carrinho não foi encontrado."));
-
-        //List<Carrinho> carrinhoList = _carrinhoRepository.findByCarrinhoFechadoIsTrue();
-
         if (carrinhoList.isEmpty()) {
             throw new IllegalArgumentException("Ainda não há um histórico de pedidos.");
         }
@@ -488,7 +483,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
             throw new IllegalArgumentException("Alimento não encontrado.");
         }
 
-        if (quantidadeAlimento == 0) { //remover tudo
+        if (quantidadeAlimento == 0) {
             _carrinhoAlimentoRepository.delete(carrinhoAlimento.get());
         } else {
             carrinhoAlimento.get().setQuantidadeAlimento(quantidadeAlimento);

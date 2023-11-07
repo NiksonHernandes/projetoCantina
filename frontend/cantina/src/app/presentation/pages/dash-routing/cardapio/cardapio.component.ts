@@ -16,6 +16,8 @@ export class CardapioComponent {
     cardapioId: number = 1;
     quantidadeAlimentos: number = 1;
 
+    currentCarrinho?: any;
+
     resposta: number = 1;
     closeResult = '';
 
@@ -37,6 +39,7 @@ export class CardapioComponent {
 
     async ngOnInit() {
         this.getCardapio();
+        this.getCarrinho();
     }
 
     getCardapio() {
@@ -53,9 +56,32 @@ export class CardapioComponent {
         });
     }
 
+    getCarrinho() {
+        this.carrinhoService.getCarrinhoAbertos().subscribe({
+            next: (data) => {
+                this.currentCarrinho = data;
+                console.log("Retorno - getCarrinhoAbertos: ", data);
+            },
+            error: (error) => {
+                this.toastMessage(error, 2);
+                console.log("Erro - getCarrinhoAbertos ", error);
+                // this.router.navigate(['/dash']);
+            }
+        });
+    }
+
     open(content: any) {
         this.resposta = 1
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+            }
+        );
+    }
+
+    openBebida(contentBebida: any) {
+        this.resposta = 1
+        this.modalService.open(contentBebida, { ariaLabelledBy: 'modal-basic-title' }).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
             }
@@ -68,39 +94,49 @@ export class CardapioComponent {
             quantidadeAlimento: this.resposta
         }
 
-        this.carrinhoService.adicionarAlimentoNoCarrinho(alimentoEQuantidade).subscribe({
-            next: (data) => {
-                this.toastMessage("Alimento adicionada no carrinho", 1);
-                console.log("Adicionado com sucesso! - adicionarAlimentoNoCarrinho ", data);
-                this.modalService.dismissAll();
-            },
-            error: (error) => {
-                this.toastMessage(error, 2);
-                console.log("Erro - cadicionarAlimentoNoCarrinho: ", error);
-                // this.router.navigate(['/dash']);
-            }
-        })
+        if (this.currentCarrinho.statusPedido != null) {
+            this.carrinhoService.adicionarAlimentoNoCarrinho(alimentoEQuantidade).subscribe({
+                next: (data) => {
+                    this.toastMessage("Alimento adicionada no carrinho", 1);
+                    console.log("Adicionado com sucesso! - adicionarAlimentoNoCarrinho ", data);
+                    this.modalService.dismissAll();
+                },
+                error: (error) => {
+                    this.toastMessage(error, 2);
+                    console.log("Erro - cadicionarAlimentoNoCarrinho: ", error);
+                    // this.router.navigate(['/dash']);
+                }
+            })
+        } 
+        else {
+            this.toastMessage("Ops. Aguardando a resposta do carrinho anterior. Faça um novo pedido após a finalização do atual.", 2);
+        }
     };
 
     adicionarBebidaCarrinho(bebidaId: number) {
         let bebidaEQuantidade = {
             bebidaId: bebidaId,
-            quantidadeBebida: 1
+            quantidadeBebida: this.resposta
         }
 
-        this.carrinhoService.adicionarBebidaNoCarrinho(bebidaEQuantidade).subscribe({
-            next: (data) => {
-                this.toastMessage("Bebida adicionada no carrinho", 1);
-                this.modalService.dismissAll();
-                console.log("Adicionado com sucesso! - adicionarBebidaNoCarrinho ", data);
-
-            },
-            error: (error) => {
-                this.toastMessage(error, 2);
-                console.log("Erro - adicionarBebidaNoCarrinho ", error);
-                // this.router.navigate(['/dash']);
-            }
-        })
+        if (this.currentCarrinho.statusPedido != null) {
+            this.carrinhoService.adicionarBebidaNoCarrinho(bebidaEQuantidade).subscribe({
+                next: (data) => {
+                    this.toastMessage("Bebida adicionada no carrinho", 1);
+                    this.modalService.dismissAll();
+                    console.log("Adicionado com sucesso! - adicionarBebidaNoCarrinho ", data);
+    
+                },
+                error: (error) => {
+                    this.toastMessage(error, 2);
+                    console.log("Erro - adicionarBebidaNoCarrinho ", error);
+                    // this.router.navigate(['/dash']);
+                }
+            })
+        }
+        else {
+            this.toastMessage("Ops. Aguardando a resposta do carrinho anterior. Faça um novo pedido após a finalização do atual.", 2);
+        }
     };
 
     toastMessage(message: string, type: number) {

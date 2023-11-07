@@ -212,4 +212,12 @@ export class CarrinhoRepository {
         );
     };
 
+    getCarrinhoAbertos(): Observable<any> {
+        return this.httpClient.get<any>(environment.apiUrl + `/carrinho/get-carrinho-abertos`, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
 }
