@@ -661,57 +661,60 @@
                                     você poderá cadastrar um novo alimento </p>
 
                                 <div class="container">
-                                    <form [formGroup]="adicionarAlimentoForm" class="cartao">
+                                    <!-- <form [formGroup]="adicionarAlimentoForm" class="cartao">
                                         <div class="form-group field my-2">
                                             <label for="nomeAlimento">Nome do alimento:</label>
                                             <input type="text" class="form-control" id="nomeAlimento"
-                                                formControlName="nomeAlimento" placeholder="Nome do alimento"
-                                                [ngClass]="{ 'is-invalid': submitted && formField['nomeAlimento'].errors }">
-                                            <div *ngIf="submitted && formField['nomeAlimento'].errors"
-                                                class="invalid-feedback">
-                                                <div *ngIf="formField['nomeAlimento'].errors['required']">
-                                                    Nome do alimento é obrigatório.</div>
-                                            </div>
+                                                formControlName="nomeAlimento" placeholder="Nome do alimento">
                                         </div>
                                         <div class="form-group field my-2">
                                             <label for="valorAlimento">Valor do alimento:</label>
                                             <input type="number" class="form-control" id="valorAlimento"
-                                                placeholder="12,00" formControlName="valorAlimento"
-                                                [ngClass]="{ 'is-invalid': submitted && formField['valorAlimento'].errors }">
-                                            <div *ngIf="submitted && formField['valorAlimento'].errors"
-                                                class="invalid-feedback">
-                                                <div *ngIf="formField['valorAlimento'].errors['required']">
-                                                    Valor do alimento é obrigatório.</div>
-                                            </div>
+                                                placeholder="12,00" formControlName="valorAlimento">
+                                           
                                         </div>
                                         <div class="form-group field my-2">
                                             <label for="descricaoAlimento">Descrição do alimento:</label>
                                             <input type="text" class="form-control" id="descricaoAlimento"
-                                                placeholder="Descrição do alimento" formControlName="descricaoAlimento"
-                                                [ngClass]="{ 'is-invalid': submitted && formField['descricaoAlimento'].errors }">
-                                            <div *ngIf="submitted && formField['descricaoAlimento'].errors"
-                                                class="invalid-feedback">
-                                                <div *ngIf="formField['descricaoAlimento'].errors['required']">
-                                                    Descrição é obrigatória.</div>
-                                            </div>
+                                                placeholder="Descrição do alimento" formControlName="descricaoAlimento">
+                                      
                                         </div>
                                         <div class="form-group field my-2">
                                             <label for="qntEstoqueAlimento">Quantidade disponível:</label>
                                             <input type="number" class="form-control" id="qntEstoqueAlimento"
-                                                placeholder="Quantidade disponível" formControlName="qntEstoqueAlimento"
-                                                [ngClass]="{ 'is-invalid': submitted && formField['qntEstoqueAlimento'].errors }">
-                                            <div *ngIf="submitted && formField['qntEstoqueAlimento'].errors"
-                                                class="invalid-feedback">
-                                                <div *ngIf="formField['qntEstoqueAlimento'].errors['required']">
-                                                    Quantidade é obrigatória.</div>
-                                            </div>
+                                                placeholder="Quantidade disponível" formControlName="qntEstoqueAlimento">
+                                
+                                        </div>
+                                    </form> -->
+                                    <!-- seu-componente.component.html -->
+
+                                    <form class="cartao">
+                                        <div class="form-group field my-2">
+                                            <label for="nomeAlimento">Nome do alimento:</label>
+                                            <input type="text" class="form-control" id="nomeAlimento"
+                                                [(ngModel)]="nomeAlimento" placeholder="Nome do alimento">
+                                        </div>
+                                        <div class="form-group field my-2">
+                                            <label for="valorAlimento">Valor do alimento:</label>
+                                            <input type="number" class="form-control" id="valorAlimento"
+                                                [(ngModel)]="valorAlimento" placeholder="12,00">
+                                        </div>
+                                        <div class="form-group field my-2">
+                                            <label for="descricaoAlimento">Descrição do alimento:</label>
+                                            <input type="text" class="form-control" id="descricaoAlimento"
+                                                [(ngModel)]="descricaoAlimento" placeholder="Descrição do alimento">
+                                        </div>
+                                        <div class="form-group field my-2">
+                                            <label for="qntEstoqueAlimento">Quantidade disponível:</label>
+                                            <input type="number" class="form-control" id="qntEstoqueAlimento"
+                                                [(ngModel)]="qntEstoqueAlimento" placeholder="Quantidade disponível">
                                         </div>
                                     </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success"
-                                    (click)="adicionarAlimento()">Comprar</button>
+                                    (click)="adicionarAlimento()">Concluir</button>
                                 <button type="button" class="btn btn-danger"
                                     (click)="modal.dismiss('Cross click')">Fechar</button>
                             </div>
@@ -780,7 +783,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success"
-                                    (click)="adicionarBebida()">Comprar</button>
+                                    (click)="adicionarBebida()">Concluir</button>
                                 <button type="button" class="btn btn-danger"
                                     (click)="modal.dismiss('Cross click')">Fechar</button>
                             </div>

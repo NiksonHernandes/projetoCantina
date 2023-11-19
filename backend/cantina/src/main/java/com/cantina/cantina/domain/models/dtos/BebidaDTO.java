@@ -22,6 +22,7 @@ public class BebidaDTO {
     private Integer qntEstoqueBebida;
     private String descricaoBebida;
     private Boolean bebidaDisponivel;
+    private String linkBebida;
 
     private Integer quantidadeBebidaCarrinho;
     private Float somaBebidaNoCarrinho;

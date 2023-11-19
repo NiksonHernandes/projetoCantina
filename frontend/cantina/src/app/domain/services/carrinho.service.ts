@@ -6,6 +6,7 @@ import { Carrinho } from '../models/carrinho.model';
 import { CarrinhoAlimentoEBebida } from '../models/carrinhoAlimentoEBebida.mode';
 import { Alimento } from '../models/alimento.model';
 import { Bebida } from '../models/bebida.model';
+import { Cadastro } from '../models/cadastro.model';
 
 @Injectable({
     providedIn: 'root'
@@ -208,6 +209,14 @@ export class CarrinhoService {
 
     getCarrinhoAbertos(): Observable<any> {
         return this.carrinhoRepository.getCarrinhoAbertos().pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    signUp(dadosCadastro: Cadastro): Observable<any> {
+        return this.carrinhoRepository.signUp(dadosCadastro).pipe(
             map(data => {
                 return data;
             })

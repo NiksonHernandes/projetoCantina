@@ -6,6 +6,7 @@ export class Alimento {
     qntEstoqueAlimento?: number;
     descricaoAlimento?: string;
     alimentoDisponivel?: boolean;
+    linkAlimento?: string;
 
     quantidadeAlimentoCarrinho?: number;
     somaAlimentoNoCarrinho?: number;

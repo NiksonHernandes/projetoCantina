@@ -19,8 +19,13 @@ public class Bebida {
     private Float valorBebida;
     private Integer qntEstoqueBebida;
     private Boolean bebidaDisponivel;
+
     @Lob
     @Column(columnDefinition = "TEXT")
     private String descricaoBebida;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String linkBebida;
 
 }

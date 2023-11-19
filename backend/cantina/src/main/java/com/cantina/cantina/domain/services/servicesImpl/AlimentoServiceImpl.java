@@ -30,6 +30,7 @@ public class AlimentoServiceImpl implements AlimentoService {
         alimentoModel.setQntEstoqueAlimento(alimentoDTO.getQntEstoqueAlimento());
         alimentoModel.setDescricaoAlimento(alimentoDTO.getDescricaoAlimento());
         alimentoModel.setAlimentoDisponivel(alimentoDTO.getAlimentoDisponivel());
+        alimentoModel.setLinkAlimento(alimentoDTO.getLinkAlimento());
 
         alimentoModel = _alimentoRepository.save(alimentoModel);
 
@@ -81,6 +82,7 @@ public class AlimentoServiceImpl implements AlimentoService {
         alimentoModel.setQntEstoqueAlimento(alimentoDTO.getQntEstoqueAlimento());
         alimentoModel.setDescricaoAlimento(alimentoDTO.getDescricaoAlimento());
         alimentoModel.setAlimentoDisponivel(alimentoDTO.getAlimentoDisponivel());
+        alimentoModel.setLinkAlimento(alimentoDTO.getLinkAlimento());
 
         alimentoModel = _alimentoRepository.save(alimentoModel);
 

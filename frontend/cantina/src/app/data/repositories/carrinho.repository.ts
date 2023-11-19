@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { Alimento } from "src/app/domain/models/alimento.model";
 import { Bebida } from "src/app/domain/models/bebida.model";
+import { Cadastro } from "src/app/domain/models/cadastro.model";
 import { Carrinho } from "src/app/domain/models/carrinho.model";
 import { CarrinhoAlimentoEBebida } from "src/app/domain/models/carrinhoAlimentoEBebida.mode";
 import { environment } from "src/environments/environments";
@@ -214,6 +215,14 @@ export class CarrinhoRepository {
 
     getCarrinhoAbertos(): Observable<any> {
         return this.httpClient.get<any>(environment.apiUrl + `/carrinho/get-carrinho-abertos`, this.httpOptions).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    };
+
+    signUp(dadosCadastro: Cadastro): Observable<any> {
+        return this.httpClient.post<any>(environment.apiUrl + `/usuario/sign-up`, dadosCadastro, this.httpOptions).pipe(
             map(data => {
                 return data;
             })

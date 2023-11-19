@@ -10,70 +10,74 @@
 
             <div class="card p-2 m-2">
                 <div class="card-body" *ngIf="isCarrinhoExiste; else semCarrinho">
-                    <div class="card-header text-center">
-                        <h5 style="color: #000; font-weight: bold; font-size: 1.5em;">Alimentos</h5>
-                    </div>
-                    <div class="table-responsive text-center">
-                        <table class="table table-striped nps-table align-middle">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="nps-table-th">#</th>
-                                    <th scope="col" class="nps-table-th">Nome Alimento</th>
-                                    <th scope="col" class="nps-table-th">Preço Alimento</th>
-                                    <th scope="col" class="nps-table-th">Quantidade Alimento</th>
-                                    <th scope="col" class="nps-table-th">Valor</th>
-                                    <th scope="col" *ngIf="carrinhoList?.statusPedido == null" class="nps-table-th">Opções</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of carrinhoList?.alimentos; let i = index">
-                                    <th scope="row">{{i + 1}}</th>
-                                    <td class="nps-table-td">{{item.nomeAlimento}}</td>
-                                    <td class="nps-table-td">{{ item.valorAlimento | currency:'BRL' }}</td>
-                                    <td class="nps-table-td">{{item.quantidadeAlimentoCarrinho}}</td>
-                                    <td class="nps-table-td">{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
-                                    <td class="nps-table-td">
-                                        <button type="button" class="btn btn-outline-danger" (click)="open(content)" *ngIf="carrinhoList?.statusPedido == null"
-                                            ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
+                    <span *ngIf="carrinhoList?.alimentos?.length != 0">
+                        <div class="card-header text-center">
+                            <h5 style="color: #000; font-weight: bold; font-size: 1.5em;">Alimentos</h5>
+                        </div>
 
-                                    <ng-template #content let-modal>
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="modal-basic-title">Remover Alimento</h4>
-                                                <button type="button" class="btn-close" aria-label="Fechar"
-                                                    (click)="modal.dismiss('Cross click')"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="mb-3">Tem certeza de que deseja remover o
-                                                    {{item.nomeAlimento}} do carrinho?
-                                                </p>
-                                                <div class="form-group">
-                                                    <label for="quantidade">Informe a quantidade que deseja
-                                                        <strong>manter</strong> no carrinho:</label>
-                                                    <input type="number" class="form-control" name="quantidade" min="0"
-                                                        max={{item.quantidadeAlimentoCarrinho}} value="1"
-                                                        [(ngModel)]="resposta"
-                                                        oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                        <div class="table-responsive text-center">
+                            <table class="table table-striped nps-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="nps-table-th">#</th>
+                                        <th scope="col" class="nps-table-th">Nome Alimento</th>
+                                        <th scope="col" class="nps-table-th">Preço Alimento</th>
+                                        <th scope="col" class="nps-table-th">Quantidade Alimento</th>
+                                        <th scope="col" class="nps-table-th">Valor</th>
+                                        <th scope="col" *ngIf="carrinhoList?.statusPedido == null" class="nps-table-th">
+                                            Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of carrinhoList?.alimentos; let i = index">
+                                        <th scope="row">{{i + 1}}</th>
+                                        <td class="nps-table-td">{{item.nomeAlimento}}</td>
+                                        <td class="nps-table-td">{{ item.valorAlimento | currency:'BRL' }}</td>
+                                        <td class="nps-table-td">{{item.quantidadeAlimentoCarrinho}}</td>
+                                        <td class="nps-table-td">{{item.somaAlimentoNoCarrinho | currency:'BRL'}}</td>
+                                        <td class="nps-table-td">
+                                            <button type="button" class="btn btn-outline-danger" (click)="open(content)"
+                                                *ngIf="carrinhoList?.statusPedido == null"
+                                                ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+
+                                        <ng-template #content let-modal>
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="modal-basic-title">Remover Alimento</h4>
+                                                    <button type="button" class="btn-close" aria-label="Fechar"
+                                                        (click)="modal.dismiss('Cross click')"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="mb-3">Tem certeza de que deseja remover o
+                                                        {{item.nomeAlimento}} do carrinho?
+                                                    </p>
+                                                    <div class="form-group">
+                                                        <label for="quantidade">Informe a quantidade que deseja
+                                                            <strong>manter</strong> no carrinho:</label>
+                                                        <input type="number" class="form-control" name="quantidade"
+                                                            min="0" max={{item.quantidadeAlimentoCarrinho}} value="1"
+                                                            [(ngModel)]="resposta"
+                                                            oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                        (click)=" removerAlimento(item.alimentoId!)">Remover</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        (click)="modal.dismiss()">Cancelar</button>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    (click)=" removerAlimento(item.alimentoId!)">Remover</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    (click)="modal.dismiss()">Cancelar</button>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                  
+                                        </ng-template>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </span>
+
                     <span *ngIf="carrinhoList?.bebidas && carrinhoList?.bebidas!.length > 0">
                         <hr class="featurette-divider">
-
                         <div class="card-header text-center">
                             <h5 style="color: #000; font-weight: bold; font-size: 1.5em;">Bebidas</h5>
                         </div>
@@ -86,18 +90,19 @@
                                         <th scope="col" class="nps-table-th">Preço Bebida</th>
                                         <th scope="col" class="nps-table-th">Quantidade Bebida</th>
                                         <th scope="col" class="nps-table-th">Valor</th>
-                                        <th scope="col" *ngIf="carrinhoList?.statusPedido == null" class="nps-table-th">Opções</th>
+                                        <th scope="col" *ngIf="carrinhoList?.statusPedido == null" class="nps-table-th">
+                                            Opções</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of carrinhoList?.bebidas; let i = index">
                                         <th scope="row">{{i + 1}}</th>
-                                        <td class="nps-table-td" >{{item.nomeBebida}}</td>
+                                        <td class="nps-table-td">{{item.nomeBebida}}</td>
                                         <td class="nps-table-td">{{ item.valorBebida | currency:'BRL' }}</td>
                                         <td class="nps-table-td">{{item.quantidadeBebidaCarrinho}}</td>
                                         <td class="nps-table-td">{{item.somaBebidaNoCarrinho | currency:'BRL'}}</td>
-                                        <td class="nps-table-td"><button type="button" class="btn btn-outline-danger" (click)="open(content)"
-                                                *ngIf="carrinhoList?.statusPedido == null"
+                                        <td class="nps-table-td"><button type="button" class="btn btn-outline-danger"
+                                                (click)="open(content)" *ngIf="carrinhoList?.statusPedido == null"
                                                 ngbTooltip="Remover do carrinho"><i class="bi bi-trash"></i></button>
                                         </td>
 
@@ -134,9 +139,6 @@
                             </table>
                         </div>
                     </span>
-
-
-
                     <div class="text-left ml-2" *ngIf="carrinhoList">
                         <div class="d-flex justify-content-between align-items-center mb-3 ml-2"
                             *ngIf="!isFinalizarCompra">
@@ -264,7 +266,8 @@
                                     <span
                                         [ngClass]="{'status-analise': carrinhoList!.statusPedido == 0, 'status-aprovado': carrinhoList!.statusPedido == 1, 'status-recusado': carrinhoList!.statusPedido == 2, 'status-entregue':         carrinhoList!.statusPedido == 3}">
                                         {{ carrinhoList!.statusPedido == 0 ? 'Pedido em análise' :
-                                        carrinhoList!.statusPedido == 1 ? 'Pedido aprovado. Seu pedido esta sendo preparado!' :
+                                        carrinhoList!.statusPedido == 1 ? 'Pedido aprovado. Seu pedido esta sendo
+                                        preparado!' :
                                         carrinhoList!.statusPedido == 2 ? 'Pedido recusado' :
                                         carrinhoList!.statusPedido == 3 ? 'Pedido entregue' : '' }}
                                     </span>
@@ -389,7 +392,7 @@
                                 <!-- pagar na hora -->
                                 <span *ngIf="carrinhoList?.opcaoPagamento == 2">
                                     <div class="mt-4" *ngIf="carrinhoList?.codigoDoPedido =='SXXIOA-00917-OPALDD'">
-                                        <p >Código de retirada:</p>
+                                        <p>Código de retirada:</p>
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control input-group-text" id="pixKey"
                                                 value={{carrinhoList?.codigoDoPedido}} readonly>

@@ -31,6 +31,11 @@ export class AdminPedidosComponent {
     listPedidosCancelados: Carrinho[] = [];
     listPedidosEntregues: Carrinho[] = [];
 
+    nomeAlimento?: string;
+    valorAlimento?: number;
+    descricaoAlimento?: string;
+    qntEstoqueAlimento?: number;
+
     constructor(
         private formBuilder: FormBuilder,
         private carrinhoService: CarrinhoService,
@@ -42,52 +47,56 @@ export class AdminPedidosComponent {
     async ngOnInit(): Promise<void> {
         await this.getCarrinhoPedidoPendente()
 
-        this.adicionarAlimentoForm = this.formBuilder.group({
-            nomeAlimento: ['', Validators.required],
-            valorAlimento: ['', Validators.required],
-            descricaoAlimento: ['', Validators.required],
-            qntEstoqueAlimento: ['', Validators.required],
-        });
-
+      
         this.adicionarBebidaForm = this.formBuilder.group({
             nomeBebida: ['', Validators.required],
             valorBebida: ['', Validators.required],
             descricaoBebida: ['', Validators.required],
             qntEstoqueBebida: ['', Validators.required],
         });
+
+        // this.adicionarAlimentoForm = this.formBuilder.group({
+        //     nomeAlimento: ['', Validators.required],
+        //     valorAlimento: ['', Validators.required],
+        //     descricaoAlimento: ['', Validators.required],
+        //     qntEstoqueAlimento: ['', Validators.required],
+        // });
     }
 
     get formField() { return this.adicionarAlimentoForm.controls; }
     get formFieldBebida() { return this.adicionarBebidaForm.controls; }
 
     adicionarAlimento() {
+        console.log("Clicou")
         this.submitted = true;
 
-        if (this.adicionarAlimentoForm.invalid) {
-            return;
-        }
 
-        let alimentoObj = {
-            nomeAlimento: this.formField['nomeAlimento'].value,
-            valorAlimento: this.formField['valorAlimento'].value,
-            descricaoAlimento: this.formField['descricaoAlimento'].value,
-            alimentoDisponivel: true,
-            qntEstoqueAlimento: this.formField['qntEstoqueAlimento'].value,
-        }
+        // if (this.adicionarAlimentoForm.invalid) {
+        //     return;
+        // }
 
-        this.carrinhoService.createAlimento(alimentoObj).subscribe({
-            next: (data) => {
-                this.toastMessage("Alimento criado com sucesso", 1);
-                console.log("sucesso! - .createAlimento", data);
-                this.modalService.dismissAll();
-            },
-            error: (error) => {
-                this.toastMessage(error, 2);
-                console.log("Erro -.createAlimento", error);
-                this.modalService.dismissAll();
-            }
-        });
-        console.log("aliment", alimentoObj)
+        console.log("aliment", this.nomeAlimento)
+
+        // let alimentoObj = {
+        //     nomeAlimento: this.formField['nomeAlimento'].value,
+        //     valorAlimento: this.formField['valorAlimento'].value,
+        //     descricaoAlimento: this.formField['descricaoAlimento'].value,
+        //     alimentoDisponivel: true,
+        //     qntEstoqueAlimento: this.formField['qntEstoqueAlimento'].value,
+        // }
+       
+        // this.carrinhoService.createAlimento(alimentoObj).subscribe({
+        //     next: (data) => {
+        //         this.toastMessage("Alimento criado com sucesso", 1);
+        //         console.log("sucesso! - .createAlimento", data);
+        //         this.modalService.dismissAll();
+        //     },
+        //     error: (error) => {
+        //         this.toastMessage(error, 2);
+        //         console.log("Erro -.createAlimento", error);
+        //         this.modalService.dismissAll();
+        //     }
+        // });
     }
 
     adicionarBebida() {
@@ -258,8 +267,12 @@ export class AdminPedidosComponent {
         this.carrinhoService.aceitarPedido(carrinhoIdObj).subscribe({
             next: (data) => {
                 this.toastMessage("Pedido aceito com sucesso!", 1);
+                this.toastMessage("AGUARDE...", 1);
                 console.log("sucesso! - aceitarPedid", data);
-                this.getCarrinhoPedidoPendente()
+                this.getCarrinhoPedidoPendente();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             },
             error: (error) => {
                 this.toastMessage(error, 2);
@@ -276,8 +289,12 @@ export class AdminPedidosComponent {
         this.carrinhoService.recusarPedido(carrinhoIdObj).subscribe({
             next: (data) => {
                 this.toastMessage("Pedido recusado com sucesso!", 1);
+                this.toastMessage("AGUARDE...", 1);
                 console.log("sucesso! - aceitarPedid", data);
-                this.getCarrinhoPedidoPendente()
+                this.getCarrinhoPedidoPendente();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             },
             error: (error) => {
                 this.toastMessage(error, 2);
@@ -290,8 +307,12 @@ export class AdminPedidosComponent {
         this.carrinhoService.fechaCarrinho(carrinhoId).subscribe({
             next: (data) => {
                 this.toastMessage("Pedido fechado com sucesso!", 1);
+                this.toastMessage("AGUARDE...", 1);
                 console.log("sucesso! - fechaCarrinho", data);
                 this.getCarrinhoPedidoAprovados();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             },
             error: (error) => {
                 this.toastMessage(error, 2);
@@ -304,8 +325,12 @@ export class AdminPedidosComponent {
         this.carrinhoService.cancelarPedido(carrinhoId).subscribe({
             next: (data) => {
                 this.toastMessage("Pedido cancelado com sucesso!", 1);
+                this.toastMessage("AGUARDE...", 1);
                 console.log("sucesso! - fechaCarrinho", data);
                 this.getCarrinhoPedidoAprovados();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             },
             error: (error) => {
                 this.toastMessage(error, 2);

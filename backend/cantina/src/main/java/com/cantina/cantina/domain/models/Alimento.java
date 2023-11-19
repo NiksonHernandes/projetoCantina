@@ -23,4 +23,8 @@ public class Alimento {
     @Column(columnDefinition = "TEXT")
     private String descricaoAlimento;
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String linkAlimento;
+
 }

@@ -30,6 +30,7 @@ public class BebidaServiceImpl implements BebidaService {
         bebidaModel.setQntEstoqueBebida(bebidaDTO.getQntEstoqueBebida());
         bebidaModel.setDescricaoBebida(bebidaDTO.getDescricaoBebida());
         bebidaModel.setBebidaDisponivel(bebidaDTO.getBebidaDisponivel());
+        bebidaModel.setLinkBebida(bebidaDTO.getLinkBebida());
 
         bebidaModel = _bebidaRepository.save(bebidaModel);
 
@@ -81,6 +82,7 @@ public class BebidaServiceImpl implements BebidaService {
         bebidaModel.setQntEstoqueBebida(bebidaDTO.getQntEstoqueBebida());
         bebidaModel.setDescricaoBebida(bebidaDTO.getDescricaoBebida());
         bebidaModel.setBebidaDisponivel(bebidaDTO.getBebidaDisponivel());
+        bebidaModel.setLinkBebida(bebidaDTO.getLinkBebida());
 
         bebidaModel = _bebidaRepository.save(bebidaModel);
 

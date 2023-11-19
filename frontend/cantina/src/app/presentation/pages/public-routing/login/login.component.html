@@ -36,20 +36,21 @@
                     </div>
                     <div class="signup-link">Não tem cadastro? <a href="#">Cadastrar-me agora</a></div>
                 </form>
-                <form action="#" class="signup">
-                    <div class="field">
-                        <input type="text" placeholder="Nome completo" required>
+                <form [formGroup]="cadastroForm" (ngSubmit)="cadastrar()" class="signup">
+                    <div class="form-group field">
+                        <input type="text" formControlName="nomeCompleto" placeholder="Nome Completo" class="form-control" />
                     </div>
-                    <div class="field">
-                        <input type="text" placeholder="Username" required>
+                    <div class="form-group field">
+                        <input type="text" formControlName="username" placeholder="Username" class="form-control" />
                     </div>
-                    <div class="field">
-                        <input type="password" placeholder="Senha" required>
+                    <div class="form-group field">
+                        <input type="password" formControlName="senha" placeholder="Senha" class="form-control"/>
                     </div>
-                    <div class="field">
-                        <input type="password" placeholder="Confirmar senha" required>
+                    <div class="form-group field">
+                        <input type="password" formControlName="senhaConfirmacao" placeholder="Confirmar senha" class="form-control"/>
                     </div>
-                    <div class="field btn ">
+
+                    <div class="field btn" >
                         <div class="btn-layer"></div>
                         <input type="submit" value="Inscrever-me">
                     </div>
@@ -58,3 +59,5 @@
         </div>
     </div>
 </div>
+
+<app-toast aria-live="polite" aria-atomic="true"></app-toast>

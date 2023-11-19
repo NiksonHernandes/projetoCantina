@@ -6,6 +6,7 @@ export class Bebida {
     qntEstoqueBebida?: number;
     descricaoBebida?: string;
     bebidaDisponivel?: boolean;
+    linkBebida?: string;
 
     quantidadeBebidaCarrinho?: number;
     somaBebidaNoCarrinho?: number;

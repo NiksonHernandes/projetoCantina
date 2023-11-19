@@ -90,13 +90,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public void signUp(SignUpDTO signUpDTO) {
-        if (signUpDTO.getEmail().equals("") || signUpDTO.getUsername().equals("") ||
+        if (signUpDTO.getUsername().equals("") ||
                 signUpDTO.getNomeCompleto().equals("") || signUpDTO.getSenha().equals("")) {
             throw new IllegalArgumentException("Campos vazios.");
-        }
-
-        if (_usuarioRepository.existsByEmail(signUpDTO.getEmail())){
-            throw new IllegalArgumentException("E-mail já existente!");
         }
 
         if (_usuarioRepository.existsByUsername(signUpDTO.getUsername())) {
@@ -109,7 +105,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
        //Converte o DTO para salvar no BD
        Usuario usuario = new Usuario();
-       usuario.setEmail(signUpDTO.getEmail());
        usuario.setUsername(signUpDTO.getUsername());
        usuario.setNomeCompleto(signUpDTO.getNomeCompleto());
 
