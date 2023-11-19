@@ -46,14 +46,8 @@
                                                 result="Nenhum dado registrado"></ngb-highlight>
                                         </ng-container>
                                     </td>
-                                    <td class="nps-table-td" [ngSwitch]="pedido.statusPedido">
-                                        <ng-container *ngSwitchCase="0">
-                                            <ngb-highlight result="Pedido pendente"></ngb-highlight>
-                                        </ng-container>
-                                        <ng-container *ngSwitchDefault>
-                                            <ngb-highlight class="text-italic"
-                                                result="Nenhum dado registrado"></ngb-highlight>
-                                        </ng-container>
+                                    <td class="nps-table-td">
+                                        {{pedido.valorTotal | currency:'BRL'}}
                                     </td>
                                     <td class="nps-table-td">
                                         <button type="button" class="btn btn-primary m-1" ngbTooltip="Visualizar pedido"
