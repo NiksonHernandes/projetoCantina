@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+/* page styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000;
+    padding: 15px;
+    box-shadow: 0 0 20px #000;
+    //margin-bottom: 1px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.dropdown-itens {
+    padding: 10px; 
+    margin: 0px;
+}
+
+.logo {
+    margin-right: 50px;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2em; /* Aumentei o tamanho da fonte para dar mais destaque */
+    color: #e3cac5;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-decoration: none; /* Removi a sublinhado do link */
+}
+
+.logo-text {
+    background-color: rgba(0, 0, 0, 0.261); /* Adicionei um fundo laranja para a palavra "Cantina" */
+    padding: 5px 10px; /* Adicionei espaço ao redor do texto para destacá-lo */
+    border-radius: 5px; /* Arredondei as bordas do fundo */
+    color: #fff; /* Cor do texto dentro do fundo laranja */
+}
+
+.list {
+    list-style: none;
+    display: flex;
+    pointer-events: none;
+    gap: 20px;
+}
+
+.list * {
+    transition: .2s;
+}
+
+.list:hover>* {
+    opacity: 0.3;
+}
+
+.list>* {
+    pointer-events: auto;
+}
+
+.list:hover>*:hover {
+    opacity: 1;
+}
+
+#toggler,
+.navbar label {
+    display: none;
+    color: #fff;
+}
+
+.dropdown-menu a{
+    color: black;
+}
+
+@media screen and (max-width: 600px) {
+    .menu {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .list {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .navbar label {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    #toggler:checked~.menu {
+        max-height: 100%;
+    }
+}

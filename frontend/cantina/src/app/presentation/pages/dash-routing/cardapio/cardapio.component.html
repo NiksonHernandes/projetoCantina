@@ -1,0 +1,172 @@
+<div class="container-fluid px-0">
+
+    <div class="container-fluid px-0 position-relative">
+        <img src="../../../../../assets/imagens/fundocardapio.jpg" class="img-fluid w-100" alt="imagem cardápio">
+        <div
+            class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center div-texto">
+            <h1 class="text-white text-sm tituloCardapio">Nossos produtos</h1>
+            <p class="text-white text-sm descricaoCardapio">Nossos produtos são deliciosos alimentos e bebidas da
+                cantina, que satisfazem todos os paladares com sabor e variedade.</p>
+            <div class="row">
+                <div class="col d-none d-md-block">
+                    <button class="btn btn-outline-custom"
+                        (click)="scrollToSection('secaoAlimentos')">Alimentos</button>
+                </div>
+                <div class="col d-none d-md-block">
+                    <button class="btn btn-outline-custom" (click)="scrollToSection('secaoBebidas')">Bebidas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="papelFundo">
+        <div style="width: 90%; height: auto;" class=" mb-3">
+            <section id="secaoAlimentos" class="container">
+
+                <div class="title-wrapper">
+                    <div class="line"></div>
+                    <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Alimentos </h1>
+                    <div class="line"></div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <ng-container *ngFor="let item of cardapioList?.alimentos">
+                        <div class="col text-center">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="card-title">{{item.nomeAlimento}}</h5>
+                                </div>
+                                <img src="../../../../../assets/imagens/hamburguervazio.jpg" class="card-img-top"
+                                    height="270px" alt="...">
+                                <div class="card-body">
+                                    <!-- <h5 class="card-title">{{item.nomeAlimento}}</h5> -->
+                                    <p class="card-text">{{item.descricaoAlimento}}</p>
+                                    <p class="card-text" style="font-size: 1.3em; font-weight: bold;">
+                                        {{item.valorAlimento | currency:'BRL'}}</p>
+                                </div>
+                                <div class="card-footer">
+
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button"
+                                            (click)="open(content)">Adicionar ao
+                                            carrinho</button>
+                                        <!-- (click)="adicionarAlimentoCarrinho(item.alimentoId!)"  -->
+                                    </div>
+                                </div>
+                                <!-- Modal adicionar ao carrinho -->
+                                <ng-template #content let-modal>
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modal-basic-title">Quantidade de Alimento</h4>
+                                            <button type="button" class="btn-close" aria-label="Fechar"
+                                                (click)="modal.dismiss('Cross click')"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mb-3">Selecione a quantida de
+                                                {{item.nomeAlimento}} que deseja adicionar ao carrinho?
+                                            </p>
+                                            <div class="form-group">
+                                                <label for="quantidade">Informe a quantidade que deseja
+                                                    <strong>adicionar</strong> no carrinho:</label>
+                                                <input type="number" class="form-control" name="quantidade" min="1"
+                                                    max={{item.qntEstoqueAlimento}} value="1" [(ngModel)]="resposta"
+                                                    oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                                <p style="font-size: 0.8em; font-weight: bold; color: red">A quantidade
+                                                    de pedidos é limitada conforme o estoque disponível.</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success"
+                                                (click)="adicionarAlimentoCarrinho(item.alimentoId!)">Adicionar ao
+                                                carrinho</button>
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="modal.dismiss()">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </section>
+
+            <section id="secaoBebidas" class="container">
+
+                <div class="title-wrapper">
+                    <div class="line"></div>
+                    <h1 class="text-center m-5" style="text-shadow:2px 2px #4a4646;"> Bebidas </h1>
+                    <div class="line"></div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <ng-container *ngFor="let item of cardapioList?.bebidas">
+                        <div class="col text-center">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="card-title">{{item.nomeBebida}}</h5>
+                                </div>
+                                <img src="../../../../../assets/imagens/hamburguervazio.jpg" class="card-img-top"
+                                    height="270px" alt="...">
+                                <div class="card-body">
+                                    <!-- <h5 class="card-title">{{item.nomeBebida}}</h5> -->
+                                    <p class="card-text">{{item.descricaoBebida}}</p>
+                                    <p class="card-text" style="font-size: 1.3em; font-weight: bold;">{{item.valorBebida
+                                        | currency:'BRL'}}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="card-footer">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="button"
+                                                (click)="openBebida(contentBebida)">Adicionar ao
+                                                carrinho</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal adicionar ao carrinho -->
+                                    <ng-template #contentBebida let-modal>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="modal-basic-title">Quantidade de Bebida
+                                                </h4>
+                                                <button type="button" class="btn-close" aria-label="Fechar"
+                                                    (click)="modal.dismiss('Cross click')"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-3">Selecione a quantida de
+                                                    {{item.nomeBebida}} que deseja adicionar ao carrinho?
+                                                </p>
+                                                <div class="form-group">
+                                                    <label for="quantidade">Informe a quantidade que deseja
+                                                        <strong>adicionar</strong> no carrinho:</label>
+                                                    <input type="number" class="form-control" name="quantidade" min="1"
+                                                        max={{item.qntEstoqueBebida}} value="1" [(ngModel)]="resposta"
+                                                        oninput="if (parseInt(this.value) > parseInt(this.getAttribute('max'))) this.value = this.getAttribute('max');">
+                                                    <p style="font-size: 0.8em; font-weight: bold; color: red">A
+                                                        quantidade de pedidos é limitada conforme o estoque disponível.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success"
+                                                    (click)="adicionarBebidaCarrinho(item.bebidaId!)">Adicionar ao
+                                                    carrinho</button>
+                                                <button type="button" class="btn btn-danger"
+                                                    (click)="modal.dismiss()">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </section>
+
+            <!-- <section id="secaoOfertas">
+                Ofertas
+            </section> -->
+
+            <app-toast aria-live="polite" aria-atomic="true"></app-toast>
+        </div>
+    </div>
+</div>

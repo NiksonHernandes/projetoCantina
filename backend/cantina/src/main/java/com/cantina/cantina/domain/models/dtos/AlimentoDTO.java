@@ -23,6 +23,9 @@ public class AlimentoDTO {
     private String descricaoAlimento;
     private Boolean alimentoDisponivel;
 
+    private Integer quantidadeAlimentoCarrinho;
+    private Float somaAlimentoNoCarrinho;
+
     public static AlimentoDTO toDTO(Alimento obj) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
@@ -43,4 +46,11 @@ public class AlimentoDTO {
         return dtos;
     }
 
+    public Integer getQuantidadeAlimentoCarrinho() {
+        return quantidadeAlimentoCarrinho;
+    }
+
+    public void setQuantidadeAlimentoCarrinho(Integer quantidadeAlimentoCarrinho) {
+        this.quantidadeAlimentoCarrinho = quantidadeAlimentoCarrinho;
+    }
 }

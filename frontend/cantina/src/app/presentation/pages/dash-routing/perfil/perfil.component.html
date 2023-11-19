@@ -1,0 +1,130 @@
+<div class="container-fluid px-0 h-100">
+
+    <div class="papelFundo">
+        <div style="width: 90%; height: auto;">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="profile-card">
+                        <h1 class="text-center">Meu Perfil</h1>
+                        <h5 class="text-center">Seja bem-vindo(a) {{currentUser.nomeCompleto}}</h5>
+                        <form>
+                            <div class="form-group">
+                                <label for="nome">Nome:</label>
+                                <input type="text" class="form-control" id="nome" [value]="currentUser.nomeCompleto"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" [value]="currentUser.email"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Username:</label>
+                                <input type="tel" class="form-control" id="telefone" [value]="currentUser.username"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">CPF:</label>
+                                <input type="tel" class="form-control" id="telefone" [value]="currentUser.cpf" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Curso:</label>
+                                <input type="tel" class="form-control" id="telefone" [value]="currentUser.curso"
+                                    readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Endereço:</label>
+                                <input type="tel" class="form-control" id="telefone" [value]="currentUser.rua" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="endereco">Celular:</label>
+                                <input type="text" class="form-control" id="endereco" [value]="currentUser.celular"
+                                    readonly>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto mt-2">
+                                <button type="submit" class="btn btn-secondary mt-2"
+                                (click)="openScrollableContent(longContent)">Atualizar dados</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal adicionar usuario -->
+    <ng-template #longContent let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Atualizar dados</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            </button>
+        </div>
+        <div class="modal-body ">
+            <p style="color: #000; font-size: 1.2em; font-weight: bold;" class="text-center"> Aqui
+                você poderá atualizar os seus dados </p>
+
+            <div class="container">
+                <form [formGroup]="userForm " class="cartao">
+                    <div class="form-group field my-2">
+                        <label for="nomeCompleto">Nome:</label>
+                        <input type="text" class="form-control" id="nomeCompleto" formControlName="nomeCompleto"
+                            placeholder="Nome completo"
+                            [ngClass]="{ 'is-invalid': submitted && formField['nomeCompleto'].errors }">
+                        <div *ngIf="submitted && formField['nomeCompleto'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['nomeCompleto'].errors['required']">
+                                Nome é obrigatório.</div>
+                        </div>
+                    </div>
+                    <div class="form-group field my-2">
+                        <label for="cpf">CPF:</label>
+                        <input type="text" class="form-control" id="cpf" formControlName="cpf"
+                            placeholder="469.179.458-11"
+                            [ngClass]="{ 'is-invalid': submitted && formField['cpf'].errors }">
+                        <div *ngIf="submitted && formField['cpf'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['cpf'].errors['required']">
+                                CPF é obrigatório.</div>
+                        </div>
+                    </div>
+                    <div class="form-group field my-2">
+                        <label for="curso">Curso:</label>
+                        <input type="text" class="form-control" id="curso" formControlName="curso"
+                            placeholder="Análise de Redes"
+                            [ngClass]="{ 'is-invalid': submitted && formField['curso'].errors }">
+                        <div *ngIf="submitted && formField['curso'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['curso'].errors['required']">
+                                Curso é obrigatório.</div>
+                        </div>
+                    </div>
+                    <div class="form-group field my-2">
+                        <label for="rua">Rua:</label>
+                        <input type="text" class="form-control" id="rua" formControlName="rua"
+                            placeholder="Rui Barbosa, 1211"
+                            [ngClass]="{ 'is-invalid': submitted && formField['rua'].errors }">
+                        <div *ngIf="submitted && formField['rua'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['rua'].errors['required']">
+                                Rua é obrigatório.</div>
+                        </div>
+                    </div>
+                    <div class="form-group field my-2">
+                        <label for="celular">Celular:</label>
+                        <input type="text" class="form-control" id="celular" formControlName="celular"
+                            placeholder="997978713"
+                            [ngClass]="{ 'is-invalid': submitted && formField['celular'].errors }">
+                        <div *ngIf="submitted && formField['celular'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['celular'].errors['required']">
+                                Celular é obrigatório.</div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="atualizarUser()">Comprar</button>
+            <button type="button" class="btn btn-danger" (click)="modal.dismiss('Cross click')">Fechar</button>
+        </div>
+    </ng-template>
+
+</div>

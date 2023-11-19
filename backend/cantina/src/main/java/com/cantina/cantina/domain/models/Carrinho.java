@@ -24,21 +24,25 @@ public class Carrinho {
     private String descricaoDaCompra;
     private Boolean carrinhoFechado;
     private LocalDateTime dataPedido;
+    private Integer opcaoPagamento;
+    //0 - qrcode
+    //1 - Cartao
+    //2 - Na hora
+    private Integer statusPedido;
+    //0 - pedido em análise
+    //1 - aprovada
+    //2 - recusado
+    //3 - entregue
 
-    //Lista de alimentos
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "carrinho_alimentos",
-//            joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "alimento_id", referencedColumnName = "id"))
-//    private List<Alimento> alimentos = new ArrayList<>();
+    private Integer tipoCartao; //0 - Credito
+    //1 - débito
+    private Long numeroCartao;
+    private String validadeCartao;
+    private Long codigoCartao;
 
-    //Lista de bebidas
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "carrinho_bebidas",
-//            joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "bebida_id", referencedColumnName = "id"))
-//    private List<Bebida> bebidas = new ArrayList<>();
+    private String codigoDoPedido;
 
+    private String nomeUsuario;
     //Relacionamento com o histórico de pedidos
     @ManyToOne
     @JoinColumn(name = "historicoPedido_id")

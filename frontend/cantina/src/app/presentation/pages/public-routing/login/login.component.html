@@ -1,0 +1,60 @@
+<div class="container-fluid">
+   
+    <div class="wrapper">
+        <div class="title-text">
+            <div class="title login">Login</div>
+            <div class="title signup">Inscrever-se</div>
+        </div>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked>
+                <input type="radio" name="slide" id="signup">
+                <label for="login" class="slide login">Login</label>
+                <label for="signup" class="slide signup">Inscrever-se</label>
+                <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login">
+                    <div class="form-group field">
+                        <input type="text" formControlName="username" placeholder="Username" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && formField['username'].errors }" />
+                        <div *ngIf="submitted && formField['username'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['username'].errors['required']">Username é obrigatório.</div>
+                        </div>
+                    </div>
+                    <div class="form-group field">
+                        <input type="password" formControlName="senha" placeholder="Senha" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && formField['senha'].errors }" />
+                        <div *ngIf="submitted && formField['senha'].errors" class="invalid-feedback">
+                            <div *ngIf="formField['senha'].errors['required']">Senha é obrigatória.</div>
+                        </div>
+                    </div>
+                    <div class="pass-link"><a href="#">Esqueceu a senha?</a></div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Login">
+                    </div>
+                    <div class="signup-link">Não tem cadastro? <a href="#">Cadastrar-me agora</a></div>
+                </form>
+                <form action="#" class="signup">
+                    <div class="field">
+                        <input type="text" placeholder="Nome completo" required>
+                    </div>
+                    <div class="field">
+                        <input type="text" placeholder="Username" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" placeholder="Senha" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" placeholder="Confirmar senha" required>
+                    </div>
+                    <div class="field btn ">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Inscrever-me">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

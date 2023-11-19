@@ -23,6 +23,9 @@ public class BebidaDTO {
     private String descricaoBebida;
     private Boolean bebidaDisponivel;
 
+    private Integer quantidadeBebidaCarrinho;
+    private Float somaBebidaNoCarrinho;
+
     public static BebidaDTO toDTO(Bebida obj) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);

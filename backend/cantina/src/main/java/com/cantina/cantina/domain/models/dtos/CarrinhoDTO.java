@@ -17,11 +17,30 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CarrinhoDTO {
 
+    private Long carrinhoId;
     private Float valorTotal;
     private String descricaoDaCompra;
     private Boolean carrinhoFechado;
     private LocalDateTime dataPedido;
 
+    private Integer opcaoPagamento; //0 - qrcode
+    //1 - Cartao
+    //2 - Na hora
+    private Integer statusPedido;
+    //0 - pedido em análise
+    //1 - aprovada
+    //2 - recusado
+    //3 - entregue
+    //4- pedido cancelado
+
+    private Integer tipoCartao; //0 - Credito
+    //1 - débito
+    private Long numeroCartao;
+    private String validadeCartao;
+    private Long codigoCartao;
+
+    private String codigoDoPedido;
+    private String nomeUsuario;
     public static CarrinhoDTO toDTO(Carrinho obj) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
