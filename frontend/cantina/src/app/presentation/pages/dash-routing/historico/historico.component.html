@@ -19,6 +19,7 @@
                                     <th scope="col" class="nps-table-th">carrinho ID</th>
                                     <th scope="col" class="nps-table-th">Nome do usuário</th>
                                     <th scope="col" class="nps-table-th">Tipo de pagamento</th>
+                                    <th scope="col" class="nps-table-th">Status do pedido</th>
                                     <th scope="col" class="nps-table-th">Valor pago</th>
                                     <th scope="col" class="nps-table-th">Ações</th>
                                 </tr>
@@ -40,6 +41,27 @@
                                         </ng-container>
                                         <ng-container *ngSwitchCase="2">
                                             <ngb-highlight result="Pagamento na hora"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            <ngb-highlight class="text-italic"
+                                                result="Nenhum dado registrado"></ngb-highlight>
+                                        </ng-container>
+                                    </td>
+                                    <td class="nps-table-td" style="font-weight: 700 ;" [ngSwitch]="pedido.statusPedido">
+                                        <ng-container *ngSwitchCase="0">
+                                            <ngb-highlight result="Pedido em análise" style="color: blue;"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="1">
+                                            <ngb-highlight result="Pedido aprovado" style="color: green;"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="2">
+                                            <ngb-highlight result="Pedido recusado" style="color: red;"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="3">
+                                            <ngb-highlight result="Pedido entregue" style="color: green;"></ngb-highlight>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="4">
+                                            <ngb-highlight result="Pedido cancelado" style="color: red;"></ngb-highlight>
                                         </ng-container>
                                         <ng-container *ngSwitchDefault>
                                             <ngb-highlight class="text-italic"
@@ -111,7 +133,7 @@
                             value="Pedido em análise" readonly>
 
                         <input type="text" class="form-control" *ngIf="pedidoCurrent.statusPedido == 1"
-                            value="PEdido aprovado" readonly>
+                            value="Pedido aprovado" readonly>
 
                         <input type="text" class="form-control" *ngIf="pedidoCurrent.statusPedido == 2"
                             value="Pedido recusado" readonly>
